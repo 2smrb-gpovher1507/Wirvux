@@ -2,74 +2,156 @@
 session_start();
 include 'db.php';
 
-// Seguridad: Solo entran autónomos
-if(!isset($_SESSION['usuario_id']) || $_SESSION['tipo'] != 'autonomo') {
+// Seguridad: Si no hay sesión o no es autónomo, redirigir al login
+if (!isset($_SESSION['usuario_id']) || $_SESSION['tipo'] !== 'autonomo') {
     header("Location: login.php");
     exit();
 }
 
-$autonomo_id = $_SESSION['usuario_id'];
+$id_usuario = $_SESSION['usuario_id'];
 
-// 1. Obtenemos la especialidad de este autónomo
-$query_user = mysqli_query($conexion, "SELECT especialidad FROM usuarios WHERE id = '$autonomo_id'");
-$datos_user = mysqli_fetch_assoc($query_user);
-$mi_rama = $datos_user['especialidad'];
+// --- CONSULTAS REALES ---
 
-// 2. Buscamos solicitudes que coincidan con su rama
-// Usamos LIKE para que si su rama es "Reparacion", vea todo lo de esa categoría
-$query_pedidos = mysqli_query($conexion, "
-    SELECT s.*, u.nombre as cliente_nombre 
-    FROM solicitudes s 
-    JOIN usuarios u ON s.cliente_id = u.id 
-    WHERE s.categoria LIKE '%$mi_rama%' 
-    ORDER BY s.fecha_publicacion DESC
-");
+// 1. Datos del usuario
+$res_user = mysqli_query($conexion, "SELECT * FROM usuarios WHERE id = $id_usuario");
+$user = mysqli_fetch_assoc($res_user);
+
+// 2. Proyectos Activos (Estado: en_progreso)
+$res_activos = mysqli_query($conexion, "SELECT COUNT(*) as total FROM trabajos WHERE id_autonomo = $id_usuario AND estado = 'en_progreso'");
+$total_activos = mysqli_fetch_assoc($res_activos)['total'];
+
+// 3. Propuestas Enviadas
+$res_propuestas = mysqli_query($conexion, "SELECT COUNT(*) as total FROM propuestas WHERE id_autonomo = $id_usuario");
+$total_propuestas = mysqli_fetch_assoc($res_propuestas)['total'];
+
+// 4. Lógica de Valoración Real
+$query_voto = "SELECT AVG(estrellas) as promedio, COUNT(*) as total_votos FROM resenas WHERE id_autonomo = $id_usuario";
+$res_voto = mysqli_query($conexion, $query_voto);
+$voto_data = mysqli_fetch_assoc($res_voto);
+
+$total_votos = $voto_data['total_votos'];
+if ($total_votos == 0) {
+    $valoracion_display = "Nuevo";
+    $subtexto_voto = "Sin reseñas";
+} else {
+    $valoracion_display = number_format($voto_data['promedio'], 1) . "/5";
+    $subtexto_voto = "($total_votos reseñas)";
+}
+
+// 5. INGRESOS REALES (Suma del presupuesto de trabajos 'completados' este mes)
+$mes_actual = date('m');
+$anio_actual = date('Y');
+$query_ingresos = "SELECT SUM(presupuesto) as total_mes FROM trabajos 
+                   WHERE id_autonomo = $id_usuario 
+                   AND estado = 'completado' 
+                   AND MONTH(fecha_creacion) = '$mes_actual' 
+                   AND YEAR(fecha_creacion) = '$anio_actual'";
+$res_ingresos = mysqli_query($conexion, $query_ingresos);
+$datos_ingresos = mysqli_fetch_assoc($res_ingresos);
+$ingresos_mes = ($datos_ingresos['total_mes']) ? $datos_ingresos['total_mes'] : 0;
+
+// 6. Lista de trabajos en curso para la tabla
+$query_lista = "SELECT t.*, u.nombre as cliente_nombre 
+                FROM trabajos t 
+                JOIN usuarios u ON t.id_cliente = u.id 
+                WHERE t.id_autonomo = $id_usuario AND t.estado = 'en_progreso'";
+$res_lista = mysqli_query($conexion, $query_lista);
 ?>
 
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <link rel="stylesheet" href="estilos.css?v=1.4">
-    <title>Panel Autónomo | Oportunidades</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="estilos.css">
+    <title>Panel de Control | Wirvux</title>
+    <style>
+        .dashboard-container { max-width: 1000px; margin: 30px auto; padding: 20px; }
+        .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; margin-bottom: 30px; }
+        .stat-card { background: white; padding: 20px; border-radius: 10px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); text-align: center; border-top: 4px solid #007bff; }
+        .stat-card h3 { font-size: 2em; margin: 10px 0; color: #333; }
+        .stat-card p { color: #666; text-transform: uppercase; font-size: 0.8em; }
+        .projects-section { background: white; padding: 20px; border-radius: 10px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
+        .table-projects { width: 100%; border-collapse: collapse; margin-top: 15px; }
+        .table-projects th, .table-projects td { padding: 12px; text-align: left; border-bottom: 1px solid #eee; }
+        .table-projects th { background-color: #f8f9fa; color: #333; }
+        .status-badge { padding: 5px 10px; border-radius: 15px; font-size: 0.8em; font-weight: bold; }
+        .status-active { background: #e3f2fd; color: #1976d2; }
+    </style>
 </head>
 <body>
+
     <nav>
         <div class="nav-container">
-            <h1>ConectaPro <span>Panel</span></h1>
-            <a href="index.php">Volver al Inicio</a>
+            <h1>Wirvux Panel</h1>
+            <div class="nav-links">
+                <a href="index.php">Inicio</a>
+                <a href="solicitudes.php">Buscar Proyectos</a>
+                <a href="logout.php" class="btn-logout">Cerrar Sesión</a>
+            </div>
         </div>
     </nav>
 
-    <div class="section">
-        <header style="margin-bottom: 40px;">
-            <h2>Oportunidades en tu rama: <span style="color: var(--primary);"><?php echo $mi_rama; ?></span></h2>
-            <p>Estos clientes están buscando expertos con tus habilidades:</p>
-        </header>
+    <div class="dashboard-container">
+        <h2>Bienvenido, <?php echo explode(' ', $user['nombre'])[0]; ?></h2>
+        <p style="color: #666;">Especialista en: <strong><?php echo $user['especialidad']; ?></strong></p>
 
-        <div class="grid-solicitudes">
-            <?php if(mysqli_num_rows($query_pedidos) > 0): ?>
-                <?php while($row = mysqli_fetch_assoc($query_pedidos)): ?>
-                    <div class="pedido-card">
-                        <div class="pedido-header">
-                            <span class="tag"><?php echo $row['categoria']; ?></span>
-                            <span class="fecha"><?php echo date('d/m/Y', strtotime($row['fecha_publicacion'])); ?></span>
-                        </div>
-                        <h3><?php echo $row['titulo']; ?></h3>
-                        <p><?php echo $row['descripcion']; ?></p>
-                        <hr>
-                        <div class="pedido-footer">
-                            <span>Solicitado por: <strong><?php echo $row['cliente_nombre']; ?></strong></span>
-                            <a href="contactar_cliente.php?id=<?php echo $row['id']; ?>" class="btn-contacto">Postularme</a>
-                        </div>
-                    </div>
-                <?php endwhile; ?>
-            <?php else: ?>
-                <div class="no-data">
-                    <p>No hay solicitudes nuevas en tu especialidad por ahora. ¡Vuelve pronto!</p>
-                </div>
-            <?php endif; ?>
+        <div class="stats-grid">
+            <div class="stat-card">
+                <p>Proyectos Activos</p>
+                <h3><?php echo $total_activos; ?></h3> 
+            </div>
+            <div class="stat-card">
+                <p>Propuestas Enviadas</p>
+                <h3><?php echo $total_propuestas; ?></h3> 
+            </div>
+            <div class="stat-card">
+                <p>Valoración</p>
+                <h3><?php echo $valoracion_display; ?></h3>
+                <p style="font-size: 0.7em; color: #007bff;"><?php echo $subtexto_voto; ?></p>
+            </div>
+            <div class="stat-card">
+            <p>Ingresos Mes</p>
+            <h3><?php echo number_format($ingresos_mes, 2); ?> €</h3>
+            <a href="reporte_ingresos.php" style="font-size: 0.75em; color: #007bff; text-decoration: none;"> Ver historial anual →</a>
+            </div>
+        </div>
+
+        <div class="projects-section">
+            <h3>Trabajos en curso</h3>
+            <table class="table-projects">
+                <thead>
+                    <tr>
+                        <th>Proyecto</th>
+                        <th>Cliente</th>
+                        <th>Fecha Inicio</th>
+                        <th>Estado</th>
+                        <th>Acción</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php if(mysqli_num_rows($res_lista) > 0): ?>
+                        <?php while($row = mysqli_fetch_assoc($res_lista)): ?>
+                        <tr>
+                            <td><?php echo htmlspecialchars($row['titulo']); ?></td>
+                            <td><?php echo htmlspecialchars($row['cliente_nombre']); ?></td>
+                            <td><?php echo date('d/m/Y', strtotime($row['fecha_creacion'])); ?></td>
+                            <td><span class="status-badge status-active">En Proceso</span></td>
+                            <td><a href="gestionar_proyecto.php?id=<?php echo $row['id']; ?>" class="btn-primary" style="padding: 5px 10px; font-size: 0.8em; text-decoration:none;">Gestionar</a></td>
+                        </tr>
+                        <?php endwhile; ?>
+                    <?php else: ?>
+                        <tr>
+                            <td colspan="5" style="text-align:center; padding:20px; color:#999;">
+                                No tienes proyectos activos actualmente. <br>
+                                <a href="solicitudes.php" style="color:#007bff;">¡Busca proyectos aquí!</a>
+                            </td>
+                        </tr>
+                    <?php endif; ?>
+                </tbody>
+            </table>
         </div>
     </div>
+
 </body>
 </html>

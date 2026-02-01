@@ -59,7 +59,7 @@ $nombre_usuario = isset($_SESSION['nombre_completo']) ? explode(' ', $_SESSION['
                     <h1>Panel de Oportunidades</h1>
                     <p>Revisa los nuevos trabajos disponibles en tu rama profesional.</p>
                     <div class="hero-btns">
-                        <a href="area_autonomo.php" class="btn-primary">Ver Ventana de Solicitudes</a>
+                        <a href="solicitudes.php" class="btn-primary">Ver Ventana de Solicitudes</a>
                         <a href="perfil.php" class="btn-secondary">Mi Perfil Público</a>
                     </div>
                 </div>
