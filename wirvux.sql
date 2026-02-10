@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.2.1
+-- version 5.2.1deb3
 -- https://www.phpmyadmin.net/
 --
--- Servidor: localhost
--- Tiempo de generación: 01-02-2026 a las 19:49:59
--- Versión del servidor: 10.4.32-MariaDB
--- Versión de PHP: 8.2.12
+-- Servidor: localhost:3306
+-- Tiempo de generación: 10-02-2026 a las 20:10:12
+-- Versión del servidor: 10.11.14-MariaDB-0ubuntu0.24.04.1
+-- Versión de PHP: 8.3.6
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -89,7 +89,7 @@ CREATE TABLE `trabajos` (
 --
 
 INSERT INTO `trabajos` (`id`, `titulo`, `descripcion`, `categoria`, `presupuesto`, `id_cliente`, `id_autonomo`, `estado`, `fecha_creacion`) VALUES
-(3, 'Proyecto de Prueba Wirvux', 'Esta es una descripción detallada para probar el sistema de gestión. Al completar este proyecto, el presupuesto de 250€ se sumará a los ingresos del mes actual.', 'Tecnología', 250.00, 4, 3, 'en_progreso', '2026-02-01 18:27:14'),
+(3, 'Proyecto de Prueba Wirvux', 'Esta es una descripción detallada para probar el sistema de gestión. Al completar este proyecto, el presupuesto de 250€ se sumará a los ingresos del mes actual.', 'Tecnología', 250.00, 4, 3, 'completado', '2026-02-01 18:27:14'),
 (4, 'Necesito Configuración de Red Local', 'Busco un experto para configurar una red de oficina con 5 puestos, segmentación de VLANs y seguridad básica. El trabajo debe hacerse de forma remota o presencial.', 'Configuracion', 180.00, 4, NULL, 'abierto', '2026-02-01 18:34:45');
 
 -- --------------------------------------------------------
@@ -191,7 +191,7 @@ ALTER TABLE `trabajos`
 -- AUTO_INCREMENT de la tabla `usuarios`
 --
 ALTER TABLE `usuarios`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- Restricciones para tablas volcadas

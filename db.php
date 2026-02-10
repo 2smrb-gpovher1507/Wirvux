@@ -4,7 +4,7 @@ $host = "localhost";
 
 $user = "root";
 
-$pass = "InfoDra.155";
+$pass = "";
 
 $db = "wirvux";
 

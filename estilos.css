@@ -219,3 +219,337 @@ nav a {
 
 /* --- 9. FOOTER --- */
 footer { padding: 50px 20px; background: #0f172a; color: #94a3b8; text-align: center; }
+
+/* --- 10. PAGOS CLIENTE (AÑADIDO) --- */
+
+/* Contenedor principal para apilar bloques */
+.main-container {
+    max-width: 1000px;
+    margin: 40px auto;
+    padding: 0 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+}
+
+/* Bloque Superior: Tarjeta de Inversión */
+.hero-stats {
+    background: linear-gradient(135deg, var(--accent) 0%, #059669 100%);
+    color: var(--white);
+    padding: 50px 30px;
+    border-radius: 20px;
+    text-align: center;
+    box-shadow: var(--shadow);
+    position: relative;
+    overflow: hidden;
+}
+
+.stats-label { 
+    text-transform: uppercase; 
+    letter-spacing: 1.5px; 
+    font-size: 0.85rem; 
+    font-weight: 700; 
+    opacity: 0.9; 
+}
+
+.stats-value { 
+    margin-top: 10px;
+    font-size: clamp(2.5rem, 6vw, 4rem); 
+    font-weight: 800; 
+}
+
+.bg-icon { 
+    position: absolute; 
+    right: -15px; 
+    bottom: -15px; 
+    font-size: 8rem; 
+    opacity: 0.1; 
+}
+
+/* Bloque Inferior: Tabla de Historial */
+.history-section { width: 100%; }
+
+.section-title { 
+    font-size: 1.3rem; 
+    margin-bottom: 20px; 
+    display: flex; 
+    align-items: center; 
+    gap: 10px; 
+}
+
+.table-wrapper {
+    background: var(--white);
+    border-radius: 15px;
+    box-shadow: var(--shadow);
+    overflow: hidden;
+    border: 1px solid #e2e8f0;
+}
+
+.gastos-table { width: 100%; border-collapse: collapse; }
+
+.gastos-table th { 
+    background: #f1f5f9; 
+    padding: 15px 20px; 
+    text-align: left; 
+    font-size: 0.75rem; 
+    color: var(--text-muted); 
+    text-transform: uppercase; 
+}
+
+.gastos-table td { 
+    padding: 18px 20px; 
+    border-bottom: 1px solid #f1f5f9; 
+}
+
+.project-title { font-weight: 700; color: var(--text-main); display: block; }
+.tech-name { font-size: 0.8rem; color: var(--text-muted); }
+.amount-cell { font-weight: 800; color: var(--text-main); font-size: 1.1rem; }
+.text-right { text-align: right; }
+
+.status-badge { 
+    background: #dcfce7; 
+    color: #065f46; 
+    padding: 4px 10px; 
+    border-radius: 6px; 
+    font-size: 0.7rem; 
+    font-weight: 700; 
+}
+
+.btn-back { color: var(--primary); display: flex; align-items: center; gap: 5px; }
+.btn-logout { color: #ef4444 !important; }
+
+/* --- 11. ARCHIVO DE GASTOS Y NAVEGACIÓN ANUAL --- */
+
+/* Contenedor para el botón de archivo en mis_pagos.php */
+.archivo-footer {
+    text-align: center;
+    margin-top: 40px;
+    padding: 20px;
+    border-top: 1px solid #e2e8f0;
+}
+
+.btn-archive {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    background-color: var(--white);
+    color: var(--primary);
+    border: 2px solid var(--primary);
+    padding: 12px 28px;
+    border-radius: 50px;
+    font-weight: 700;
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+
+.btn-archive:hover {
+    background-color: var(--primary);
+    color: var(--white);
+    transform: translateY(-3px);
+    box-shadow: var(--shadow);
+}
+
+/* Estilos específicos para las tarjetas de año en archivo_gastos.php */
+.anio-card {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    cursor: pointer;
+    border: 1px solid #e2e8f0;
+}
+
+.anio-card h3 {
+    font-size: 1.8rem;
+    color: var(--primary);
+    margin-bottom: 5px;
+}
+
+.anio-card .monto-anual {
+    font-size: 1.4rem;
+    font-weight: 800;
+    color: var(--text-main);
+    display: block;
+    margin: 15px 0;
+}
+
+.anio-card .stats-mini {
+    font-size: 0.9rem;
+    color: var(--text-muted);
+    background: #f1f5f9;
+    padding: 5px 12px;
+    border-radius: 20px;
+}
+
+/* Estado vacío mejorado */
+.empty-state {
+    text-align: center;
+    padding: 60px 20px;
+    background: var(--white);
+    border-radius: 20px;
+    border: 2px dashed #cbd5e1;
+    color: var(--text-muted);
+}
+
+.empty-state i {
+    font-size: 3rem;
+    margin-bottom: 20px;
+    display: block;
+    color: #94a3b8;
+}
+
+/* --- FOOTER OSCURO Y SIEMPRE AL FINAL --- */
+
+/* Asegura que el body use todo el alto de la pantalla */
+html, body {
+    height: 100%;
+    margin: 0;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+}
+
+/* El contenido principal empuja al footer */
+.main-container {
+    flex: 1 0 auto;
+}
+
+/* Estilo del Footer Oscuro */
+footer {
+    flex-shrink: 0;
+    background-color: #1a202c; /* Gris oscuro profundo */
+    color: #cbd5e1;           /* Texto gris claro para que no canse la vista */
+    padding: 30px 0;
+    text-align: center;
+    border-top: 4px solid var(--primary); /* Una línea de tu color principal arriba */
+    width: 100%;
+}
+
+footer p {
+    margin: 0;
+    font-size: 0.9rem;
+    letter-spacing: 0.5px;
+}
+
+/* --- ESTRUCTURA GENERAL PARA FOOTER AL FINAL --- */
+.sticky-footer-body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh; /* Ocupa el 100% de la ventana */
+    margin: 0;
+}
+
+.sticky-footer-body .main-container {
+    flex: 1 0 auto; /* Empuja el footer hacia abajo */
+}
+
+/* --- GRID DE AÑOS (CUADRÍCULA) --- */
+.grid-años {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 25px;
+    padding: 20px 0;
+}
+
+.anio-card {
+    background: #ffffff;
+    border-radius: 12px;
+    padding: 30px 20px;
+    text-align: center;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    border: 1px solid #e2e8f0;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.anio-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.12);
+    border-color: var(--accent);
+}
+
+.anio-badge {
+    position: absolute;
+    top: 0;
+    right: 0;
+    background: var(--primary);
+    color: white;
+    padding: 6px 15px;
+    border-bottom-left-radius: 12px;
+    font-weight: bold;
+    font-size: 0.85rem;
+}
+
+.anio-icon {
+    font-size: 2.5rem;
+    color: var(--accent);
+    margin-bottom: 15px;
+}
+
+.anio-info p {
+    color: var(--text-muted);
+    margin: 5px 0;
+}
+
+.anio-monto {
+    font-size: 1.6rem;
+    font-weight: 800;
+    color: var(--text-main);
+    display: block;
+    margin: 10px 0;
+}
+
+.btn-ver-anio {
+    display: inline-block;
+    margin-top: 15px;
+    padding: 10px 25px;
+    background: #f8fafc;
+    color: var(--primary);
+    text-decoration: none;
+    border-radius: 6px;
+    font-weight: 700;
+    font-size: 0.9rem;
+    border: 1px solid #e2e8f0;
+    transition: all 0.2s;
+}
+
+.btn-ver-anio:hover {
+    background: var(--primary);
+    color: white;
+    border-color: var(--primary);
+}
+
+/* --- PIE DE PÁGINA OSCURO --- */
+.footer-dark {
+    flex-shrink: 0;
+    background-color: #1a202c; /* Gris azulado muy oscuro */
+    color: #cbd5e1; /* Gris claro */
+    padding: 40px 0;
+    text-align: center;
+    border-top: 4px solid var(--accent); /* Línea decorativa arriba */
+}
+
+.footer-dark p {
+    margin: 0;
+    font-size: 1rem;
+    font-weight: 600;
+}
+
+.footer-dark small {
+    opacity: 0.6;
+    font-size: 0.8rem;
+    display: block;
+    margin-top: 5px;
+}
+
+.empty-state-archivo {
+    grid-column: 1 / -1;
+    text-align: center;
+    padding: 80px 20px;
+    color: #94a3b8;
+}
+
+.empty-state-archivo i {
+    font-size: 3rem;
+    margin-bottom: 15px;
+}
