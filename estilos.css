@@ -553,3 +553,348 @@ footer p {
     font-size: 3rem;
     margin-bottom: 15px;
 }
+
+.btn-history-big { 
+    display: flex; 
+    align-items: center; 
+    justify-content: center; 
+    gap: 12px;
+    background: #ffffff; 
+    color: #4a5568; 
+    padding: 18px; 
+    border-radius: 12px; 
+    text-decoration: none; 
+    font-weight: 700;
+    border: 2px solid #e2e8f0; 
+    margin-top: 25px; 
+    transition: all 0.3s ease;
+}
+
+.btn-history-big:hover { 
+    background: #f7fafc; 
+    border-color: var(--primary); 
+    color: var(--primary);
+    transform: scale(1.01);
+}
+
+
+/* --- ESTILOS VER_PROPUESTAS --- */
+.details-wrapper {
+    max-width: 1000px;
+    margin: 40px auto;
+    padding: 0 20px;
+}
+
+.project-main-card {
+    background: white;
+    border-radius: 15px;
+    padding: 35px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+    border: 1px solid #edf2f7;
+    margin-bottom: 40px;
+}
+
+.project-header-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    border-bottom: 1px solid #f1f5f9;
+    padding-bottom: 25px;
+    margin-bottom: 25px;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.project-title-area { flex: 1; min-width: 300px; }
+.project-title-area h2 { font-size: 2rem; color: #1a202c; margin: 10px 0; }
+.project-desc { color: #4a5568; line-height: 1.6; }
+
+.project-price-area { text-align: right; }
+.label-light { display: block; color: #a0aec0; text-transform: uppercase; font-size: 0.75rem; font-weight: 700; letter-spacing: 1px; }
+.price-big { font-size: 2.2rem; font-weight: 900; color: var(--primary); display: block; }
+
+.project-info-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 30px;
+}
+
+.info-item { display: flex; align-items: center; gap: 15px; }
+.info-item i { font-size: 1.5rem; color: var(--accent); opacity: 0.8; }
+.info-item strong { display: block; font-size: 0.85rem; color: #718096; }
+.info-item p { margin: 0; font-weight: 600; color: #2d3748; }
+
+/* Propuestas */
+.proposals-section h3 { margin-bottom: 20px; color: #2d3748; display: flex; align-items: center; gap: 10px; }
+
+.proposal-card {
+    background: white;
+    padding: 25px;
+    border-radius: 12px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.02);
+    border: 1px solid #e2e8f0;
+    transition: transform 0.2s;
+}
+
+.proposal-card:hover { transform: scale(1.01); border-color: var(--primary); }
+
+.proposal-tech-info h4 { margin: 0 0 5px 0; font-size: 1.2rem; }
+.proposal-tech-info p { color: #4a5568; margin-bottom: 8px; }
+.proposal-tech-info small { color: #a0aec0; }
+
+.btn-accept-tech {
+    background: var(--accent);
+    color: white;
+    padding: 12px 20px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: 700;
+    transition: 0.3s;
+}
+
+.btn-accept-tech:hover { background: #218838; box-shadow: 0 4px 12px rgba(40, 167, 69, 0.3); }
+
+.alert-info-box {
+    background: #ebf8ff;
+    color: #2b6cb0;
+    padding: 20px;
+    border-radius: 10px;
+    border: 1px solid #bee3f8;
+}
+
+.empty-proposals {
+    text-align: center;
+    padding: 60px;
+    color: #a0aec0;
+}
+
+.empty-proposals i { font-size: 3rem; margin-bottom: 15px; display: block; }
+
+/* Status Badges */
+.status-badge-detail { padding: 6px 12px; border-radius: 6px; font-size: 0.75rem; font-weight: 800; }
+.status-abierto { background: #feebc8; color: #9c4221; }
+.status-en_progreso { background: #bee3f8; color: #2c5282; }
+.status-completado { background: #c6f6d5; color: #22543d; }
+
+.chat-wrapper {
+    display: flex;
+    background: white;
+    height: 70vh;
+    border-radius: 15px;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+    overflow: hidden;
+    margin: 20px 0;
+}
+
+/* Columna Izquierda: Lista de Chats */
+.chat-sidebar {
+    width: 300px;
+    border-right: 1px solid #eee;
+    overflow-y: auto;
+    background: #f8fafc;
+}
+
+.chat-contact-item {
+    padding: 15px;
+    border-bottom: 1px solid #edf2f7;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.chat-contact-item.active { background: white; border-left: 4px solid var(--primary); }
+.chat-contact-item:hover { background: #edf2f7; }
+
+/* Columna Derecha: Ventana de Chat */
+.chat-main {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.chat-messages {
+    flex: 1;
+    padding: 20px;
+    overflow-y: auto;
+    background: #ffffff;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.message {
+    max-width: 70%;
+    padding: 12px;
+    border-radius: 12px;
+    position: relative;
+}
+
+.msg-sent { align-self: flex-end; background: var(--primary); color: white; border-bottom-right-radius: 2px; }
+.msg-received { align-self: flex-start; background: #f1f5f9; color: #333; border-bottom-left-radius: 2px; }
+
+/* Caja de texto */
+.chat-input-area {
+    padding: 20px;
+    border-top: 1px solid #eee;
+    display: flex;
+    gap: 10px;
+}
+
+.chat-input-area input {
+    flex: 1;
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    outline: none;
+}
+
+/* --- ARREGLO BOTONES CHAT --- */
+
+/* Botón del Header (el que sale gris) */
+.btn-header-chat {
+    background-color: #4a5568 !important;
+    color: white !important;
+    padding: 8px 16px !important;
+    border-radius: 6px !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 8px !important;
+    text-decoration: none !important;
+    font-size: 0.9em !important;
+    border: none !important;
+    height: auto !important; /* Evita que se fuerce a ser cuadrado */
+    width: auto !important;
+}
+
+/* Botón de chatear en las propuestas */
+.btn-chat-custom {
+    background-color: #3182ce !important;
+    color: white !important;
+    padding: 10px 20px !important;
+    border-radius: 8px !important;
+    text-decoration: none !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 8px !important;
+    font-weight: 600 !important;
+    border: none !important;
+    cursor: pointer !important;
+}
+
+.btn-chat-custom:hover, .btn-header-chat:hover {
+    filter: brightness(1.1);
+    transform: translateY(-1px);
+}
+
+/* --- COMPONENTES PANEL CLIENTE --- */
+
+.dashboard-container { 
+    max-width: 1100px; 
+    margin: 30px auto; 
+    padding: 20px; 
+}
+
+/* Navegación Mejorada */
+.nav-links {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.btn-nav-outline {
+    background: #f8fafc;
+    border: 1px solid #cbd5e0;
+    padding: 8px 16px;
+    border-radius: 8px;
+    color: #2d3748 !important;
+    font-size: 0.85em;
+    font-weight: 600;
+    text-decoration: none;
+    transition: 0.3s;
+    display: inline-flex;
+    align-self: center;
+    gap: 6px;
+}
+
+.btn-nav-outline:hover {
+    background: #edf2f7;
+    border-color: #a0aec0;
+    transform: translateY(-1px);
+}
+
+.btn-nav-outline i { color: #3182ce; }
+
+.nav-link-item {
+    color: #4a5568;
+    font-weight: 600;
+    text-decoration: none;
+    font-size: 0.9em;
+}
+
+.nav-link-item:hover { color: #2d3748; }
+
+/* Grid de Estadísticas */
+.stats-grid { 
+    display: grid; 
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); 
+    gap: 20px; 
+    margin-bottom: 30px; 
+}
+
+.stat-card { 
+    background: white; 
+    padding: 25px; 
+    border-radius: 12px; 
+    box-shadow: 0 4px 15px rgba(0,0,0,0.05); 
+    text-align: center; 
+    border-bottom: 4px solid var(--accent); 
+}
+
+.stat-highlight { border-bottom-color: var(--primary); }
+
+.stat-card h3 { font-size: 2.2em; margin: 10px 0; color: #2d3748; }
+
+.stat-card p { 
+    color: #718096; 
+    font-weight: bold; 
+    text-transform: uppercase; 
+    font-size: 0.75em; 
+    letter-spacing: 1px;
+}
+
+/* Tabla y Tarjeta Principal */
+.main-card { 
+    background: white; 
+    padding: 25px; 
+    border-radius: 12px; 
+    box-shadow: 0 4px 15px rgba(0,0,0,0.05); 
+}
+
+.card-title { margin-bottom: 20px; color: #2d3748; }
+.card-title i { color: var(--primary); margin-right: 8px; }
+
+.table-responsive { overflow-x: auto; }
+
+table { width: 100%; border-collapse: collapse; }
+table thead tr { text-align: left; background: #f8fafc; }
+table th { padding: 12px; color: #4a5568; font-size: 0.9em; }
+table td { padding: 15px; border-bottom: 1px solid #f1f5f9; vertical-align: middle; }
+
+.empty-state { text-align: center; padding: 40px !important; color: #a0aec0; }
+
+/* Status Pills */
+.status-pill { 
+    padding: 5px 12px; 
+    border-radius: 20px; 
+    font-size: 0.75em; 
+    font-weight: 700; 
+}
+
+.pill-abierto { background: #fff3cd; color: #856404; }
+.pill-proceso { background: #ebf8ff; color: #2b6cb0; }
+.pill-completado { background: #f0fff4; color: #276749; }
+

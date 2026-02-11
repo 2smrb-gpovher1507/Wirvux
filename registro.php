@@ -95,7 +95,7 @@ if (isset($_POST['registrar'])) {
     <script>
     // Datos de las especialidades mapeados por el ID del select de categoría
     const opciones = {
-        "Tecnología": ["Desarrollo Web", "Desarrollo multiplataforma", "Ciberseguridad", "Soporte Técnico", "IA y Datos"],
+        "Tecnología": ["Desarrollo Web", "Desarrollo multiplataforma", "Ciberseguridad", "Soporte Técnico", "IA y Datos", "Sistemas"],
         "Diseño": ["Diseño Gráfico", "UI/UX", "Edición de Vídeo", "Ilustración", "Fotografía"],
         "Marketing": ["SEO", "Community Manager", "Copywriting", "Publicidad (Ads)", "Traducción"],
         "Administración": ["Asistente Virtual", "Contabilidad", "Consultoría Legal", "Recursos Humanos"]

@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.2.1deb3
+-- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
--- Servidor: localhost:3306
--- Tiempo de generación: 10-02-2026 a las 20:10:12
--- Versión del servidor: 10.11.14-MariaDB-0ubuntu0.24.04.1
--- Versión de PHP: 8.3.6
+-- Servidor: localhost
+-- Tiempo de generación: 11-02-2026 a las 15:24:19
+-- Versión del servidor: 10.4.32-MariaDB
+-- Versión de PHP: 8.2.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -24,6 +24,33 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
+-- Estructura de tabla para la tabla `mensajes`
+--
+
+CREATE TABLE `mensajes` (
+  `id` int(11) NOT NULL,
+  `id_emisor` int(11) NOT NULL,
+  `id_receptor` int(11) NOT NULL,
+  `mensaje` text NOT NULL,
+  `id_respuesta` int(11) DEFAULT NULL,
+  `leido` tinyint(1) DEFAULT 0,
+  `fecha_envio` datetime DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `mensajes`
+--
+
+INSERT INTO `mensajes` (`id`, `id_emisor`, `id_receptor`, `mensaje`, `id_respuesta`, `leido`, `fecha_envio`) VALUES
+(1, 4, 3, 'hola Buenas', NULL, 0, '2026-02-11 14:59:44'),
+(2, 4, 3, 'aa', 1, 0, '2026-02-11 14:59:51'),
+(3, 4, 3, 'gf', 2, 0, '2026-02-11 15:04:52'),
+(4, 4, 3, 'sdf', 3, 0, '2026-02-11 15:11:38'),
+(5, 4, 3, 'vcggf', NULL, 0, '2026-02-11 15:18:40');
+
+-- --------------------------------------------------------
+
+--
 -- Estructura de tabla para la tabla `propuestas`
 --
 
@@ -33,7 +60,8 @@ CREATE TABLE `propuestas` (
   `id_autonomo` int(11) DEFAULT NULL,
   `mensaje` text DEFAULT NULL,
   `presupuesto_ofrecido` decimal(10,2) DEFAULT NULL,
-  `fecha_envio` timestamp NOT NULL DEFAULT current_timestamp()
+  `fecha_envio` timestamp NOT NULL DEFAULT current_timestamp(),
+  `fecha_postulacion` datetime DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -89,8 +117,9 @@ CREATE TABLE `trabajos` (
 --
 
 INSERT INTO `trabajos` (`id`, `titulo`, `descripcion`, `categoria`, `presupuesto`, `id_cliente`, `id_autonomo`, `estado`, `fecha_creacion`) VALUES
-(3, 'Proyecto de Prueba Wirvux', 'Esta es una descripción detallada para probar el sistema de gestión. Al completar este proyecto, el presupuesto de 250€ se sumará a los ingresos del mes actual.', 'Tecnología', 250.00, 4, 3, 'completado', '2026-02-01 18:27:14'),
-(4, 'Necesito Configuración de Red Local', 'Busco un experto para configurar una red de oficina con 5 puestos, segmentación de VLANs y seguridad básica. El trabajo debe hacerse de forma remota o presencial.', 'Configuracion', 180.00, 4, NULL, 'abierto', '2026-02-01 18:34:45');
+(5, 'Mantenimiento Servidores 2026', 'Revisión anual de sistemas', 'Sistemas', 450.00, 4, NULL, 'abierto', '2026-02-10 09:00:00'),
+(6, 'Desarrollo App Móvil 2025', 'Proyecto finalizado el año pasado', 'Desarrollo', 1200.00, 4, 3, 'completado', '2025-06-15 10:00:00'),
+(7, 'Consultoría Redes 2024', 'Instalación de fibra óptica', 'Redes', 300.00, 4, 3, 'completado', '2024-11-20 08:30:00');
 
 -- --------------------------------------------------------
 
@@ -114,12 +143,21 @@ CREATE TABLE `usuarios` (
 --
 
 INSERT INTO `usuarios` (`id`, `nombre`, `apellidos`, `email`, `password`, `tipo_usuario`, `categoria_principal`, `especialidad`) VALUES
-(3, 'gabriel', 'poveda', 'gpovher1507@gmail.com', '$2y$10$fmGH8Lap5FEYUx/L3xk/8OQq49Vnq0jKT7h8XHQvVF2g8DaGpKenq', 'autonomo', 'Tecnología', 'Desarrollo Web'),
+(3, 'gabriel', 'poveda', 'gpovher1507@gmail.com', '$2y$10$fmGH8Lap5FEYUx/L3xk/8OQq49Vnq0jKT7h8XHQvVF2g8DaGpKenq', 'autonomo', 'Tecnología', 'Sistemas'),
 (4, 'gabriel', 'poveda', 'povedagabriel666@gmail.com', '$2y$10$lpmG79Ok8L.A8DDTzAjyweyZ.6zVfJorJAUqQLuukRHEeR72/uDd2', 'cliente', '', '');
 
 --
 -- Índices para tablas volcadas
 --
+
+--
+-- Indices de la tabla `mensajes`
+--
+ALTER TABLE `mensajes`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `id_emisor` (`id_emisor`),
+  ADD KEY `id_receptor` (`id_receptor`),
+  ADD KEY `id_respuesta` (`id_respuesta`);
 
 --
 -- Indices de la tabla `propuestas`
@@ -164,6 +202,12 @@ ALTER TABLE `usuarios`
 --
 
 --
+-- AUTO_INCREMENT de la tabla `mensajes`
+--
+ALTER TABLE `mensajes`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+
+--
 -- AUTO_INCREMENT de la tabla `propuestas`
 --
 ALTER TABLE `propuestas`
@@ -185,17 +229,25 @@ ALTER TABLE `solicitudes`
 -- AUTO_INCREMENT de la tabla `trabajos`
 --
 ALTER TABLE `trabajos`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT de la tabla `usuarios`
 --
 ALTER TABLE `usuarios`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- Restricciones para tablas volcadas
 --
+
+--
+-- Filtros para la tabla `mensajes`
+--
+ALTER TABLE `mensajes`
+  ADD CONSTRAINT `mensajes_ibfk_1` FOREIGN KEY (`id_emisor`) REFERENCES `usuarios` (`id`),
+  ADD CONSTRAINT `mensajes_ibfk_2` FOREIGN KEY (`id_receptor`) REFERENCES `usuarios` (`id`),
+  ADD CONSTRAINT `mensajes_ibfk_3` FOREIGN KEY (`id_respuesta`) REFERENCES `mensajes` (`id`) ON DELETE SET NULL;
 
 --
 -- Filtros para la tabla `propuestas`
