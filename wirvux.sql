@@ -2,8 +2,8 @@
 -- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
--- Servidor: localhost
--- Tiempo de generación: 11-02-2026 a las 15:24:19
+-- Servidor: 127.0.0.1
+-- Tiempo de generación: 11-02-2026 a las 19:21:55
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -46,7 +46,9 @@ INSERT INTO `mensajes` (`id`, `id_emisor`, `id_receptor`, `mensaje`, `id_respues
 (2, 4, 3, 'aa', 1, 0, '2026-02-11 14:59:51'),
 (3, 4, 3, 'gf', 2, 0, '2026-02-11 15:04:52'),
 (4, 4, 3, 'sdf', 3, 0, '2026-02-11 15:11:38'),
-(5, 4, 3, 'vcggf', NULL, 0, '2026-02-11 15:18:40');
+(5, 4, 3, 'vcggf', NULL, 0, '2026-02-11 15:18:40'),
+(6, 4, 3, 'dsd', NULL, 0, '2026-02-11 18:41:29'),
+(7, 4, 3, 'bends', 6, 0, '2026-02-11 18:41:34');
 
 -- --------------------------------------------------------
 
@@ -205,7 +207,7 @@ ALTER TABLE `usuarios`
 -- AUTO_INCREMENT de la tabla `mensajes`
 --
 ALTER TABLE `mensajes`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT de la tabla `propuestas`

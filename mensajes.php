@@ -100,15 +100,7 @@ if ($id_con_quien > 0) {
             <h1 class="logo">WIRVUX <span class="sub-logo">CHATS</span></h1>
             <div class="nav-links" style="display: flex; gap: 12px; align-items: center;">
                 
-                <?php if($id_proyecto_volver > 0): ?>
-                    <a href="ver_propuestas.php?id=<?php echo $id_proyecto_volver; ?>" class="btn-return-direct">
-                        <i class="fas fa-chevron-left"></i> Volver al Proyecto
-                    </a>
-                <?php endif; ?>
-
-                <a href="area_cliente.php" class="btn-nav-outline">
-                    <i class="fas fa-list"></i> Mis Proyectos
-                </a>
+                
                 
                 <a href="area_cliente.php" class="btn-back">Panel Principal</a>
             </div>
