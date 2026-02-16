@@ -67,19 +67,7 @@ $res_lista = mysqli_query($conexion, $query_lista);
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="estilos.css">
     <title>Panel de Control | Wirvux</title>
-    <style>
-        .dashboard-container { max-width: 1000px; margin: 30px auto; padding: 20px; }
-        .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; margin-bottom: 30px; }
-        .stat-card { background: white; padding: 20px; border-radius: 10px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); text-align: center; border-top: 4px solid #007bff; }
-        .stat-card h3 { font-size: 2em; margin: 10px 0; color: #333; }
-        .stat-card p { color: #666; text-transform: uppercase; font-size: 0.8em; }
-        .projects-section { background: white; padding: 20px; border-radius: 10px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
-        .table-projects { width: 100%; border-collapse: collapse; margin-top: 15px; }
-        .table-projects th, .table-projects td { padding: 12px; text-align: left; border-bottom: 1px solid #eee; }
-        .table-projects th { background-color: #f8f9fa; color: #333; }
-        .status-badge { padding: 5px 10px; border-radius: 15px; font-size: 0.8em; font-weight: bold; }
-        .status-active { background: #e3f2fd; color: #1976d2; }
-    </style>
+    
 </head>
 <body>
 
@@ -154,6 +142,10 @@ $res_lista = mysqli_query($conexion, $query_lista);
             </table>
         </div>
     </div>
+
+    <footer class="text-center">
+        <p>&copy; 2026 Wirvux - Area autonomo</p>
+    </footer>
 
 </body>
 </html>

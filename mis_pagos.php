@@ -36,41 +36,38 @@ $total_invertido = $total_data['total'] ?? 0;
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mis Gastos | Wirvux</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link rel="stylesheet" href="estilos.css?v=<?php echo time(); ?>">
 </head>
-<body class="sticky-footer-body"> <nav class="navbar">
+<body> 
+
+    <nav>
         <div class="nav-container">
-            <h1 class="logo">WIRVUX <span class="sub-logo">PAGOS</span></h1>
+            <h1>WIRVUX <span>PAGOS</span></h1>
             <div class="nav-links">
-                <a href="area_cliente.php" class="btn-back">
-                    <i class="fas fa-chevron-left"></i> Volver al Panel
-                </a>
+                <a href="area_cliente.php" class="btn-back">Volver al Panel</a>
                 <a href="logout.php" class="btn-logout">Cerrar Sesión</a>
             </div>
         </div>
     </nav>
 
-    <div class="main-container">
+    <div class="container-pagos">
         
-        <section class="hero-stats">
-            <p class="stats-label">Inversión Acumulada <?php echo $anio_actual; ?></p>
-            <h2 class="stats-value"><?php echo number_format($total_invertido, 2); ?> €</h2>
-            <i class="fas fa-wallet bg-icon"></i>
-        </section>
+        <header class="banner-inversion">
+            <p>Inversión Acumulada <?php echo $anio_actual; ?></p>
+            <h2 class="monto-grande"><?php echo number_format($total_invertido, 2); ?> €</h2>
+        </header>
 
-        <section class="history-section">
-            <h3 class="section-title">
-                <i class="fas fa-calendar-check"></i> Gastos de <?php echo $anio_actual; ?>
-            </h3>
-            <div class="table-wrapper">
-                <table class="gastos-table">
+        <section class="seccion-tabla">
+            <h3>Gastos de <?php echo $anio_actual; ?></h3>
+            
+            <div class="table-responsive">
+                <table class="tabla-gastos">
                     <thead>
                         <tr>
                             <th>Detalle del Servicio</th>
                             <th>Fecha</th>
                             <th>Estado</th>
-                            <th class="text-right">Total Pagado</th>
+                            <th>Total Pagado</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -78,39 +75,32 @@ $total_invertido = $total_data['total'] ?? 0;
                             <?php while($gasto = mysqli_fetch_assoc($res_gastos)): ?>
                             <tr>
                                 <td>
-                                    <span class="project-title"><?php echo htmlspecialchars($gasto['titulo']); ?></span>
-                                    <span class="tech-name">Técnico: <?php echo htmlspecialchars($gasto['tecnico_nombre'] ?? 'Soporte Wirvux'); ?></span>
+                                    <span class="nombre-servicio"><?php echo htmlspecialchars($gasto['titulo']); ?></span>
+                                    <small class="nombre-tecnico">Técnico: <?php echo htmlspecialchars($gasto['tecnico_nombre'] ?? 'Soporte Wirvux'); ?></small>
                                 </td>
-                                <td class="date-cell"><?php echo date('d/m/Y', strtotime($gasto['fecha_creacion'])); ?></td>
-                                <td><span class="status-badge">Completado</span></td>
-                                <td class="text-right amount-cell"><?php echo number_format($gasto['presupuesto'], 2); ?> €</td>
+                                <td><?php echo date('d/m/Y', strtotime($gasto['fecha_creacion'])); ?></td>
+                                <td><span class="pill-completado">Pagado</span></td>
+                                <td class="precio-celda"><?php echo number_format($gasto['presupuesto'], 2); ?> €</td>
                             </tr>
                             <?php endwhile; ?>
                         <?php else: ?>
                             <tr>
-                                <td colspan="4" class="empty-state">
-                                    <i class="fas fa-info-circle"></i> No hay pagos registrados en <?php echo $anio_actual; ?>.
-                                </td>
+                                <td colspan="4" class="vacio-texto">No hay pagos registrados en <?php echo $anio_actual; ?>.</td>
                             </tr>
                         <?php endif; ?>
                     </tbody>
                 </table>
             </div>
-
-            <div class="archivo-footer">
-                <a href="archivo_gastos.php" class="btn-archive">
-                    <i class="fas fa-archive"></i> Ver años anteriores
-                </a>
-            </div>
+            <a href="archivo_gastos.php" class="btn-secondary-full">
+                Ver historial de años anteriores
+            </a>
         </section>
     </div>
 
-    <footer class="footer-dark">
-        <div class="nav-container">
-            <p>&copy; 2026 Wirvux - Sistema de Gestión de Gastos</p>
-            <small>Resumen de actividad financiera del cliente</small>
-        </div>
+    <footer class="text-center">
+        <p>&copy; 2026 Wirvux - Sistema de Gestión de Gastos</p>
     </footer>
+    
 
 </body>
 </html>

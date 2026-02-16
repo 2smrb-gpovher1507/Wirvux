@@ -2,11 +2,6 @@
 session_start();
 include 'db.php';
 
-// Activar errores para depuración
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
-
 if (!isset($_SESSION['usuario_id']) || $_SESSION['tipo'] !== 'cliente') {
     header("Location: login.php");
     exit();
@@ -41,13 +36,16 @@ $query_propuestas = "SELECT p.*, u.nombre as tecnico_nombre, u.id as id_autonomo
                      $orden";
 $res_propuestas = mysqli_query($conexion, $query_propuestas);
 
-// 3. Buscar otros autónomos del sector
-$query_otros = "SELECT id, nombre, especialidad FROM usuarios 
-                WHERE especialidad = '$categoria_actual'
-                AND id != $id_cliente
-                AND id NOT IN (SELECT id_autonomo FROM propuestas WHERE id_trabajo = $id_trabajo)
-                LIMIT 5";
-$res_otros = mysqli_query($conexion, $query_otros);
+// 3. Buscar otros autónomos del sector (Solo si no hay técnico asignado aún)
+$res_otros = null;
+if (empty($trabajo['id_autonomo'])) {
+    $query_otros = "SELECT id, nombre, especialidad FROM usuarios 
+                    WHERE especialidad = '$categoria_actual'
+                    AND id != $id_cliente
+                    AND id NOT IN (SELECT id_autonomo FROM propuestas WHERE id_trabajo = $id_trabajo)
+                    LIMIT 5";
+    $res_otros = mysqli_query($conexion, $query_otros);
+}
 ?>
 
 <!DOCTYPE html>
@@ -56,119 +54,101 @@ $res_otros = mysqli_query($conexion, $query_otros);
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Detalles del Proyecto | Wirvux</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link rel="stylesheet" href="estilos.css?v=<?php echo time(); ?>">
 </head>
-<body class="sticky-footer-body">
+<body>
 
-    <nav class="navbar">
+    <nav>
         <div class="nav-container">
-            <h1 class="logo">WIRVUX <span class="sub-logo">DETALLES</span></h1>
+            <h1>WIRVUX <span>DETALLES</span></h1>
             <div class="nav-links">
-                <a href="mensajes.php" class="btn-new btn-header-chat"><i class="fas fa-comments"></i> Mis Chats</a>
-                <a href="area_cliente.php" class="btn-back"><i class="fas fa-chevron-left"></i> Volver al Panel</a>
+                <a href="mensajes.php">Mis Chats</a>
+                <a href="area_cliente.php" class="btn-back">Volver al Panel</a>
             </div>
         </div>
     </nav>
 
-    <div class="main-container">
-        <div class="details-wrapper">
+    <div class="container-detalles">
+        
+        <div class="ficha-proyecto">
+            <header class="ficha-header">
+                <span class="badge-estado <?php echo $trabajo['estado']; ?>">
+                    <?php echo strtoupper($trabajo['estado']); ?>
+                </span>
+                <h2><?php echo htmlspecialchars($trabajo['titulo']); ?></h2>
+                <p class="descripcion-proyecto"><?php echo nl2br(htmlspecialchars($trabajo['descripcion'])); ?></p>
+            </header>
+
+            <div class="ficha-grid">
+                <div class="dato-item">
+                    <strong>Fecha:</strong>
+                    <p><?php echo date('d/m/Y', strtotime($trabajo['fecha_creacion'])); ?></p>
+                </div>
+                <div class="dato-item">
+                    <strong>Sector:</strong>
+                    <p><?php echo htmlspecialchars($trabajo['categoria'] ?? 'General'); ?></p>
+                </div>
+                <div class="dato-item">
+                    <strong>Precio:</strong>
+                    <p class="resaltado-precio"><?php echo number_format($trabajo['presupuesto'], 2); ?> €</p>
+                </div>
+                <div class="dato-item">
+                    <strong>Técnico:</strong>
+                    <p><?php echo $trabajo['tecnico_asignado'] ? htmlspecialchars($trabajo['tecnico_asignado']) : 'Pendiente'; ?></p>
+                </div>
+            </div>
+        </div>
+
+        <section class="seccion-listado">
+            <h3>Propuestas Recibidas</h3>
             
-            <div class="project-main-card">
-                <div class="project-header-top">
-                    <div class="project-title-area">
-                        <span class="status-badge-detail status-<?php echo $trabajo['estado']; ?>">
-                            <?php echo strtoupper($trabajo['estado']); ?>
-                        </span>
-                        <h2><?php echo htmlspecialchars($trabajo['titulo']); ?></h2>
-                        <p class="project-desc"><?php echo nl2br(htmlspecialchars($trabajo['descripcion'])); ?></p>
-                    </div>
-                    <div class="project-price-area">
-                        <span class="label-light">Presupuesto</span>
-                        <span class="price-big"><?php echo number_format($trabajo['presupuesto'], 2); ?> €</span>
-                    </div>
+            <?php if($trabajo['estado'] !== 'abierto'): ?>
+                <div class="aviso-info">
+                    El proyecto fue <strong><?php echo str_replace('_', ' ', $trabajo['estado']); ?></strong>.
                 </div>
-
-                <div class="project-info-grid">
-                    <div class="info-item">
-                        <i class="fas fa-calendar-alt"></i>
-                        <div><strong>Fecha:</strong><p><?php echo date('d/m/Y', strtotime($trabajo['fecha_creacion'])); ?></p></div>
-                    </div>
-                    <div class="info-item">
-                        <i class="fas fa-layer-group"></i>
-                        <div><strong>Sector:</strong><p><?php echo htmlspecialchars($trabajo['categoria'] ?? 'General'); ?></p></div>
-                    </div>
-                    <div class="info-item">
-                        <i class="fas fa-user-check"></i>
-                        <div><strong>Técnico:</strong><p><?php echo $trabajo['tecnico_asignado'] ? htmlspecialchars($trabajo['tecnico_asignado']) : 'Pendiente'; ?></p></div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="proposals-section">
-                <h3><i class="fas fa-briefcase"></i> Propuestas Recibidas</h3>
-                
-                <?php if($trabajo['estado'] !== 'abierto'): ?>
-                    <div class="alert-info-box">
-                        <i class="fas fa-info-circle"></i> Proyecto en fase de <strong><?php echo str_replace('_', ' ', $trabajo['estado']); ?></strong>.
-                    </div>
-                <?php elseif($res_propuestas && mysqli_num_rows($res_propuestas) > 0): ?>
-                    <?php while($prop = mysqli_fetch_assoc($res_propuestas)): ?>
-                        <div class="proposal-card">
-                            <div class="proposal-tech-info">
-                                <h4><?php echo htmlspecialchars($prop['tecnico_nombre']); ?></h4>
-                                <p><?php echo htmlspecialchars($prop['mensaje'] ?? 'Sin mensaje.'); ?></p>
-                                <small><i class="fas fa-clock"></i> 
-                                    <?php echo $existe_fecha ? date('d/m/Y H:i', strtotime($prop['fecha_postulacion'])) : 'Recién recibida'; ?>
-                                </small>
-                            </div>
-                            <div class="proposal-actions">
-                                <a href="mensajes.php?con=<?php echo $prop['id_autonomo']; ?>" class="btn-chat-custom">
-                                    <i class="fas fa-comment-dots"></i> Chatear
-                                </a>
-                                <a href="aceptar_propuesta.php?id=<?php echo $prop['id']; ?>&trabajo=<?php echo $id_trabajo; ?>" class="btn-accept-tech">
-                                    Aceptar
-                                </a>
-                            </div>
+            <?php elseif($res_propuestas && mysqli_num_rows($res_propuestas) > 0): ?>
+                <?php while($prop = mysqli_fetch_assoc($res_propuestas)): ?>
+                    <div class="tarjeta-propuesta">
+                        <div class="propuesta-texto">
+                            <h4><?php echo htmlspecialchars($prop['tecnico_nombre']); ?></h4>
+                            <p><?php echo htmlspecialchars($prop['mensaje'] ?? 'Sin mensaje.'); ?></p>
+                            <small><?php echo $existe_fecha ? date('d/m/Y H:i', strtotime($prop['fecha_postulacion'])) : 'Recién recibida'; ?></small>
                         </div>
-                    <?php endwhile; ?>
-                <?php else: ?>
-                    <div class="empty-proposals">
-                        <p>No hay propuestas para este proyecto todavía.</p>
+                        <div class="propuesta-acciones">
+                            <a href="mensajes.php?con=<?php echo $prop['id_autonomo']; ?>" class="btn-chat">Chatear</a>
+                            <a href="aceptar_propuesta.php?id=<?php echo $prop['id']; ?>&trabajo=<?php echo $id_trabajo; ?>" class="btn-aceptar">Aceptar</a>
+                        </div>
                     </div>
-                <?php endif; ?>
-            </div>
+                <?php endwhile; ?>
+            <?php else: ?>
+                <p class="vacio-texto">No hay propuestas para este proyecto todavía.</p>
+            <?php endif; ?>
+        </section>
 
-            <div class="proposals-section section-others">
-                <h3><i class="fas fa-search"></i> Expertos en <?php echo htmlspecialchars($categoria_actual); ?> disponibles</h3>
-                <div class="others-grid">
+        <?php if (empty($trabajo['id_autonomo'])): ?>
+            <section class="seccion-otros">
+                <h3>Expertos sugeridos en <?php echo htmlspecialchars($categoria_actual); ?></h3>
+                <div class="otros-grid">
                     <?php if($res_otros && mysqli_num_rows($res_otros) > 0): ?>
                         <?php while($otro = mysqli_fetch_assoc($res_otros)): ?>
-                            <div class="proposal-card card-mini-tech">
-                                <div class="mini-tech-info">
-                                    <strong><?php echo htmlspecialchars($otro['nombre']); ?></strong>
-                                    <div class="specialty-tag">
-                                        <i class="fas fa-star"></i> Especialista en <?php echo htmlspecialchars($otro['especialidad']); ?>
-                                    </div>
-                                </div>
-                                <a href="mensajes.php?con=<?php echo $otro['id']; ?>" class="btn-chat-custom btn-full">
-                                    <i class="fas fa-paper-plane"></i> Contactar ahora
-                                </a>
+                            <div class="tarjeta-sugerido">
+                                <strong><?php echo htmlspecialchars($otro['nombre']); ?></strong>
+                                <span>Especialista en <?php echo htmlspecialchars($otro['especialidad']); ?></span>
+                                <a href="mensajes.php?con=<?php echo $otro['id']; ?>" class="btn-contacto">Contactar</a>
                             </div>
                         <?php endwhile; ?>
                     <?php else: ?>
-                        <p class="no-others">No hay más autónomos registrados en esta categoría específica.</p>
+                        <p class="vacio-texto">No hay más autónomos registrados en esta categoría.</p>
                     <?php endif; ?>
                 </div>
-            </div>
+            </section>
+        <?php endif; ?>
 
-        </div>
     </div>
+    
 
-    <footer class="footer-dark">
-        <div class="nav-container">
-            <p>&copy; 2026 Wirvux - Conectando soluciones</p>
-        </div>
+    <footer class="text-center">
+        <p>&copy; 2026 Wirvux - Detalles de Proyecto</p>
     </footer>
 
 </body>

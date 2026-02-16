@@ -2,8 +2,8 @@
 -- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
--- Servidor: 127.0.0.1
--- Tiempo de generación: 11-02-2026 a las 19:21:55
+-- Servidor: localhost
+-- Tiempo de generación: 16-02-2026 a las 16:12:14
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -47,8 +47,11 @@ INSERT INTO `mensajes` (`id`, `id_emisor`, `id_receptor`, `mensaje`, `id_respues
 (3, 4, 3, 'gf', 2, 0, '2026-02-11 15:04:52'),
 (4, 4, 3, 'sdf', 3, 0, '2026-02-11 15:11:38'),
 (5, 4, 3, 'vcggf', NULL, 0, '2026-02-11 15:18:40'),
-(6, 4, 3, 'dsd', NULL, 0, '2026-02-11 18:41:29'),
-(7, 4, 3, 'bends', 6, 0, '2026-02-11 18:41:34');
+(6, 4, 3, 'hola', NULL, 0, '2026-02-13 15:18:53'),
+(7, 4, 3, 'aaa', 6, 0, '2026-02-13 15:19:05'),
+(8, 4, 3, 'ewre', 6, 0, '2026-02-13 21:16:32'),
+(9, 4, 3, 'hola', NULL, 0, '2026-02-13 21:22:48'),
+(10, 4, 3, 'hola', 9, 0, '2026-02-13 21:23:00');
 
 -- --------------------------------------------------------
 
@@ -119,8 +122,8 @@ CREATE TABLE `trabajos` (
 --
 
 INSERT INTO `trabajos` (`id`, `titulo`, `descripcion`, `categoria`, `presupuesto`, `id_cliente`, `id_autonomo`, `estado`, `fecha_creacion`) VALUES
-(5, 'Mantenimiento Servidores 2026', 'Revisión anual de sistemas', 'Sistemas', 450.00, 4, NULL, 'abierto', '2026-02-10 09:00:00'),
-(6, 'Desarrollo App Móvil 2025', 'Proyecto finalizado el año pasado', 'Desarrollo', 1200.00, 4, 3, 'completado', '2025-06-15 10:00:00'),
+(5, 'Mantenimiento Servidores 2026', 'Revisión anual de sistemas', 'Sistemas', 450.00, 4, 3, 'en_progreso', '2026-02-10 09:00:00'),
+(6, 'Desarrollo App Móvil 2026', 'Proyecto finalizado el año pasado', 'Desarrollo', 1200.00, 4, 3, 'completado', '2026-01-01 11:00:00'),
 (7, 'Consultoría Redes 2024', 'Instalación de fibra óptica', 'Redes', 300.00, 4, 3, 'completado', '2024-11-20 08:30:00');
 
 -- --------------------------------------------------------
@@ -207,7 +210,7 @@ ALTER TABLE `usuarios`
 -- AUTO_INCREMENT de la tabla `mensajes`
 --
 ALTER TABLE `mensajes`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT de la tabla `propuestas`

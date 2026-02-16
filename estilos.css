@@ -1,0 +1,1679 @@
+/*Estilos de index.php*/
+/* --- Configuración General --- */
+:root {
+    --primary-color: #2563eb;
+    --primary-dark: #1d4ed8;
+    --secondary-color: #64748b;
+    --text-dark: #1e293b;
+    --text-light: #f8fafc;
+    --bg-light: #f1f5f9;
+    --white: #ffffff;
+    --transition: all 0.3s ease;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+    background-color: var(--bg-light);
+    color: var(--text-dark);
+    line-height: 1.6;
+}
+
+/* --- Navegación --- */
+nav {
+    background-color: var(--white);
+    padding: 1rem 2rem;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+.nav-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.nav-container h1 {
+    color: var(--primary-color);
+    font-size: 1.8rem;
+    font-weight: 800;
+}
+
+.nav-links {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+}
+
+.nav-links a {
+    text-decoration: none;
+    color: var(--text-dark);
+    font-weight: 500;
+    transition: var(--transition);
+}
+
+.nav-links a:hover {
+    color: var(--primary-color);
+}
+
+/* Botones específicos del Nav */
+.btn-registro, .btn-area, .btn-logout {
+    padding: 0.6rem 1.2rem;
+    border-radius: 8px;
+    font-size: 0.9rem;
+}
+
+.btn-registro {
+    background-color: var(--primary-color);
+    color: var(--white) !important;
+}
+
+.btn-registro:hover {
+    background-color: var(--primary-dark);
+}
+
+.btn-area {
+    background-color: #f0fdf4;
+    color: #166534 !important;
+    border: 1px solid #bbf7d0;
+}
+
+.btn-logout {
+    color: #dc2626 !important;
+}
+
+.user-name {
+    font-weight: bold;
+    color: var(--secondary-color);
+}
+
+/* --- Hero Section (v2) --- */
+.hero-v2 {
+    height: 450px;
+    background: url('https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=1200') center/cover no-repeat;
+    position: relative;
+    color: var(--white);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+
+.hero-cliente { background-image: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('https://images.unsplash.com/photo-1521737711867-e3b97375f902?auto=format&fit=crop&w=1200'); }
+.hero-autonomo { background-image: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&w=1200'); }
+
+.hero-overlay {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+}
+
+.hero-text h1 {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+}
+
+.hero-text p {
+    font-size: 1.2rem;
+    margin-bottom: 2rem;
+    max-width: 800px;
+}
+
+/* Barra de búsqueda */
+.search-bar {
+    display: flex;
+    max-width: 600px;
+    background: var(--white);
+    padding: 5px;
+    border-radius: 50px;
+    overflow: hidden;
+}
+
+.search-bar input {
+    flex: 1;
+    border: none;
+    padding: 12px 20px;
+    outline: none;
+    font-size: 1rem;
+}
+
+.btn-primary {
+    background-color: var(--primary-color);
+    color: var(--white);
+    border: none;
+    padding: 12px 25px;
+    border-radius: 50px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: var(--transition);
+    text-decoration: none;
+    display: inline-block;
+}
+
+.btn-primary:hover { background-color: var(--primary-dark); }
+
+.hero-btns {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+}
+
+.btn-secondary {
+    background-color: var(--white);
+    color: var(--text-dark);
+    padding: 12px 25px;
+    border-radius: 50px;
+    text-decoration: none;
+    font-weight: bold;
+    transition: var(--transition);
+}
+
+/* --- Secciones y Grid --- */
+.section {
+    padding: 4rem 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.text-center { text-align: center; }
+
+.grid-categorias {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 2rem;
+    margin-top: 3rem;
+}
+
+.cat-card {
+    background: var(--white);
+    padding: 2.5rem;
+    border-radius: 15px;
+    text-align: center;
+    transition: var(--transition);
+    border: 1px solid #e2e8f0;
+    cursor: pointer;
+}
+
+.cat-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+}
+
+.cat-card .icon {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+}
+
+.cat-card h3 {
+    margin-bottom: 0.5rem;
+    color: var(--primary-color);
+}
+
+/* --- Footer --- */
+footer {
+    background-color: var(--text-dark);
+    color: var(--text-light);
+    padding: 2rem;
+    margin-top: auto; /* Esto empuja el footer al final si el padre es Flex */
+    width: 100%;
+}
+
+/* --- Ajustes Responsivos --- */
+@media (max-width: 768px) {
+    .hero-text h1 { font-size: 2rem; }
+    .nav-links { display: none; } /* Podrías añadir un menú hamburguesa luego */
+}
+
+/*Estilos para login.php*/
+
+/* --- Estilos Específicos para el Login --- */
+
+/* Contenedor principal para centrar el formulario en la pantalla */
+body:has(.container) {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background: linear-gradient(135deg, #f1f5f9 0%, #e2e8f0 100%);
+}
+
+.container {
+    background-color: var(--white);
+    padding: 2.5rem;
+    border-radius: 16px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+    width: 100%;
+    max-width: 400px;
+    animation: fadeIn 0.5s ease-out;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.container h2 {
+    color: var(--text-dark);
+    font-size: 1.8rem;
+    margin-bottom: 1.5rem;
+    text-align: center;
+    font-weight: 700;
+}
+
+/* Estilo de los Inputs */
+.container input[type="email"],
+.container input[type="password"] {
+    width: 100%;
+    padding: 12px 16px;
+    margin-bottom: 1.2rem;
+    border: 1px solid #cbd5e1;
+    border-radius: 8px;
+    font-size: 1rem;
+    transition: var(--transition);
+    outline: none;
+}
+
+.container input:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+}
+
+/* Botón de Ingreso */
+.container button[type="submit"] {
+    width: 100%;
+    background-color: var(--primary-color);
+    color: white;
+    padding: 12px;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.container button[type="submit"]:hover {
+    background-color: var(--primary-dark);
+    transform: translateY(-1px);
+}
+
+/* Mensajes de Error y Éxito */
+.container p[style*="color:red"] {
+    background-color: #fee2e2;
+    color: #b91c1c !important;
+    padding: 10px;
+    border-radius: 6px;
+    font-size: 0.9rem;
+    margin-bottom: 1rem;
+    text-align: center;
+    border: 1px solid #fecaca;
+}
+
+.container p[style*="color:green"] {
+    background-color: #dcfce7;
+    color: #15803d !important;
+    padding: 10px;
+    border-radius: 6px;
+    font-size: 0.9rem;
+    margin-bottom: 1rem;
+    text-align: center;
+    border: 1px solid #bbf7d0;
+}
+
+/* Enlaces del pie del formulario */
+.footer-links {
+    text-align: center;
+    border-top: 1px solid #e2e8f0;
+    padding-top: 1rem;
+}
+
+.footer-links a {
+    color: var(--primary-color);
+    text-decoration: none;
+    font-size: 0.9rem;
+    font-weight: 500;
+}
+
+.footer-links a:hover {
+    text-decoration: underline;
+}
+
+/*Estilo para registro.php*/
+
+/* =======================================================
+   ESTILOS COMPLETOS PARA REGISTRO.PHP
+   ======================================================= */
+
+/* 1. Contenedor del Formulario */
+.container {
+    background-color: var(--white);
+    padding: 2.5rem;
+    border-radius: 16px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+    width: 100%;
+    max-width: 500px; /* Un poco más ancho para albergar los selects */
+    margin: 40px auto;
+    animation: fadeIn 0.5s ease-out;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.container h2 {
+    color: var(--text-dark);
+    font-size: 1.8rem;
+    margin-bottom: 1.5rem;
+    text-align: center;
+    font-weight: 700;
+}
+
+/* 2. Todos los Inputs de Texto y Contraseña */
+.container input[type="text"],
+.container input[type="email"],
+.container input[type="password"] {
+    width: 100%;
+    padding: 12px 16px;
+    margin-bottom: 1.2rem;
+    border: 1px solid #cbd5e1;
+    border-radius: 8px;
+    font-size: 1rem;
+    transition: var(--transition);
+    outline: none;
+    background-color: var(--white);
+    color: var(--text-dark);
+}
+
+.container input:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+}
+
+/* 3. Estilos para los Selectores (Dropdowns) */
+.campo-grupo {
+    margin-bottom: 1.2rem;
+    text-align: left;
+    animation: slideDown 0.3s ease-out;
+}
+
+.campo-grupo label {
+    display: block;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--secondary-color);
+    margin-bottom: 6px;
+    margin-left: 2px;
+}
+
+.container select {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #cbd5e1;
+    border-radius: 8px;
+    background-color: #f8fafc;
+    font-size: 0.95rem;
+    color: var(--text-dark);
+    cursor: pointer;
+    transition: var(--transition);
+    outline: none;
+    appearance: none; /* Quita el estilo por defecto del sistema */
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%2364748b'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 12px center;
+    background-size: 16px;
+}
+
+.container select:focus {
+    border-color: var(--primary-color);
+    background-color: var(--white);
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+}
+
+/* 4. Botón de Registro */
+.container button[name="registrar"] {
+    width: 100%;
+    background-color: var(--primary-color);
+    color: white;
+    padding: 14px;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: var(--transition);
+    margin-top: 10px;
+    box-shadow: 0 4px 6px -1px rgba(37, 99, 235, 0.2);
+}
+
+.container button[name="registrar"]:hover {
+    background-color: var(--primary-dark);
+    transform: translateY(-1px);
+}
+
+/* 5. Utilidades y Lógica Visual */
+.oculto {
+    display: none;
+}
+
+@keyframes slideDown {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.footer-links {
+    text-align: center;
+    border-top: 1px solid #e2e8f0;
+    padding-top: 1rem;
+    margin-top: 15px;
+}
+
+.footer-links a {
+    color: var(--primary-color);
+    text-decoration: none;
+    font-size: 0.9rem;
+    font-weight: 500;
+}
+
+.footer-links a:hover {
+    text-decoration: underline;
+}
+
+/* Errores de Base de Datos */
+div[style*="color:red"] {
+    background-color: #fee2e2;
+    color: #b91c1c !important;
+    padding: 12px;
+    border-radius: 8px;
+    text-align: center;
+    margin: 20px auto;
+    max-width: 500px;
+    border: 1px solid #fecaca;
+    font-size: 0.9rem;
+}
+
+/*Estilo area_autonomo.php*/
+
+/* --- ESTILOS ESPECÍFICOS: ÁREA AUTÓNOMO --- */
+
+.dashboard-container {
+    max-width: 1100px;
+    margin: 30px auto;
+    padding: 20px;
+}
+
+.dashboard-container h2 {
+    font-size: 2rem;
+    color: var(--text-dark);
+    margin-bottom: 5px;
+}
+
+/* Rejilla de Estadísticas */
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+    margin-top: 30px;
+    margin-bottom: 40px;
+}
+
+.stat-card {
+    background: var(--white);
+    padding: 25px;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+    border: 1px solid #edf2f7;
+    transition: transform 0.2s ease;
+}
+
+.stat-card:hover {
+    transform: translateY(-5px);
+}
+
+.stat-card p {
+    color: var(--secondary-color);
+    font-size: 0.9rem;
+    font-weight: 500;
+    margin-bottom: 10px;
+}
+
+.stat-card h3 {
+    font-size: 1.8rem;
+    color: var(--primary-color);
+    margin-bottom: 5px;
+}
+
+/* Sección de Proyectos */
+.projects-section {
+    background: var(--white);
+    padding: 25px;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+}
+
+.projects-section h3 {
+    margin-bottom: 20px;
+    color: var(--text-dark);
+    font-size: 1.3rem;
+    border-bottom: 2px solid var(--bg-light);
+    padding-bottom: 10px;
+}
+
+/* Tabla de Proyectos */
+.table-projects {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: left;
+}
+
+.table-projects th {
+    background: #f8fafc;
+    padding: 12px 15px;
+    font-size: 0.85rem;
+    color: var(--secondary-color);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.table-projects td {
+    padding: 15px;
+    border-bottom: 1px solid #f1f5f9;
+    font-size: 0.95rem;
+}
+
+.table-projects tr:last-child td {
+    border-bottom: none;
+}
+
+/* Badges de Estado */
+.status-badge {
+    padding: 5px 12px;
+    border-radius: 20px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    display: inline-block;
+}
+
+.status-active {
+    background-color: #dcfce7;
+    color: #166534;
+    border: 1px solid #bbf7d0;
+}
+
+/* Ajustes de enlaces dentro de tarjetas */
+.stat-card a {
+    transition: color 0.2s;
+}
+
+.stat-card a:hover {
+    color: var(--primary-dark);
+    text-decoration: underline;
+}
+
+/* Diseño Responsivo para el Panel */
+@media (max-width: 768px) {
+    .table-projects thead {
+        display: none; /* Ocultar cabecera en móviles */
+    }
+    
+    .table-projects tr {
+        display: block;
+        margin-bottom: 15px;
+        border: 1px solid #f1f5f9;
+        border-radius: 8px;
+        padding: 10px;
+    }
+
+    .table-projects td {
+        display: block;
+        text-align: right;
+        padding: 8px 10px;
+        border-bottom: 1px dotted #f1f5f9;
+    }
+
+    .table-projects td::before {
+        content: attr(data-label);
+        float: left;
+        font-weight: bold;
+        color: var(--secondary-color);
+    }
+}
+
+/*Estilo para reporte_ingresos.php*/
+
+/* --- ESTILOS ESPECÍFICOS: REPORTE DE INGRESOS --- */
+
+.report-container {
+    max-width: 800px;
+    margin: 40px auto;
+    background: var(--white);
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+}
+
+.back-link {
+    display: inline-block;
+    text-decoration: none;
+    color: var(--secondary-color);
+    font-weight: 500;
+    margin-bottom: 25px;
+    font-size: 0.9rem;
+    transition: var(--transition);
+}
+
+.back-link:hover {
+    color: var(--primary-color);
+    transform: translateX(-5px);
+}
+
+.report-header h2 {
+    color: var(--text-dark);
+    font-size: 1.4rem;
+    margin-bottom: 20px;
+    padding-left: 10px;
+    border-left: 4px solid var(--primary-color);
+}
+
+/* Estilo de la Tabla de Reporte */
+.report-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+}
+
+.report-table th {
+    background-color: #f8fafc;
+    color: var(--secondary-color);
+    text-transform: uppercase;
+    font-size: 0.8rem;
+    letter-spacing: 0.05em;
+    padding: 15px;
+    text-align: left;
+    border-bottom: 2px solid #edf2f7;
+}
+
+.report-table td {
+    padding: 15px;
+    border-bottom: 1px solid #edf2f7;
+    color: var(--text-dark);
+    font-size: 1rem;
+}
+
+/* Resaltado de fila total */
+.total-row {
+    background-color: #f0f7ff;
+}
+
+.total-row td {
+    color: var(--primary-color);
+    font-size: 1.1rem;
+    border-top: 2px solid var(--primary-color);
+}
+
+/* Separador visual */
+.divider {
+    border: 0;
+    height: 1px;
+    background: #e2e8f0;
+    margin: 40px 0;
+}
+
+/* Contenedor responsivo para tablas */
+.table-responsive {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+}
+
+.text-center {
+    text-align: center;
+    color: var(--secondary-color);
+    font-style: italic;
+}
+
+/* Adaptación para pantallas pequeñas */
+@media (max-width: 600px) {
+    .report-container {
+        margin: 15px;
+        padding: 20px;
+    }
+    
+    .report-table th, 
+    .report-table td {
+        padding: 10px;
+        font-size: 0.9rem;
+    }
+}
+
+/*Estilos para area_cliente.php*/
+
+/* --- ESTILOS EXCLUSIVOS: ÁREA CLIENTE --- */
+
+/* Cabecera específica del cliente */
+.dashboard-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+/* Tarjeta de Inversión Resaltada */
+.stat-card.highlight {
+    background: var(--primary-color);
+    border: none;
+    transform: scale(1.02); /* Un toque de énfasis */
+}
+
+.stat-card.highlight p, 
+.stat-card.highlight h3 {
+    color: var(--white);
+}
+
+/* Sección de Tabla de Gestión */
+.main-card {
+    background: var(--white);
+    padding: 25px;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+}
+
+.data-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.data-table th {
+    text-align: left;
+    padding: 15px;
+    color: var(--secondary-color);
+    border-bottom: 2px solid var(--bg-light);
+    font-size: 0.85rem;
+    text-transform: uppercase;
+}
+
+.data-table td {
+    padding: 15px;
+    border-bottom: 1px solid #f1f5f9;
+}
+
+/* Píldoras de Estado (Pills) para el Cliente */
+.status-pill {
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    display: inline-block;
+}
+
+.pill-abierto { background: #fef9c3; color: #854d0e; border: 1px solid #fef08a; }
+.pill-proceso { background: #dbeafe; color: #1e40af; border: 1px solid #bfdbfe; }
+.pill-completado { background: #dcfce7; color: #166534; border: 1px solid #bbf7d0; }
+
+/* Botón de acción en la fila */
+.btn-action {
+    text-decoration: none;
+    color: var(--primary-color);
+    font-weight: 600;
+    font-size: 0.9rem;
+    transition: var(--transition);
+}
+
+.btn-action:hover {
+    color: var(--primary-dark);
+}
+
+/* Botón de Historial Ancho */
+.btn-secondary-full {
+    display: block;
+    text-align: center;
+    margin-top: 25px;
+    padding: 15px;
+    background: #f8fafc;
+    color: var(--secondary-color);
+    text-decoration: none;
+    border-radius: 8px;
+    border: 1px dashed #cbd5e1;
+    font-weight: 500;
+    transition: var(--transition);
+}
+
+.btn-secondary-full:hover {
+    background: #f1f5f9;
+    color: var(--text-dark);
+    border-style: solid;
+}
+
+.empty-text {
+    text-align: center;
+    padding: 40px !important;
+    color: #94a3b8;
+}
+
+/* Ajuste responsivo para el botón de nueva necesidad */
+@media (max-width: 600px) {
+    .dashboard-header .btn-primary {
+        width: 100%;
+        text-align: center;
+    }
+}
+
+/*Estilo de ver_propuestas.php*/
+
+/* --- ESTILOS ESPECÍFICOS: VER DETALLES / PROPUESTAS --- */
+
+.container-detalles {
+    max-width: 900px;
+    margin: 30px auto;
+    padding: 20px;
+}
+
+/* Ficha del Proyecto */
+.ficha-proyecto {
+    background: var(--white);
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+    margin-bottom: 30px;
+}
+
+.ficha-header h2 {
+    font-size: 1.8rem;
+    margin: 15px 0;
+    color: var(--text-dark);
+}
+
+.descripcion-proyecto {
+    color: var(--secondary-color);
+    line-height: 1.6;
+    margin-bottom: 20px;
+}
+
+.ficha-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 20px;
+    border-top: 1px solid #f1f5f9;
+    padding-top: 20px;
+}
+
+.resaltado-precio {
+    color: var(--primary-color);
+    font-weight: 800;
+    font-size: 1.2rem;
+}
+
+/* Badges de Estado en Detalle */
+.badge-estado {
+    padding: 6px 14px;
+    border-radius: 5px;
+    font-size: 0.75rem;
+    font-weight: 800;
+    letter-spacing: 1px;
+}
+.badge-estado.abierto { background: #dcfce7; color: #166534; }
+.badge-estado.en_progreso { background: #dbeafe; color: #1e40af; }
+
+/* Propuestas */
+.tarjeta-propuesta {
+    background: var(--white);
+    border: 1px solid #e2e8f0;
+    padding: 20px;
+    border-radius: 10px;
+    margin-bottom: 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+}
+
+/* --- ESTILO PARA MENSAJES DE ESTADO VACÍO --- */
+
+.vacio-texto {
+    text-align: center;
+    padding: 40px 20px;
+    background-color: #f8fafc; /* Un gris muy suave */
+    border: 2px dashed #e2e8f0; /* Borde discontinuo para indicar área vacía */
+    border-radius: 12px;
+    color: #64748b; /* Color pizarra suave */
+    font-size: 1rem;
+    font-style: italic;
+    margin: 20px 0;
+    line-height: 1.5;
+}
+
+/* Opcional: Agregar un pequeño detalle antes del texto */
+.vacio-texto::before {
+    content: "📋"; /* Icono de portapapeles o similar */
+    display: block;
+    font-size: 2rem;
+    margin-bottom: 10px;
+    filter: grayscale(1);
+    opacity: 0.6;
+}
+
+.propuesta-texto h4 {
+    margin-bottom: 5px;
+    color: var(--text-dark);
+}
+
+.propuesta-texto small {
+    color: #94a3b8;
+}
+
+/* Botones de Propuesta */
+.propuesta-acciones {
+    display: flex;
+    gap: 10px;
+}
+
+.btn-chat, .btn-aceptar, .btn-contacto {
+    padding: 10px 18px;
+    border-radius: 6px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    text-decoration: none;
+    transition: var(--transition);
+}
+
+.btn-chat { background: #f1f5f9; color: var(--text-dark); }
+.btn-aceptar { background: var(--primary-color); color: white; }
+.btn-contacto { background: var(--text-dark); color: white; text-align: center; }
+
+/* Expertos sugeridos */
+.otros-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 15px;
+    margin-top: 15px;
+}
+
+.tarjeta-sugerido {
+    background: #f8fafc;
+    padding: 15px;
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.tarjeta-sugerido span {
+    font-size: 0.8rem;
+    color: var(--secondary-color);
+    margin-bottom: 10px;
+}
+
+@media (max-width: 600px) {
+    .tarjeta-propuesta {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    .propuesta-acciones {
+        width: 100%;
+    }
+    .propuesta-acciones a {
+        flex: 1;
+        text-align: center;
+    }
+}
+
+/*Estilo de mis_pagos.php*/
+
+/* --- ESTILOS ESPECÍFICOS: MIS PAGOS --- */
+
+.container-pagos {
+    max-width: 950px;
+    margin: 30px auto;
+    padding: 0 20px;
+}
+
+/* Banner de Resumen de Inversión */
+.banner-inversion {
+    background: linear-gradient(135deg, var(--primary-color) 0%, #1e40af 100%);
+    color: white;
+    padding: 40px;
+    border-radius: 15px;
+    text-align: center;
+    margin-bottom: 30px;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+    position: relative;
+    overflow: hidden;
+}
+
+.banner-inversion p {
+    font-size: 1rem;
+    opacity: 0.9;
+    margin-bottom: 10px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.monto-grande {
+    font-size: 3.2rem;
+    font-weight: 800;
+    margin: 0;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.2);
+}
+
+/* Tabla de Gastos Personalizada */
+.tabla-gastos {
+    width: 100%;
+    border-collapse: collapse;
+    background: var(--white);
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+.tabla-gastos th {
+    background: #f8fafc;
+    padding: 15px;
+    text-align: left;
+    color: var(--secondary-color);
+    font-size: 0.85rem;
+    border-bottom: 2px solid #edf2f7;
+}
+
+.tabla-gastos td {
+    padding: 20px 15px;
+    border-bottom: 1px solid #f1f5f9;
+    vertical-align: middle;
+}
+
+/* Detalles del Servicio dentro de la tabla */
+.nombre-servicio {
+    display: block;
+    font-weight: 700;
+    color: var(--text-dark);
+    margin-bottom: 3px;
+}
+
+.nombre-tecnico {
+    display: block;
+    color: var(--secondary-color);
+    font-size: 0.8rem;
+}
+
+.precio-celda {
+    font-weight: 800;
+    color: var(--text-dark);
+    text-align: right;
+    font-size: 1.1rem;
+}
+
+/* Pie de página de la sección (Enlace al archivo) */
+.archivo-footer {
+    text-align: center;
+    padding: 20px;
+    margin-top: auto; /* Esta es la clave para empujarlo al fondo */
+    border-top: 1px dashed #cbd5e1;
+    width: 100%;
+}
+
+/* --- BOTÓN DE ARCHIVO (VERSIÓN MINIMALISTA) --- */
+
+.btn-archivo {
+    display: inline-flex;
+    align-items: center;
+    padding: 10px 22px;
+    background: #ffffff;
+    color: var(--secondary-color);
+    font-size: 0.9rem;
+    font-weight: 500;
+    text-decoration: none;
+    border: 1px solid #e2e8f0;
+    border-radius: 50px; /* Estilo píldora */
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.02);
+}
+
+.btn-archivo:hover {
+    background-color: var(--primary-color);
+    color: #ffffff;
+    border-color: var(--primary-color);
+    box-shadow: 0 4px 12px rgba(0, 123, 255, 0.2);
+    transform: translateY(-1px);
+}
+
+/* Adaptación para pantallas pequeñas */
+@media (max-width: 600px) {
+    .banner-inversion {
+        padding: 30px 15px;
+    }
+
+    .monto-grande {
+        font-size: 2.2rem;
+    }
+    
+    /* Ocultamos la fecha en móvil para priorizar el nombre y el precio */
+    .tabla-gastos th:nth-child(2), 
+    .tabla-gastos td:nth-child(2) {
+        display: none; 
+    }
+
+    .precio-celda {
+        font-size: 1rem;
+    }
+}
+
+/*Estilo para archivo_gastos.php*/
+
+/* --- ESTILOS ESPECÍFICOS: ARCHIVO DE GASTOS --- */
+
+.container-archivo {
+    max-width: 1100px;
+    margin: 40px auto;
+    padding: 0 20px;
+}
+
+.seccion-historial h3 {
+    font-size: 1.5rem;
+    color: var(--text-dark);
+    margin-bottom: 30px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid #e2e8f0;
+}
+
+/* Grid de Tarjetas Anuales */
+.grid-historial {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 30px;
+}
+
+.tarjeta-anio {
+    background: var(--white);
+    padding: 30px;
+    border-radius: 16px;
+    border: 1px solid #e2e8f0;
+    text-align: center;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.02);
+}
+
+.tarjeta-anio:hover {
+    transform: translateY(-10px);
+    border-color: var(--primary-color);
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.08);
+}
+
+/* El año resaltado como una etiqueta */
+.etiqueta-anio {
+    background: #f1f5f9;
+    color: var(--primary-color);
+    font-size: 1.4rem;
+    font-weight: 800;
+    padding: 8px 20px;
+    border-radius: 50px;
+    margin-bottom: 20px;
+    transition: var(--transition);
+}
+
+.tarjeta-anio:hover .etiqueta-anio {
+    background: var(--primary-color);
+    color: var(--white);
+}
+
+/* Información del año */
+.info-anio p {
+    color: var(--secondary-color);
+    font-size: 0.95rem;
+    margin-bottom: 5px;
+}
+
+.monto-anio {
+    display: block;
+    font-size: 1.8rem;
+    font-weight: 800;
+    color: var(--text-dark);
+    margin: 10px 0 25px 0;
+}
+
+/* Botón de acción interno */
+.btn-detalle {
+    width: 100%;
+    padding: 12px;
+    background: #f8fafc;
+    color: var(--secondary-color);
+    text-decoration: none;
+    border-radius: 10px;
+    font-weight: 600;
+    font-size: 0.9rem;
+    border: 1px solid #edf2f7;
+    transition: var(--transition);
+}
+
+.tarjeta-anio:hover .btn-detalle {
+    background: var(--text-dark);
+    color: var(--white);
+    border-color: var(--text-dark);
+}
+
+/* Estado vacío */
+.vacio-texto {
+    grid-column: 1 / -1;
+    text-align: center;
+    padding: 60px;
+    background: #f8fafc;
+    border: 2px dashed #cbd5e1;
+    border-radius: 20px;
+    color: var(--secondary-color);
+    font-style: italic;
+}
+
+/* Adaptación móvil */
+@media (max-width: 600px) {
+    .container-archivo {
+        margin: 20px auto;
+    }
+    .grid-historial {
+        grid-template-columns: 1fr;
+    }
+}
+
+/*Estlo para historial_anual.php*/
+
+/* --- ESTILOS ESPECÍFICOS: HISTORIAL ANUAL --- */
+
+.container-anual {
+    max-width: 900px;
+    margin: 40px auto;
+    padding: 0 20px;
+}
+
+/* Cabecera de Resumen del Año */
+.header-resumen {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: var(--white);
+    padding: 30px;
+    border-radius: 12px;
+    margin-bottom: 30px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.02);
+    border-left: 5px solid var(--primary-color);
+}
+
+.header-resumen h2 {
+    font-size: 1.5rem;
+    color: var(--text-dark);
+}
+
+.caja-total p {
+    font-size: 0.85rem;
+    color: var(--secondary-color);
+    text-transform: uppercase;
+    font-weight: 700;
+}
+
+.monto-total {
+    font-size: 2.2rem;
+    font-weight: 800;
+    color: var(--primary-color);
+}
+
+/* Listado de Trabajos */
+.item-trabajo {
+    background: var(--white);
+    margin-bottom: 20px;
+    padding: 25px;
+    border-radius: 12px;
+    display: flex;
+    justify-content: space-between;
+    gap: 30px;
+    border: 1px solid #edf2f7;
+    transition: var(--transition);
+}
+
+.item-trabajo:hover {
+    border-color: var(--primary-color);
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.05);
+}
+
+.col-detalles {
+    flex: 1;
+}
+
+.fecha-label {
+    font-size: 0.75rem;
+    color: var(--secondary-color);
+    background: #f1f5f9;
+    padding: 4px 10px;
+    border-radius: 4px;
+    font-weight: 700;
+}
+
+.item-trabajo h3 {
+    margin: 15px 0 10px 0;
+    color: var(--text-dark);
+    font-size: 1.25rem;
+}
+
+.desc-corta {
+    font-size: 0.95rem;
+    color: #475569;
+    line-height: 1.6;
+    margin-bottom: 15px;
+}
+
+/* Información del Técnico */
+.info-tecnico {
+    font-size: 0.85rem;
+    color: var(--secondary-color);
+    border-top: 1px solid #f1f5f9;
+    padding-top: 10px;
+}
+
+.info-tecnico strong {
+    color: var(--text-dark);
+}
+
+/* Columna de Precio y Referencia */
+.col-precio {
+    text-align: right;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    min-width: 130px;
+    border-left: 1px dashed #e2e8f0;
+    padding-left: 20px;
+}
+
+.col-precio small {
+    color: #94a3b8;
+    font-family: monospace;
+    font-size: 0.85rem;
+    margin-bottom: 5px;
+}
+
+.precio-final {
+    font-size: 1.6rem;
+    font-weight: 800;
+    color: var(--text-dark);
+}
+
+/* Adaptación para móviles */
+@media (max-width: 650px) {
+    .header-resumen {
+        flex-direction: column;
+        text-align: center;
+        gap: 15px;
+    }
+
+    .item-trabajo {
+        flex-direction: column;
+        gap: 20px;
+    }
+
+    .col-precio {
+        text-align: left;
+        border-left: none;
+        border-top: 1px dashed #e2e8f0;
+        padding-left: 0;
+        padding-top: 15px;
+    }
+}
+
+
+/*Estilos para mensajes.php*/
+
+/* ============================================================
+   DISEÑO DE CHAT PROFESIONAL (OPTIMIZADO PARA PC)
+   ============================================================ */
+
+:root {
+    --bg-chat: #f0f2f5;
+    --white: #ffffff;
+    --border-color: #e2e8f0;
+    --text-main: #2d3748;
+    --text-muted: #718096;
+}
+
+/* Contenedor Principal */
+.main-container {
+    max-width: 1200px;
+    margin: 20px auto;
+    padding: 0 20px;
+}
+
+.chat-wrapper {
+    display: flex;
+    background: var(--white);
+    height: 80vh; /* Altura fija para PC */
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+    border: 1px solid var(--border-color);
+}
+
+/* BARRA LATERAL (Contactos) */
+.chat-sidebar {
+    width: 320px;
+    border-right: 1px solid var(--border-color);
+    display: flex;
+    flex-direction: column;
+    background: #f8fafc;
+}
+
+.sidebar-header {
+    padding: 20px;
+    background: var(--white);
+    border-bottom: 1px solid var(--border-color);
+}
+
+.sidebar-header h3 {
+    margin: 0;
+    font-size: 1.1rem;
+    color: var(--text-main);
+}
+
+.contacts-scroll {
+    flex: 1;
+    overflow-y: auto;
+}
+
+.chat-contact-item {
+    display: block;
+    padding: 15px 20px;
+    text-decoration: none;
+    color: var(--text-main);
+    border-bottom: 1px solid #f1f5f9;
+    transition: background 0.2s;
+}
+
+.chat-contact-item:hover {
+    background: #2d82d6;
+}
+
+.chat-contact-item.active {
+    background: #85d0f8;
+    border-left: 4px solid var(--primary);
+}
+
+.contact-name {
+    font-weight: 700;
+}
+
+/* ÁREA DE MENSAJES */
+.chat-main {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    background: var(--white);
+    position: relative;
+}
+
+.chat-header {
+    padding: 15px 25px;
+    background: var(--white);
+    border-bottom: 1px solid var(--border-color);
+    font-weight: 700;
+    font-size: 1.1rem;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.chat-messages {
+    flex: 1;
+    padding: 30px;
+    overflow-y: auto;
+    background: var(--bg-chat); /* Color de fondo tipo WhatsApp/Telegram */
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+/* BURBUJAS DE MENSAJE */
+.message {
+    max-width: 60%; /* Ancho reducido para PC */
+    padding: 10px 15px;
+    border-radius: 12px;
+    position: relative;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+    font-size: 0.95rem;
+    line-height: 1.5;
+}
+
+.msg-sent {
+    align-self: flex-end;
+    background: var(--primary); /* Usa tu color azul principal */
+    color: rgb(0, 0, 0);
+    border-bottom-right-radius: 2px;
+}
+
+.msg-received {
+    align-self: flex-start;
+    background: white;
+    color: var(--text-main);
+    border-bottom-left-radius: 2px;
+}
+
+/* Respuestas dentro de la burbuja */
+.reply-bubble {
+    background: rgba(0, 0, 0, 0.06);
+    padding: 6px 10px;
+    border-radius: 6px;
+    margin-bottom: 8px;
+    font-size: 0.85em;
+    border-left: 4px solid var(--accent);
+}
+
+.meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 5px;
+    opacity: 0.7;
+}
+
+.meta button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: inherit;
+    padding: 2px 5px;
+}
+
+/* BARRA DE ENTRADA (Formulario) */
+.chat-form {
+    padding: 20px;
+    background: var(--white);
+    border-top: 1px solid var(--border-color);
+    display: flex;
+    gap: 12px;
+}
+
+.chat-form input[type="text"] {
+    flex: 1;
+    padding: 12px 18px;
+    border: 1px solid var(--border-color);
+    border-radius: 25px; /* Estilo redondeado moderno */
+    outline: none;
+    background: #f8fafc;
+    transition: border 0.2s;
+}
+
+.chat-form input[type="text"]:focus {
+    border-color: var(--primary);
+    background: var(--white);
+}
+
+.btn-send {
+    background: var(--primary);
+    color: rgb(0, 0, 0);
+    border: none;
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.2s;
+}
+
+.btn-send:hover {
+    transform: scale(1.05);
+}
+
+/* PREVISUALIZACIÓN DE RESPUESTA */
+#reply-preview {
+    display: none;
+    padding: 10px 25px;
+    background: #fffbeb;
+    border-top: 1px solid #fef3c7;
+}
+
+.reply-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.9rem;
+    color: #92400e;
+}
+
+.reply-bar button {
+    border: none;
+    background: none;
+    cursor: pointer;
+    font-size: 1.4rem;
+}
+
+/* ESTADO VACÍO */
+.chat-welcome {
+    margin: auto;
+    text-align: center;
+    color: var(--text-muted);
+}
+
+.chat-welcome i {
+    font-size: 4rem;
+    margin-bottom: 15px;
+    display: block;
+}
+
+/* Personalización del Scroll */
+.chat-messages::-webkit-scrollbar {
+    width: 6px;
+}
+.chat-messages::-webkit-scrollbar-thumb {
+    background: #7db5f1;
+    border-radius: 10px;
+}

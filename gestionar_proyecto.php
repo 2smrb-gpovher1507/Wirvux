@@ -74,9 +74,7 @@ if (!$proyecto) {
         <p style="font-size: 1.2em; color: #333;"><strong>Presupuesto acordado:</strong> <?php echo number_format($proyecto['presupuesto'], 2); ?> €</p>
 
         <?php if ($proyecto['estado'] == 'en_progreso'): ?>
-            <form method="POST" onsubmit="return confirm('¿Estás seguro de marcar este proyecto como completado? Esto sumará el dinero a tus ingresos.');">
-                <button type="submit" name="finalizar" class="btn-finalizar">Marcar como Completado y Finalizar</button>
-            </form>
+            
         <?php else: ?>
             <div style="padding: 15px; background: #e9ecef; border-radius: 8px; text-align: center; color: #495057;">
                 Este proyecto ya ha sido finalizado.

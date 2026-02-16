@@ -1,0 +1,53 @@
+Archivos clientes:
+
+    - area_cliente.php (en proceso)
+        - mis_pagos.php (terminado)
+            - archivo_gastos.php (terminado)
+                historial_anual.php (terminado)
+        - ver_propuestas.php (En proceso)
+    - historial_anual.php (En proceso)
+
+
+
+    archivos para los dos:
+    
+    - index.php (En proceso)
+    - mensajes.php (terminado)
+
+Archivos autonomo:
+    - area_autonomo.php (terminado)
+        - gestionar_proyecto.php
+        - reporte_ingresos.php
+
+
+
+
+Tareas:
+
+    area_cliente.php
+        - Boton de nueva necesidad que enlace a algun lado funcional
+
+    index.php
+        Autonomo:
+
+        - solicitudes.php (sin empezar)
+        - perfil.php (sin empezar)
+        
+        archivos para los dos:
+        
+        - explorar.php (sin empezar)
+
+        clientes:
+
+        - ver_propuestas.php 
+            - Boton de contactar con el tecnico asignado dando igual si ya esta asignado o el trabajo fue completado.
+            - boton que al no tener tecnico poder enviar solicitud de si quiere el trabajo al tecnico que quieras del sector de la tarea.
+            - Boton de cancelacion y marcado de completado y de edicion de del proyecto.
+
+        - historial_anual.php
+            - forma de contactar con el autonomo de cada proyecto en caso de querer hablar con el para otro proyecto.
+
+
+    Extras:
+
+        - revisar area_autonomo.php (en proceso)

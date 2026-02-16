@@ -36,12 +36,6 @@ if (isset($_POST['registrar'])) {
     <meta charset="UTF-8">
     <link rel="stylesheet" href="estilos.css">
     <title>Registro - ConectaPro</title>
-    <style>
-        .oculto { display: none; }
-        .campo-grupo { margin-top: 15px; text-align: left; }
-        select, input { width: 100%; padding: 10px; margin-top: 5px; box-sizing: border-box; }
-        .container { max-width: 400px; margin: 0 auto; padding: 20px; text-align: center; }
-    </style>
 </head>
 <body>
     <div class="container">
