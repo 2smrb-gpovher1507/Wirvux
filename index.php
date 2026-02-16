@@ -22,7 +22,7 @@ $nombre_usuario = isset($_SESSION['nombre_completo']) ? explode(' ', $_SESSION['
             <div class="nav-links">
                 <?php if($tipo == 'invitado'): ?>
                     <a href="#servicios">Servicios</a>
-                    <a href="login.php">Login</a>
+                    <a href="login.php">Iniciar sesion</a>
                     <a href="registro.php" class="btn-registro">Únete ahora</a>
                 <?php else: ?>
                     <a href="<?php echo ($tipo == 'cliente') ? 'area_cliente.php' : 'area_autonomo.php'; ?>" class="btn-area">
