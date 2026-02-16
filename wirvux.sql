@@ -2,8 +2,8 @@
 -- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
--- Servidor: localhost
--- Tiempo de generación: 16-02-2026 a las 16:12:14
+-- Servidor: 127.0.0.1
+-- Tiempo de generación: 16-02-2026 a las 18:29:56
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -123,7 +123,7 @@ CREATE TABLE `trabajos` (
 
 INSERT INTO `trabajos` (`id`, `titulo`, `descripcion`, `categoria`, `presupuesto`, `id_cliente`, `id_autonomo`, `estado`, `fecha_creacion`) VALUES
 (5, 'Mantenimiento Servidores 2026', 'Revisión anual de sistemas', 'Sistemas', 450.00, 4, 3, 'en_progreso', '2026-02-10 09:00:00'),
-(6, 'Desarrollo App Móvil 2026', 'Proyecto finalizado el año pasado', 'Desarrollo', 1200.00, 4, 3, 'completado', '2026-01-01 11:00:00'),
+(6, 'Desarrollo App Móvil 2026', 'Proyecto finalizado el año pasado', 'Desarrollo Web', 1200.00, 4, NULL, 'abierto', '2026-01-01 11:00:00'),
 (7, 'Consultoría Redes 2024', 'Instalación de fibra óptica', 'Redes', 300.00, 4, 3, 'completado', '2024-11-20 08:30:00');
 
 -- --------------------------------------------------------
@@ -148,7 +148,7 @@ CREATE TABLE `usuarios` (
 --
 
 INSERT INTO `usuarios` (`id`, `nombre`, `apellidos`, `email`, `password`, `tipo_usuario`, `categoria_principal`, `especialidad`) VALUES
-(3, 'gabriel', 'poveda', 'gpovher1507@gmail.com', '$2y$10$fmGH8Lap5FEYUx/L3xk/8OQq49Vnq0jKT7h8XHQvVF2g8DaGpKenq', 'autonomo', 'Tecnología', 'Sistemas'),
+(3, 'gabriel', 'poveda', 'gpovher1507@gmail.com', '$2y$10$fmGH8Lap5FEYUx/L3xk/8OQq49Vnq0jKT7h8XHQvVF2g8DaGpKenq', 'autonomo', 'Tecnología', 'Desarrollo Web'),
 (4, 'gabriel', 'poveda', 'povedagabriel666@gmail.com', '$2y$10$lpmG79Ok8L.A8DDTzAjyweyZ.6zVfJorJAUqQLuukRHEeR72/uDd2', 'cliente', '', '');
 
 --
@@ -234,7 +234,7 @@ ALTER TABLE `solicitudes`
 -- AUTO_INCREMENT de la tabla `trabajos`
 --
 ALTER TABLE `trabajos`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT de la tabla `usuarios`
