@@ -39,14 +39,14 @@ $nombre_usuario = isset($_SESSION['nombre_completo']) ? explode(' ', $_SESSION['
         <header class="hero-v2 hero-cliente">
             <div class="hero-overlay">
                 <div class="hero-text">
-                    <h1>¿Qué problema resolvemos hoy?</h1>
-                    <p style = "margin-left: 190px;">Encuentra técnicos expertos o publica lo que necesitas para recibir ofertas.</p>
-                    <div style="margin-left: 160px;">
+                    <h1 style = "margin-left: 100px;">¿Qué problema resolvemos hoy?</h1>
+                    <p style = "margin-left: 90px;">Encuentra técnicos expertos o publica lo que necesitas para recibir ofertas.</p>
+                    <!--<div style="margin-left: 160px;">
                     <form action="explorar.php" method="GET" class="search-bar">
                         <input type="text" name="q" placeholder="Ej: Reparar laptop, programar web...">
                         <button type="submit" class="btn-primary">Buscar Experto</button>
                     </form>
-                    </div>
+                    </div>-->
 
                 </div>
             </div>
@@ -59,8 +59,8 @@ $nombre_usuario = isset($_SESSION['nombre_completo']) ? explode(' ', $_SESSION['
                     <h1>Panel de Oportunidades</h1>
                     <p>Revisa los nuevos trabajos disponibles en tu rama profesional.</p>
                     <div class="hero-btns">
-                        <a href="solicitudes.php" class="btn-primary">Ver Ventana de Solicitudes</a>
-                        <a href="perfil.php" class="btn-secondary">Mi Perfil Público</a>
+                        <!--<a href="solicitudes.php" class="btn-primary">Ver Ventana de Solicitudes</a>
+                        <a href="perfil.php" class="btn-secondary">Mi Perfil Público</a>-->
                     </div>
                 </div>
             </div>
@@ -70,7 +70,7 @@ $nombre_usuario = isset($_SESSION['nombre_completo']) ? explode(' ', $_SESSION['
         <header class="hero-v2">
             <div class="hero-overlay">
                 <div class="hero-text">
-                    <h1>Tu proyecto merece un experto.</h1>
+                    <h1 style = "margin-left: 160px;">Tu proyecto merece un experto.</h1>
                     <p style = "margin-left: 160px;">Wirvux conecta profesionales autónomos con clientes que buscan calidad.</p>
                     
                 </div>
@@ -81,33 +81,78 @@ $nombre_usuario = isset($_SESSION['nombre_completo']) ? explode(' ', $_SESSION['
     <section id="servicios" class="section">
         <h2 class="text-center">Categorías Populares</h2>
         <div class="grid-categorias">
-            <a href="explorar.php?q=Reparacion" style="text-decoration: none; color: inherit;">
+            <!--<a href="explorar.php?q=Reparacion" style="text-decoration: none; color: inherit;">-->
                 <div class="cat-card">
                     <div class="icon">🛠️</div>
                     <h3>Reparaciones</h3>
                     <p>Hardware y equipos informáticos.</p>
                 </div>
-            </a>
-            <a href="explorar.php?q=Configuracion" style="text-decoration: none; color: inherit;">
+            <!--</a>-->
+            <!--<a href="explorar.php?q=Configuracion" style="text-decoration: none; color: inherit;">-->
                 <div class="cat-card">
                     <div class="icon">🖥️</div>
                     <h3>Configuración</h3>
                     <p>Sistemas, Redes y Seguridad.</p>
                 </div>
-            </a>
-            <a href="explorar.php?q=Programacion" style="text-decoration: none; color: inherit;">
+            <!--</a>-->
+            <!--<a href="explorar.php?q=Programacion" style="text-decoration: none; color: inherit;">-->
                 <div class="cat-card">
                     <div class="icon">💻</div>
                     <h3>Programación</h3>
                     <p>Software, Web y Apps a medida.</p>
                 </div>
-            </a>
+            <!--</a>-->
         </div>
     </section>
 
     <footer class="text-center">
         <p>&copy; 2026 Wirvux - Conectando Talento Profesional</p>
     </footer>
+
+
+
+
+
+    <script>
+    const btn = document.getElementById('theme-toggle');
+    const icon = document.getElementById('theme-icon');
+    const text = document.getElementById('theme-text');
+
+    // 1. Al cargar la página: Comprobar si ya había una preferencia guardada
+    const currentTheme = localStorage.getItem('theme');
+    if (currentTheme === 'dark') {
+        document.body.classList.add('dark-mode');
+        if(icon) icon.innerText = '☀️';
+        if(text) text.innerText = 'Modo Claro';
+    }
+
+    // 2. Al hacer clic: Cambiar el tema y guardar la elección
+    btn.addEventListener('click', () => {
+        document.body.classList.toggle('dark-mode');
+        
+        let theme = 'light';
+        if (document.body.classList.contains('dark-mode')) {
+            theme = 'dark';
+            if(icon) icon.innerText = '☀️';
+            if(text) text.innerText = 'Modo Claro';
+        } else {
+            if(icon) icon.innerText = '🌙';
+            if(text) text.innerText = 'Modo Oscuro';
+        }
+        
+        // Guardamos la elección para la próxima vez
+        localStorage.setItem('theme', theme);
+    });
+</script>
+
+
+
+
+
+
+
+
+
 
 </body>
 </html>

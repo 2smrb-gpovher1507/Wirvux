@@ -46,3 +46,26 @@ Tareas:
         - historial_anual.php
             - forma de contactar con el autonomo de cada proyecto en caso de querer hablar con el para otro proyecto.
 
+
+
+
+
+
+
+
+
+COSAS COMENTADAS:
+
+Busca en index.php <!-- y todo eso es lo que quite que no funcionaba aun
+
+en index por parte de autonomo oculte el boton de ver ventana de solicitudes y el boton de mi perfil publico
+
+
+
+En estilos.css oculte cursor: pointer; con /**/
+
+
+
+
+
+oculte en area_autonomo.php el boton Buscar proyecto con <!-- que aun no funcionaba.

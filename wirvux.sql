@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 16-02-2026 a las 18:29:56
+-- Tiempo de generación: 17-02-2026 a las 21:58:28
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -122,7 +122,7 @@ CREATE TABLE `trabajos` (
 --
 
 INSERT INTO `trabajos` (`id`, `titulo`, `descripcion`, `categoria`, `presupuesto`, `id_cliente`, `id_autonomo`, `estado`, `fecha_creacion`) VALUES
-(5, 'Mantenimiento Servidores 2026', 'Revisión anual de sistemas', 'Sistemas', 450.00, 4, 3, 'en_progreso', '2026-02-10 09:00:00'),
+(5, 'Mantenimiento Servidores 2026', 'Revisión anual de sistemas', 'Sistemas', 450.00, 4, 3, 'completado', '2024-02-10 09:00:00'),
 (6, 'Desarrollo App Móvil 2026', 'Proyecto finalizado el año pasado', 'Desarrollo Web', 1200.00, 4, NULL, 'abierto', '2026-01-01 11:00:00'),
 (7, 'Consultoría Redes 2024', 'Instalación de fibra óptica', 'Redes', 300.00, 4, 3, 'completado', '2024-11-20 08:30:00');
 
@@ -234,7 +234,7 @@ ALTER TABLE `solicitudes`
 -- AUTO_INCREMENT de la tabla `trabajos`
 --
 ALTER TABLE `trabajos`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT de la tabla `usuarios`

@@ -20,7 +20,7 @@ $query_gastos = "SELECT t.*, u.nombre as tecnico_nombre
                  ORDER BY t.fecha_creacion DESC";
 $res_gastos = mysqli_query($conexion, $query_gastos);
 
-// CONSULTA 2: Acumulado de inversión SOLO del año actual
+// CONSULTA 2: Acumulado de inversión
 $res_total = mysqli_query($conexion, "SELECT SUM(presupuesto) as total 
                                      FROM trabajos 
                                      WHERE id_cliente = $id_cliente 
@@ -100,7 +100,34 @@ $total_invertido = $total_data['total'] ?? 0;
     <footer class="text-center">
         <p>&copy; 2026 Wirvux - Sistema de Gestión de Gastos</p>
     </footer>
-    
 
+    <script>
+        const btn = document.getElementById('theme-toggle');
+        const icon = document.getElementById('theme-icon');
+        const text = document.getElementById('theme-text');
+
+        // Función para aplicar el tema
+        function applyTheme(theme) {
+            if (theme === 'dark') {
+                document.body.classList.add('dark-mode');
+                if(icon) icon.innerText = '☀️';
+                if(text) text.innerText = 'Modo Claro';
+            } else {
+                document.body.classList.remove('dark-mode');
+                if(icon) icon.innerText = '🌙';
+                if(text) text.innerText = 'Modo Oscuro';
+            }
+        }
+
+        // Al cargar la página
+        applyTheme(localStorage.getItem('theme'));
+
+        // Al hacer clic
+        btn.addEventListener('click', () => {
+            const isDark = document.body.classList.toggle('dark-mode');
+            localStorage.setItem('theme', isDark ? 'dark' : 'light');
+            applyTheme(isDark ? 'dark' : 'light');
+        });
+    </script>
 </body>
 </html>
