@@ -104,5 +104,53 @@ $res_anual = mysqli_query($conexion, $query_anual);
     <footer class="text-center">
         <p>&copy; 2026 Wirvux - Historial de Servicios</p>
     </footer>
+
+
+
+
+
+
+
+
+    <script>
+    const btn = document.getElementById('theme-toggle');
+    const icon = document.getElementById('theme-icon');
+    const text = document.getElementById('theme-text');
+
+    // 1. Al cargar la página: Comprobar si ya había una preferencia guardada
+    const currentTheme = localStorage.getItem('theme');
+    if (currentTheme === 'dark') {
+        document.body.classList.add('dark-mode');
+        if(icon) icon.innerText = '☀️';
+        if(text) text.innerText = 'Modo Claro';
+    }
+
+    // 2. Al hacer clic: Cambiar el tema y guardar la elección
+    btn.addEventListener('click', () => {
+        document.body.classList.toggle('dark-mode');
+        
+        let theme = 'light';
+        if (document.body.classList.contains('dark-mode')) {
+            theme = 'dark';
+            if(icon) icon.innerText = '☀️';
+            if(text) text.innerText = 'Modo Claro';
+        } else {
+            if(icon) icon.innerText = '🌙';
+            if(text) text.innerText = 'Modo Oscuro';
+        }
+        
+        // Guardamos la elección para la próxima vez
+        localStorage.setItem('theme', theme);
+    });
+</script>
+
+
+
+
+
+
+
+
+
 </body>
 </html>

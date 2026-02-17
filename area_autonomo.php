@@ -76,7 +76,10 @@ $res_lista = mysqli_query($conexion, $query_lista);
             <h1>Wirvux Panel</h1>
             <div class="nav-links">
                 <a href="index.php">Inicio</a>
-                <a href="solicitudes.php">Buscar Proyectos</a>
+                <button id="theme-toggle" class="theme-switch">
+                <span id="theme-icon">🌙</span> <span id="theme-text">Modo Oscuro</span>
+                </button>
+                <!--<a href="solicitudes.php">Buscar Proyectos</a>-->
                 <a href="logout.php" class="btn-logout">Cerrar Sesión</a>
             </div>
         </div>
@@ -146,6 +149,34 @@ $res_lista = mysqli_query($conexion, $query_lista);
     <footer class="text-center">
         <p>&copy; 2026 Wirvux - Area autonomo</p>
     </footer>
+
+
+
+
+    <script>
+    const btn = document.getElementById('theme-toggle');
+    const icon = document.getElementById('theme-icon');
+    const text = document.getElementById('theme-text');
+
+    // Al cargar: Aplicar el tema guardado
+    if (localStorage.getItem('theme') === 'dark') {
+        document.body.classList.add('dark-mode');
+        if(icon) icon.innerText = '☀️';
+        if(text) text.innerText = 'Modo Claro';
+    }
+
+    // Al hacer clic: Alternar y guardar
+    btn.addEventListener('click', () => {
+        document.body.classList.toggle('dark-mode');
+        const isDark = document.body.classList.contains('dark-mode');
+        localStorage.setItem('theme', isDark ? 'dark' : 'light');
+        
+        if(icon) icon.innerText = isDark ? '☀️' : '🌙';
+        if(text) text.innerText = isDark ? 'Modo Claro' : 'Modo Oscuro';
+    });
+</script>
+
+
 
 </body>
 </html>

@@ -204,7 +204,7 @@ nav {
     text-align: center;
     transition: var(--transition);
     border: 1px solid #e2e8f0;
-    cursor: pointer;
+    /*cursor: pointer;*/
 }
 
 .cat-card:hover {
@@ -820,9 +820,9 @@ div[style*="color:red"] {
     display: inline-block;
 }
 
-.pill-abierto { background: #fef9c3; color: #854d0e; border: 1px solid #fef08a; }
-.pill-proceso { background: #dbeafe; color: #1e40af; border: 1px solid #bfdbfe; }
-.pill-completado { background: #dcfce7; color: #166534; border: 1px solid #bbf7d0; }
+.pill-abierto { background: #00ff2a; color: #854d0e; border: 1px solid #fef08a; }
+.pill-proceso { background: #ffd722; color: #1e40af; border: 1px solid #bfdbfe; }
+.pill-completado { background: #00ff2a; color: #166534; border: 1px solid #bbf7d0; }
 
 /* Botón de acción en la fila */
 .btn-action {
@@ -1488,26 +1488,131 @@ div[style*="color:red"] {
     overflow-y: auto;
 }
 
+/* =============================================
+   FIX ESPECÍFICO PARA CHAT Y CONTACTOS
+   ============================================= */
+
+/* Fondo del área de scroll de contactos */
+body.dark-mode .contacts-scroll,
+body.dark-mode .sidebar-contactos {
+    background-color: #1e293b !important; /* Azul pizarra oscuro */
+}
+
+/* Cada ítem de contacto en la lista */
+body.dark-mode .contacto-item {
+    background-color: #1e293b !important;
+    border-bottom: 1px solid #334155 !important;
+    color: #f1f5f9 !important;
+}
+
+/* Efecto al pasar el ratón o cuando el contacto está seleccionado */
+body.dark-mode .contacto-item:hover,
+body.dark-mode .contacto-item.active {
+    background-color: #334155 !important;
+    border-left: 4px solid var(--primary-color) !important;
+}
+
+/* Nombres de contactos y previsualización de mensajes */
+body.dark-mode .contacto-info h4 {
+    color: #fffefe !important;
+}
+
+body.dark-mode .contacto-info p {
+    color: #94a3b8 !important;
+}
+
+/* El buscador de contactos si lo tienes */
+body.dark-mode .search-bar {
+    background-color: #0f172a !important;
+    border: 1px solid #334155 !important;
+    color: white !important;
+}
+
+/* =============================================
+   SOPORTE DE CHAT (CONTACTOS) - CLARO Y OSCURO
+   ============================================= */
+
+/* 1. ESTILO BASE (MODO CLARO) */
 .chat-contact-item {
     display: block;
     padding: 15px 20px;
     text-decoration: none;
-    color: var(--text-main);
+    color: var(--text-dark); /* Usamos la variable general */
     border-bottom: 1px solid #f1f5f9;
-    transition: background 0.2s;
+    transition: background 0.2s, border-color 0.2s;
+    background: var(--white);
 }
 
 .chat-contact-item:hover {
-    background: #2d82d6;
+    background: #f8fafc; /* Un gris muy suave en claro */
 }
 
 .chat-contact-item.active {
-    background: #85d0f8;
-    border-left: 4px solid var(--primary);
+    background: #e0f2fe; /* Azul muy clarito */
+    border-left: 4px solid var(--primary-color);
 }
 
 .contact-name {
     font-weight: 700;
+}
+
+.contacts-scroll {
+    flex: 1;
+    overflow-y: auto;
+    background: var(--white);
+}
+
+/* 2. AJUSTES PARA MODO OSCURO */
+body.dark-mode .contacts-scroll {
+    background-color: #1e293b !important; /* Fondo oscuro del contenedor */
+}
+
+body.dark-mode .chat-contact-item {
+    background-color: #1e293b !important;
+    color: #f1f5f9 !important;
+    border-bottom-color: #334155 !important; /* Borde oscuro */
+}
+
+body.dark-mode .chat-contact-item:hover {
+    background-color: #334155 !important; /* Gris azulado al pasar el ratón */
+}
+
+body.dark-mode .chat-contact-item.active {
+    background-color: #0f172a !important; /* Más oscuro para resaltar el activo */
+    border-left: 4px solid #3b82f6 !important; /* Azul eléctrico */
+}
+
+body.dark-mode .contact-name {
+    color: #ffffff !important;
+}
+
+/* --- Título de Conversaciones --- */
+
+/* MODO CLARO (Por defecto) */
+.sidebar-header h3 {
+    color: var(--text-dark);
+    padding: 20px;
+    margin: 0;
+    font-size: 1.2rem;
+    border-bottom: 1px solid #f1f5f9;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.sidebar-header h3 i {
+    color: var(--primary-color);
+}
+
+/* MODO OSCURO */
+body.dark-mode .sidebar-header h3 {
+    color: #ffffff !important;
+    background-color: #1e293b !important;
+    border-bottom-color: #334155 !important;
+}
+
+body.dark-mode .sidebar-header h3 i {
+    color: #3b82f6 !important;
 }
 
 /* ÁREA DE MENSAJES */
@@ -1563,6 +1668,42 @@ div[style*="color:red"] {
     background: white;
     color: var(--text-main);
     border-bottom-left-radius: 2px;
+}
+
+/* ÁREA DE MENSAJES - MODO OSCURO */
+body.dark-mode .chat-main {
+    background: #1e293b !important;
+}
+
+body.dark-mode .chat-header {
+    background: #1e293b !important;
+    color: #ffffff !important;
+    border-bottom-color: #334155 !important;
+}
+
+body.dark-mode .chat-messages {
+    background: #0f172a !important; /* Fondo más oscuro para los mensajes */
+}
+
+/* BURBUJAS EN MODO OSCURO */
+body.dark-mode .message {
+    box-shadow: 0 2px 4px rgba(0,0,0,0.3);
+}
+
+body.dark-mode .msg-sent {
+    background: #2563eb !important; /* Azul corporativo brillante */
+    color: #ffffff !important;
+}
+
+body.dark-mode .msg-received {
+    background: #1e293b !important;
+    color: #f1f5f9 !important;
+    border: 1px solid #334155 !important;
+}
+
+/* Ajuste para el texto pequeño de la hora si tuvieras */
+body.dark-mode .message small {
+    color: #94a3b8 !important;
 }
 
 /* Respuestas dentro de la burbuja */
@@ -1767,4 +1908,170 @@ div[style*="color:red"] {
     background-color: #fee2e2;
     color: #991b1b;
     border: 1px solid #fecaca;
+}
+
+/* =============================================
+   SOPORTE PROFESIONAL PARA MODO OSCURO
+   ============================================= */
+
+/* 1. Definición de variables para el tema oscuro */
+body.dark-mode {
+    --bg-light: #0f172a;    /* Azul noche muy oscuro para el fondo */
+    --text-dark: #f1f5f9;   /* Blanco azulado para el texto principal */
+    --white: #1e293b;       /* Azul pizarra para tarjetas y navegación */
+    --secondary-color: #94a3b8; /* Gris azulado para textos secundarios */
+    --border-color: #334155; /* Bordes suaves para modo oscuro */
+    --shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+}
+
+/* 2. Ajustes globales de transición */
+body {
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* 3. Ajustes de contenedores y tarjetas */
+body.dark-mode nav, 
+body.dark-mode .sidebar-user, 
+body.dark-mode .stat-card, 
+body.dark-mode .table-container,
+body.dark-mode .container,
+body.dark-mode .card-publicar,
+body.dark-mode .mensajeria-wrapper,
+body.dark-mode .sidebar-contactos,
+body.dark-mode .chat-header,
+body.dark-mode .chat-footer,
+body.dark-mode .cat-card,
+body.dark-mode footer,
+body.dark-mode .tarjeta-anio,
+body.dark-mode .item-trabajo {
+    background-color: var(--white) !important;
+    border-color: var(--border-color) !important;
+    color: var(--text-dark) !important;
+    box-shadow: var(--shadow);
+}
+
+/* 4. Formularios e Inputs (Login, Registro y Chat) */
+body.dark-mode input, 
+body.dark-mode select, 
+body.dark-mode textarea {
+    background-color: #0f172a !important; /* Un tono más oscuro que la tarjeta */
+    color: #ffffff !important;
+    border: 1px solid var(--border-color) !important;
+}
+
+body.dark-mode input:focus, 
+body.dark-mode select:focus, 
+body.dark-mode textarea:focus {
+    border-color: var(--primary-color) !important;
+    background-color: #1e293b !important;
+}
+
+/* 5. Especial para el Sistema de Chat */
+body.dark-mode .chat-messages {
+    background-color: #0b1120 !important; /* Fondo de chat más profundo */
+}
+
+body.dark-mode .msg-otro {
+    background-color: #334155 !important;
+    color: #f1f5f9 !important;
+    border: 1px solid var(--border-color) !important;
+}
+
+body.dark-mode .contacto-item:hover, 
+body.dark-mode .contacto-item.active {
+    background-color: #334155 !important;
+}
+
+body.dark-mode #reply-preview {
+    background-color: #1e293b !important;
+    border-top: 1px solid var(--border-color) !important;
+}
+
+/* 6. Tablas y listados */
+body.dark-mode th {
+    border-bottom-color: var(--border-color) !important;
+    color: var(--primary-color) !important;
+}
+
+body.dark-mode td {
+    border-bottom-color: var(--border-color) !important;
+}
+
+/* 7. Botón de cambio de tema (Estética moderna) */
+.theme-switch {
+    background: var(--bg-light);
+    border: 1px solid var(--border-color);
+    color: var(--text-dark);
+    padding: 8px 16px;
+    border-radius: 50px;
+    cursor: pointer;
+    font-size: 0.85rem;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.theme-switch:hover {
+    transform: scale(1.05);
+    background-color: var(--primary-color);
+    color: white;
+}
+
+
+
+/* =============================================
+   OPERACIÓN LIMPIEZA: MODO OSCURO TOTAL
+   ============================================= */
+
+   body.dark-mode {
+    background-color: #0f172a !important;
+    color: #f1f5f9 !important;
+}
+
+/* Forzar fondo oscuro en TODOS los contenedores de pagos */
+
+body.dark-mode .table-responsive,
+body.dark-mode .tabla-gastos,
+body.dark-mode nav,
+body.dark-mode footer {
+    background-color: #1e293b !important; /* Azul pizarra oscuro */
+    color: #f1f5f9 !important;
+    border-color: #334155 !important;
+}
+
+/* Eliminar las líneas blancas de la tabla */
+body.dark-mode .tabla-gastos td, 
+body.dark-mode .tabla-gastos th {
+    background-color: #1e293b !important;
+    border: 1px solid #334155 !important; /* Línea gris oscura, no blanca */
+    color: #f1f5f9 !important;
+}
+
+/* Cabecera de la tabla */
+body.dark-mode .tabla-gastos thead th {
+    background-color: #0f172a !important;
+    color: #3b82f6 !important; /* Azul brillante para resaltar */
+}
+
+/* El banner superior de inversión */
+body.dark-mode .banner-inversion {
+    background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%) !important;
+    border: 1px solid #334155 !important;
+    box-shadow: none !important;
+}
+
+/* Arreglar textos pequeños que se pierden */
+body.dark-mode .nombre-tecnico,
+body.dark-mode .vacio-texto,
+body.dark-mode p {
+    color: #94a3b8 !important;
+}
+
+/* Botón de historial al final */
+body.dark-mode .btn-secondary-full {
+    background-color: #334155 !important;
+    color: #ffffff !important;
+    border: none !important;
 }
