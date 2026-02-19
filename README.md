@@ -6,7 +6,7 @@
 
 <br>
 
-Bienvenido a Wirvux: Donde el talento y la necesidad se encuentran. > En un mundo laboral cada vez más fragmentado, Wirvux nace para simplificar la conexión entre autónomos profesionales y clientes que buscan resultados excelentes. Hemos centralizado todo el proceso de contacto para que tú solo tengas que preocuparte de lo que mejor sabes hacer. Sin ruido, sin intermediarios innecesarios, solo el trabajo deseado y el profesional adecuado.
+Bienvenido a Wirvux: Donde el talento y la necesidad se encuentran. En un mundo laboral cada vez más fragmentado, Wirvux nace para simplificar la conexión entre autónomos profesionales y clientes que buscan resultados excelentes. Hemos centralizado todo el proceso de contacto para que tú solo tengas que preocuparte de lo que mejor sabes hacer. Sin ruido, sin intermediarios innecesarios, solo el trabajo deseado y el profesional adecuado.
 
 <br>
 
