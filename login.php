@@ -37,7 +37,7 @@ if (isset($_POST['login'])) {
 <head>
     <meta charset="UTF-8">
     <link rel="stylesheet" href="estilos.css">
-    <title>Login - ConectaPro</title>
+    <title>Login</title>
 </head>
 <body>
     <div class="container">

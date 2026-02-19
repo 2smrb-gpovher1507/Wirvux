@@ -1,6 +1,16 @@
 <?php
 include 'db.php';
 
+// Importar las clases necesarias
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\Exception;
+use PHPMailer\PHPMailer\SMTP;
+
+// CARGA MANUAL: Ajusta estas rutas si tu carpeta se llama distinto
+require 'PHPMailer/Exception.php';
+require 'PHPMailer/PHPMailer.php';
+require 'PHPMailer/SMTP.php';
+
 if (isset($_POST['registrar'])) {
     $nombre = $_POST['nombre'];
     $apellidos = $_POST['apellidos'];
@@ -8,24 +18,47 @@ if (isset($_POST['registrar'])) {
     $password = password_hash($_POST['password'], PASSWORD_DEFAULT);
     $tipo = $_POST['tipo_usuario'];
 
-    // Si es autónomo, guardamos categoría y especialidad. Si no, vacíos.
-    if ($tipo == 'autonomo') {
-        $categoria = $_POST['categoria_principal'];
-        $especialidad = $_POST['especialidad'];
-    } else {
-        $categoria = '';
-        $especialidad = '';
-    }
+    $categoria = ($tipo == 'autonomo') ? $_POST['categoria_principal'] : '';
+    $especialidad = ($tipo == 'autonomo') ? $_POST['especialidad'] : '';
 
-    // Consulta actualizada con la nueva columna 'categoria_principal'
     $query = "INSERT INTO usuarios (nombre, apellidos, email, password, tipo_usuario, categoria_principal, especialidad) 
               VALUES ('$nombre', '$apellidos', '$email', '$password', '$tipo', '$categoria', '$especialidad')";
     
     if (mysqli_query($conexion, $query)) {
-        header("Location: login.php?msg=registro_ok");
-        exit();
+        
+        $mail = new PHPMailer(true);
+
+        try {
+            // Configuración del servidor Gmail
+            $mail->isSMTP();
+            $mail->Host       = 'smtp.gmail.com';
+            $mail->SMTPAuth   = true;
+            $mail->Username   = 'wirvux@gmail.com';
+            $mail->Password   = 'dauo kwnl vldr jdad'; // Tu clave de aplicación
+            $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
+            $mail->Port       = 587;
+
+            // Remitente y Destinatario
+            $mail->setFrom('wirvux@gmail.com', 'Wirvux');
+            $mail->addAddress($email, $nombre); 
+
+            // Contenido del mensaje
+            $mail->isHTML(true);
+            $mail->Subject = 'Bienvenido a Wirvux';
+            $mail->Body    = "<h2>¡Hola $nombre!</h2><p>Te has registrado correctamente en Wirvux.</p>";
+            $mail->CharSet = 'UTF-8';
+
+            $mail->send();
+            
+            header("Location: login.php?msg=registro_ok");
+            exit();
+
+        } catch (Exception $e) {
+            // Si el correo falla pero el registro en la BD fue bien
+            echo "Usuario registrado, pero el correo no se pudo enviar. Error: {$mail->ErrorInfo}";
+        }
     } else {
-        echo "<div style='color:red;'>Error al registrar: " . mysqli_error($conexion) . "</div>";
+        echo "Error en la base de datos: " . mysqli_error($conexion);
     }
 }
 ?>
@@ -35,7 +68,7 @@ if (isset($_POST['registrar'])) {
 <head>
     <meta charset="UTF-8">
     <link rel="stylesheet" href="estilos.css">
-    <title>Registro - ConectaPro</title>
+    <title>Registro</title>
 </head>
 <body>
     <div class="container">
