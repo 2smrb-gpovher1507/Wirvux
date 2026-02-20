@@ -113,15 +113,15 @@ $res_lista = mysqli_query($conexion, $query_lista);
         <div class="projects-section">
             <h3>Trabajos en curso</h3>
             <table class="table-projects">
-                <thead>
-                    <tr>
-                        <th>Proyecto</th>
-                        <th>Cliente</th>
-                        <th>Fecha Inicio</th>
-                        <th>Estado</th>
-                        <th>Acción</th>
-                    </tr>
-                </thead>
+                <thead style="background-color: var(--white);">
+    <tr style="border-bottom: 2px solid var(--border-color); background-color: var(--white);">
+        <th style="padding: 12px 15px; text-align: left; font-size: 0.85rem; text-transform: uppercase; color: var(--secondary-color); font-weight: 700; letter-spacing: 0.05em; background-color: var(--white);">Proyecto</th>
+        <th style="padding: 12px 15px; text-align: left; font-size: 0.85rem; text-transform: uppercase; color: var(--secondary-color); font-weight: 700; letter-spacing: 0.05em; background-color: var(--white);">Cliente</th>
+        <th style="padding: 12px 15px; text-align: left; font-size: 0.85rem; text-transform: uppercase; color: var(--secondary-color); font-weight: 700; letter-spacing: 0.05em; background-color: var(--white);">Fecha Inicio</th>
+        <th style="padding: 12px 15px; text-align: left; font-size: 0.85rem; text-transform: uppercase; color: var(--secondary-color); font-weight: 700; letter-spacing: 0.05em; background-color: var(--white);">Estado</th>
+        <th style="padding: 12px 15px; text-align: left; font-size: 0.85rem; text-transform: uppercase; color: var(--secondary-color); font-weight: 700; letter-spacing: 0.05em; background-color: var(--white);">Acción</th>
+    </tr>
+</thead>
                 <tbody>
                     <?php if(mysqli_num_rows($res_lista) > 0): ?>
                         <?php while($row = mysqli_fetch_assoc($res_lista)): ?>

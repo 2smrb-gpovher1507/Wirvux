@@ -47,12 +47,78 @@ if (!$proyecto) {
     <link rel="stylesheet" href="estilos.css">
     <title>Gestionar Proyecto | Wirvux</title>
     <style>
-        .gestion-container { max-width: 700px; margin: 40px auto; padding: 30px; background: white; border-radius: 12px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
-        .header-proyecto { border-bottom: 2px solid #f0f0f0; margin-bottom: 20px; padding-bottom: 10px; }
-        .info-cliente { background: #f9f9f9; padding: 15px; border-radius: 8px; margin: 20px 0; }
-        .btn-finalizar { background: #28a745; color: white; border: none; padding: 12px 25px; border-radius: 5px; cursor: pointer; font-weight: bold; width: 100%; font-size: 1.1em; }
-        .btn-finalizar:hover { background: #218838; }
-    </style>
+    .gestion-container { 
+        max-width: 700px; 
+        margin: 40px auto; 
+        padding: 30px; 
+        background: var(--white); /* Usa blanco en claro, azul oscuro en dark */
+        border-radius: 12px; 
+        box-shadow: 0 5px 15px rgba(0,0,0,0.1); 
+        border: 1px solid transparent;
+    }
+
+    .header-proyecto { 
+        border-bottom: 2px solid #f0f0f0; 
+        margin-bottom: 20px; 
+        padding-bottom: 10px; 
+        color: var(--text-dark);
+    }
+
+    .info-cliente { 
+        background: #f9f9f9; 
+        padding: 15px; 
+        border-radius: 8px; 
+        margin: 20px 0; 
+        border: 1px solid #eee;
+    }
+
+    .btn-finalizar { 
+        background: #28a745; 
+        color: white; 
+        border: none; 
+        padding: 12px 25px; 
+        border-radius: 5px; 
+        cursor: pointer; 
+        font-weight: bold; 
+        width: 100%; 
+        font-size: 1.1em; 
+        transition: background 0.3s;
+    }
+
+    .btn-finalizar:hover { 
+        background: #218838; 
+    }
+
+    /* --- AJUSTES ESPECÍFICOS MODO OSCURO --- */
+    body.dark-mode .gestion-container {
+        background: #1e293b !important;
+        box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+        border-color: #334155 !important;
+    }
+
+    body.dark-mode .header-proyecto {
+        border-bottom-color: #334155 !important;
+        color: #ffffff !important;
+    }
+
+    body.dark-mode .info-cliente {
+        background: #0f172a !important; /* Fondo más profundo para destacar la info */
+        border-color: #334155 !important;
+        color: #cbd5e1 !important;
+    }
+
+    body.dark-mode .info-cliente strong {
+        color: #ffffff !important;
+    }
+
+    body.dark-mode .btn-finalizar {
+        background: #15803d; /* Verde un poco más oscuro para que no desentone */
+    }
+
+    body.dark-mode .btn-finalizar:hover {
+        background: #166534;
+    }
+</style>
 </head>
 <body>
     <div class="gestion-container">

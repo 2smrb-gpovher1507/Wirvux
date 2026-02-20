@@ -1,6 +1,16 @@
 <?php
 include 'db.php';
 
+// Importar las clases necesarias
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\Exception;
+use PHPMailer\PHPMailer\SMTP;
+
+// CARGA MANUAL: Ajusta estas rutas si tu carpeta se llama distinto
+require 'PHPMailer/Exception.php';
+require 'PHPMailer/PHPMailer.php';
+require 'PHPMailer/SMTP.php';
+
 if (isset($_POST['registrar'])) {
     $nombre = $_POST['nombre'];
     $apellidos = $_POST['apellidos'];
@@ -8,24 +18,112 @@ if (isset($_POST['registrar'])) {
     $password = password_hash($_POST['password'], PASSWORD_DEFAULT);
     $tipo = $_POST['tipo_usuario'];
 
-    // Si es autónomo, guardamos categoría y especialidad. Si no, vacíos.
-    if ($tipo == 'autonomo') {
-        $categoria = $_POST['categoria_principal'];
-        $especialidad = $_POST['especialidad'];
-    } else {
-        $categoria = '';
-        $especialidad = '';
-    }
+    $categoria = ($tipo == 'autonomo') ? $_POST['categoria_principal'] : '';
+    $especialidad = ($tipo == 'autonomo') ? $_POST['especialidad'] : '';
 
-    // Consulta actualizada con la nueva columna 'categoria_principal'
     $query = "INSERT INTO usuarios (nombre, apellidos, email, password, tipo_usuario, categoria_principal, especialidad) 
               VALUES ('$nombre', '$apellidos', '$email', '$password', '$tipo', '$categoria', '$especialidad')";
     
     if (mysqli_query($conexion, $query)) {
-        header("Location: login.php?msg=registro_ok");
-        exit();
+        
+        $mail = new PHPMailer(true);
+
+        try {
+            // Configuración del servidor Gmail
+            $mail->isSMTP();
+            $mail->Host       = 'smtp.gmail.com';
+            $mail->SMTPAuth   = true;
+            $mail->Username   = 'wirvux@gmail.com';
+            $mail->Password   = 'dauo kwnl vldr jdad'; // Tu clave de aplicación
+            $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
+            $mail->Port       = 587;
+
+            // Remitente y Destinatario
+            $mail->setFrom('wirvux@gmail.com', 'Wirvux');
+            $mail->addAddress($email, $nombre); 
+
+            // Contenido del mensaje
+            $mail->isHTML(true);
+            $mail->Subject = '¡Bienvenido a Wirvux, ' . $nombre . '!';
+            $mail->CharSet = 'UTF-8';
+
+// Cuerpo del mensaje con diseño profesional
+$mail->Body = "
+<div style='background-color: #f4f4f4; padding: 20px; font-family: sans-serif;'>
+    <div style='max-width: 600px; margin: 0 auto; background-color: #ffffff; border-radius: 8px; overflow: hidden; box-shadow: 0 4px 10px rgba(0,0,0,0.1);'>
+        
+        <div style='background-color: #1e1e1e; padding: 30px; text-align: center;'>
+            <h1 style='color: #ffffff; margin: 0; font-size: 28px;'>Wirvux</h1>
+        </div>
+
+        <div style='padding: 30px; color: #333333; line-height: 1.6;'>
+            <h2 style='color: #1e1e1e;'>¡Hola, $nombre!</h2>
+            <p>Es un placer darte la bienvenida a <strong>Wirvux</strong>. Tu cuenta ha sido creada con éxito.</p>
+            
+            <p>A partir de ahora, podrás disfrutar de todas nuestras herramientas diseñadas para conectar profesionales y clientes de forma eficiente.</p>
+            
+            <div style='text-align: center; margin: 30px 0;'>
+                <a href='http://tudominio.com/login.php' 
+                   style='background-color: #28a745; color: white; padding: 15px 25px; text-decoration: none; border-radius: 5px; font-weight: bold; display: inline-block;'>
+                   Acceder a mi cuenta
+                </a>
+            </div>
+
+            <p style='font-size: 0.9em; color: #777;'>Si no has creado esta cuenta, puedes ignorar este correo de forma segura.</p>
+        </div>
+
+        <div style='background-color: #f9f9f9; padding: 20px; text-align: center; font-size: 0.8em; color: #999; border-top: 1px solid #eeeeee;'>
+            <p>&copy; " . date('Y') . " Wirvux. Todos los derechos reservados.</p>
+        </div>
+    </div>
+</div>
+";
+
+// Cuerpo del mensaje con diseño profesional
+$mail->Body = "
+<div style='background-color: #f4f4f4; padding: 20px; font-family: sans-serif;'>
+    <div style='max-width: 600px; margin: 0 auto; background-color: #ffffff; border-radius: 8px; overflow: hidden; box-shadow: 0 4px 10px rgba(0,0,0,0.1);'>
+        
+        <div style='background-color: #1e1e1e; padding: 30px; text-align: center;'>
+            <h1 style='color: #ffffff; margin: 0; font-size: 28px;'>Wirvux</h1>
+        </div>
+
+        <div style='padding: 30px; color: #333333; line-height: 1.6;'>
+            <h2 style='color: #1e1e1e;'>¡Hola, $nombre!</h2>
+            <p>Es un placer darte la bienvenida a <strong>Wirvux</strong>. Tu cuenta ha sido creada con éxito.</p>
+            
+            <p>A partir de ahora, podrás disfrutar de todas nuestras herramientas diseñadas para conectar profesionales y clientes de forma eficiente.</p>
+            
+            <div style='text-align: center; margin: 30px 0;'>
+                <a href='http://tudominio.com/login.php' 
+                   style='background-color: #28a745; color: white; padding: 15px 25px; text-decoration: none; border-radius: 5px; font-weight: bold; display: inline-block;'>
+                   Acceder a mi cuenta
+                </a>
+            </div>
+
+            <p style='font-size: 0.9em; color: #777;'>Si no has creado esta cuenta, puedes ignorar este correo de forma segura.</p>
+        </div>
+
+        <div style='background-color: #f9f9f9; padding: 20px; text-align: center; font-size: 0.8em; color: #999; border-top: 1px solid #eeeeee;'>
+            <p>&copy; " . date('Y') . " Wirvux. Todos los derechos reservados.</p>
+        </div>
+    </div>
+</div>
+";
+
+$mail->isHTML(true); // Asegúrate de que esta línea esté presente
+
+            $mail->send();
+            
+            header("Location: login.php?msg=registro_ok");
+            exit();
+
+        } catch (Exception $e) {
+            // Si el correo falla pero el registro en la BD fue bien
+            echo "Usuario registrado, pero el correo no se pudo enviar. Error: {$mail->ErrorInfo}";
+        }
     } else {
-        echo "<div style='color:red;'>Error al registrar: " . mysqli_error($conexion) . "</div>";
+        echo "Error en la base de datos: " . mysqli_error($conexion);
     }
 }
 ?>
@@ -35,7 +133,7 @@ if (isset($_POST['registrar'])) {
 <head>
     <meta charset="UTF-8">
     <link rel="stylesheet" href="estilos.css">
-    <title>Registro - ConectaPro</title>
+    <title>Registro</title>
 </head>
 <body>
     <div class="container">
