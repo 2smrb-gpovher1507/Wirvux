@@ -36,7 +36,7 @@ $query_propuestas = "SELECT p.*, u.nombre as tecnico_nombre, u.id as id_autonomo
                      $orden";
 $res_propuestas = mysqli_query($conexion, $query_propuestas);
 
-// 3. Buscar otros autónomos del sector (Solo si no hay técnico asignado aún)
+// 3. Buscar otros autónomos del sector
 $res_otros = null;
 if (empty($trabajo['id_autonomo'])) {
     $query_otros = "SELECT id, nombre, especialidad FROM usuarios 
@@ -60,10 +60,10 @@ if (empty($trabajo['id_autonomo'])) {
 
     <nav>
         <div class="nav-container">
-            <h1>WIRVUX <span>DETALLES</span></h1>
+            <h1>WIRVUX <span data-key="nav_details">DETALLES</span></h1>
             <div class="nav-links">
-                <a href="mensajes.php">Mis Chats</a>
-                <a href="area_cliente.php" class="btn-back">Volver al Panel</a>
+                <a href="mensajes.php" data-key="nav_chats">Mis Chats</a>
+                <a href="area_cliente.php" class="btn-back" data-key="btn_back">Volver al Panel</a>
             </div>
         </div>
     </nav>
@@ -72,7 +72,7 @@ if (empty($trabajo['id_autonomo'])) {
         
         <div class="ficha-proyecto">
             <header class="ficha-header">
-                <span class="badge-estado <?php echo $trabajo['estado']; ?>">
+                <span class="badge-estado <?php echo $trabajo['estado']; ?>" data-key="pill_<?php echo $trabajo['estado']; ?>">
                     <?php echo strtoupper($trabajo['estado']); ?>
                 </span>
                 <h2><?php echo htmlspecialchars($trabajo['titulo']); ?></h2>
@@ -81,30 +81,36 @@ if (empty($trabajo['id_autonomo'])) {
 
             <div class="ficha-grid">
                 <div class="dato-item">
-                    <strong>Fecha:</strong>
+                    <strong data-key="label_date">Fecha:</strong>
                     <p><?php echo date('d/m/Y', strtotime($trabajo['fecha_creacion'])); ?></p>
                 </div>
                 <div class="dato-item">
-                    <strong>Sector:</strong>
+                    <strong data-key="label_sector">Sector:</strong>
                     <p><?php echo htmlspecialchars($trabajo['categoria'] ?? 'General'); ?></p>
                 </div>
                 <div class="dato-item">
-                    <strong>Precio:</strong>
+                    <strong data-key="label_price">Precio:</strong>
                     <p class="resaltado-precio"><?php echo number_format($trabajo['presupuesto'], 2); ?> €</p>
                 </div>
                 <div class="dato-item">
-                    <strong>Técnico:</strong>
-                    <p><?php echo $trabajo['tecnico_asignado'] ? htmlspecialchars($trabajo['tecnico_asignado']) : 'Pendiente'; ?></p>
+                    <strong data-key="label_tech">Técnico:</strong>
+                    <p><?php 
+                        if ($trabajo['tecnico_asignado']) {
+                            echo htmlspecialchars($trabajo['tecnico_asignado']);
+                        } else {
+                            echo '<span data-key="status_pending">Pendiente</span>';
+                        }
+                    ?></p>
                 </div>
             </div>
         </div>
 
         <section class="seccion-listado">
-            <h3>Propuestas Recibidas</h3>
+            <h3 data-key="title_proposals">Propuestas Recibidas</h3>
             
             <?php if($trabajo['estado'] !== 'abierto'): ?>
                 <div class="aviso-info">
-                    El proyecto fue <strong><?php echo str_replace('_', ' ', $trabajo['estado']); ?></strong>.
+                    <span data-key="msg_project_was">El proyecto fue</span> <strong><span data-key="pill_<?php echo $trabajo['estado']; ?>"><?php echo str_replace('_', ' ', $trabajo['estado']); ?></span></strong>.
                 </div>
             <?php elseif($res_propuestas && mysqli_num_rows($res_propuestas) > 0): ?>
                 <?php while($prop = mysqli_fetch_assoc($res_propuestas)): ?>
@@ -115,30 +121,30 @@ if (empty($trabajo['id_autonomo'])) {
                             <small><?php echo $existe_fecha ? date('d/m/Y H:i', strtotime($prop['fecha_postulacion'])) : 'Recién recibida'; ?></small>
                         </div>
                         <div class="propuesta-acciones">
-                            <a href="mensajes.php?con=<?php echo $prop['id_autonomo']; ?>" class="btn-chat">Chatear</a>
-                            <a href="aceptar_propuesta.php?id=<?php echo $prop['id']; ?>&trabajo=<?php echo $id_trabajo; ?>" class="btn-aceptar">Aceptar</a>
+                            <a href="mensajes.php?con=<?php echo $prop['id_autonomo']; ?>" class="btn-chat" data-key="btn_chat">Chatear</a>
+                            <a href="aceptar_propuesta.php?id=<?php echo $prop['id']; ?>&trabajo=<?php echo $id_trabajo; ?>" class="btn-aceptar" data-key="btn_accept">Aceptar</a>
                         </div>
                     </div>
                 <?php endwhile; ?>
             <?php else: ?>
-                <p class="vacio-texto">No hay propuestas para este proyecto todavía.</p>
+                <p class="vacio-texto" data-key="empty_proposals">No hay propuestas para este proyecto todavía.</p>
             <?php endif; ?>
         </section>
 
         <?php if (empty($trabajo['id_autonomo'])): ?>
             <section class="seccion-otros">
-                <h3>Expertos sugeridos en <?php echo htmlspecialchars($categoria_actual); ?></h3>
+                <h3><span data-key="title_suggested">Expertos sugeridos en</span> <?php echo htmlspecialchars($categoria_actual); ?></h3>
                 <div class="otros-grid">
                     <?php if($res_otros && mysqli_num_rows($res_otros) > 0): ?>
                         <?php while($otro = mysqli_fetch_assoc($res_otros)): ?>
                             <div class="tarjeta-sugerido">
                                 <strong><?php echo htmlspecialchars($otro['nombre']); ?></strong>
-                                <span>Especialista en <?php echo htmlspecialchars($otro['especialidad']); ?></span>
-                                <a href="mensajes.php?con=<?php echo $otro['id']; ?>" class="btn-contacto">Contactar</a>
+                                <span><span data-key="label_specialist">Especialista en</span> <?php echo htmlspecialchars($otro['especialidad']); ?></span>
+                                <a href="mensajes.php?con=<?php echo $otro['id']; ?>" class="btn-contacto" data-key="btn_contact">Contactar</a>
                             </div>
                         <?php endwhile; ?>
                     <?php else: ?>
-                        <p class="vacio-texto">No hay más autónomos registrados en esta categoría.</p>
+                        <p class="vacio-texto" data-key="empty_others">No hay más autónomos registrados en esta categoría.</p>
                     <?php endif; ?>
                 </div>
             </section>
@@ -146,56 +152,77 @@ if (empty($trabajo['id_autonomo'])) {
 
     </div>
     
-
     <footer class="text-center">
-        <p>&copy; 2026 Wirvux - Detalles de Proyecto</p>
+        <p>&copy; 2026 Wirvux - <span data-key="footer_details">Detalles de Proyecto</span></p>
     </footer>
 
-
-
-
-
-
     <script>
-    const btn = document.getElementById('theme-toggle');
-    const icon = document.getElementById('theme-icon');
-    const text = document.getElementById('theme-text');
+    const translations = {
+        'es': {
+            'nav_details': 'DETALLES',
+            'nav_chats': 'Mis Chats',
+            'btn_back': 'Volver al Panel',
+            'pill_abierto': 'ABIERTO',
+            'pill_en_progreso': 'EN CURSO',
+            'pill_completado': 'FINALIZADO',
+            'label_date': 'Fecha:',
+            'label_sector': 'Sector:',
+            'label_price': 'Precio:',
+            'label_tech': 'Técnico:',
+            'status_pending': 'Pendiente',
+            'title_proposals': 'Propuestas Recibidas',
+            'msg_project_was': 'El proyecto fue',
+            'btn_chat': 'Chatear',
+            'btn_accept': 'Aceptar',
+            'empty_proposals': 'No hay propuestas para este proyecto todavía.',
+            'title_suggested': 'Expertos sugeridos en',
+            'label_specialist': 'Especialista en',
+            'btn_contact': 'Contactar',
+            'empty_others': 'No hay más autónomos registrados en esta categoría.',
+            'footer_details': 'Detalles de Proyecto'
+        },
+        'en': {
+            'nav_details': 'DETAILS',
+            'nav_chats': 'My Chats',
+            'btn_back': 'Back to Dashboard',
+            'pill_abierto': 'OPEN',
+            'pill_en_progreso': 'IN PROGRESS',
+            'pill_completado': 'COMPLETED',
+            'label_date': 'Date:',
+            'label_sector': 'Sector:',
+            'label_price': 'Price:',
+            'label_tech': 'Technician:',
+            'status_pending': 'Pending',
+            'title_proposals': 'Proposals Received',
+            'msg_project_was': 'The project was',
+            'btn_chat': 'Chat',
+            'btn_accept': 'Accept',
+            'empty_proposals': 'There are no proposals for this project yet.',
+            'title_suggested': 'Suggested experts in',
+            'label_specialist': 'Specialist in',
+            'btn_contact': 'Contact',
+            'empty_others': 'No more freelancers registered in this category.',
+            'footer_details': 'Project Details'
+        }
+    };
 
-    // 1. Al cargar la página: Comprobar si ya había una preferencia guardada
-    const currentTheme = localStorage.getItem('theme');
-    if (currentTheme === 'dark') {
-        document.body.classList.add('dark-mode');
-        if(icon) icon.innerText = '☀️';
-        if(text) text.innerText = 'Modo Claro';
+    function loadPreferences() {
+        const lang = sessionStorage.getItem('lang') || 'es';
+        const theme = sessionStorage.getItem('theme') || 'light';
+
+        document.querySelectorAll('[data-key]').forEach(el => {
+            const key = el.getAttribute('data-key');
+            if (translations[lang][key]) el.innerText = translations[lang][key];
+        });
+
+        if (theme === 'dark') {
+            document.body.classList.add('dark-mode');
+        } else {
+            document.body.classList.remove('dark-mode');
+        }
     }
 
-    // 2. Al hacer clic: Cambiar el tema y guardar la elección
-    btn.addEventListener('click', () => {
-        document.body.classList.toggle('dark-mode');
-        
-        let theme = 'light';
-        if (document.body.classList.contains('dark-mode')) {
-            theme = 'dark';
-            if(icon) icon.innerText = '☀️';
-            if(text) text.innerText = 'Modo Claro';
-        } else {
-            if(icon) icon.innerText = '🌙';
-            if(text) text.innerText = 'Modo Oscuro';
-        }
-        
-        // Guardamos la elección para la próxima vez
-        localStorage.setItem('theme', theme);
-    });
-</script>
-
-
-
-
-
-
-
-
-
-
+    window.onload = loadPreferences;
+    </script>
 </body>
 </html>

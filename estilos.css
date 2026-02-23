@@ -2094,3 +2094,57 @@ body.dark-mode .btn-secondary-full {
     color: #ffffff !important;
     border: none !important;
 }
+
+
+/* --- DROP_DOWN DE IDIOMA --- */
+.lang-dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    right: 0;
+    background-color: white;
+    min-width: 140px;
+    box-shadow: 0px 8px 16px rgba(0,0,0,0.1);
+    border-radius: 8px;
+    z-index: 1000;
+    margin-top: 5px;
+    overflow: hidden;
+    border: 1px solid #e2e8f0;
+}
+
+.dropdown-content a {
+    color: var(--text-dark);
+    padding: 10px 15px;
+    text-decoration: none;
+    display: block;
+    font-size: 0.9rem;
+    transition: background 0.2s;
+}
+
+.dropdown-content a:hover {
+    background-color: #f1f5f9;
+}
+
+/* Mostrar el menú con una clase */
+.dropdown-content.show {
+    display: block;
+}
+
+/* MODO OSCURO PARA EL DESPLEGABLE */
+body.dark-mode .dropdown-content {
+    background-color: #1e293b;
+    border-color: #334155;
+    box-shadow: 0px 8px 16px rgba(0,0,0,0.4);
+}
+
+body.dark-mode .dropdown-content a {
+    color: #f1f5f9;
+}
+
+body.dark-mode .dropdown-content a:hover {
+    background-color: #334155;
+}

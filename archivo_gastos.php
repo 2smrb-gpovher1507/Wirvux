@@ -32,16 +32,17 @@ $res_años = mysqli_query($conexion, $query_años);
 
     <nav>
         <div class="nav-container">
-            <h1>WIRVUX <span>ARCHIVO</span></h1>
+            <h1>WIRVUX <span data-key="nav_archive">ARCHIVO</span></h1>
             <div class="nav-links">
-                <a href="mis_pagos.php" class="btn-back">Volver a Pagos</a>
+                <a href="mis_pagos.php" class="btn-back" data-key="btn_back">Volver a Pagos</a>
+                <a href="logout.php" class="btn-logout" data-key="nav_logout" onclick="sessionStorage.clear()">Cerrar Sesión</a>
             </div>
         </div>
     </nav>
 
     <div class="container-archivo">
         <section class="seccion-historial">
-            <h3>Historial de Años Anteriores</h3>
+            <h3 data-key="title_history">Historial de Años Anteriores</h3>
             
             <div class="grid-historial"> 
                 <?php if(mysqli_num_rows($res_años) > 0): ?>
@@ -49,65 +50,71 @@ $res_años = mysqli_query($conexion, $query_años);
                         <div class="tarjeta-anio"> 
                             <div class="etiqueta-anio"><?php echo $row['anio']; ?></div>
                             <div class="info-anio">
-                                <p>Servicios: <strong><?php echo $row['total_trabajos']; ?></strong></p>
+                                <p><span data-key="services_label">Servicios</span>: <strong><?php echo $row['total_trabajos']; ?></strong></p>
                                 <span class="monto-anio"><?php echo number_format($row['total_gastado'], 2); ?> €</span>
                             </div>
-                            <a href="historial_anual.php?anio=<?php echo $row['anio']; ?>" class="btn-detalle">
+                            <a href="historial_anual.php?anio=<?php echo $row['anio']; ?>" class="btn-detalle" data-key="btn_view_details">
                                 Ver detalles
                             </a>
                         </div>
                     <?php endwhile; ?>
                 <?php else: ?>
-                    <p class="vacio-texto">No tienes registros de años anteriores todavía.</p>
+                    <p class="vacio-texto" data-key="empty_archive">No tienes registros de años anteriores todavía.</p>
                 <?php endif; ?>
             </div>
         </section>
     </div>
 
     <footer class="text-center">
-        <p>&copy; 2026 Wirvux - Historial de Servicios</p>
+        <p>&copy; 2026 Wirvux - <span data-key="footer_archive">Historial de Servicios</span></p>
     </footer>
 
-
-
     <script>
-    const btn = document.getElementById('theme-toggle');
-    const icon = document.getElementById('theme-icon');
-    const text = document.getElementById('theme-text');
+    /* Diccionario para que los textos cambien según lo elegido en el panel principal */
+    const translations = {
+        'es': {
+            'nav_archive': 'ARCHIVO',
+            'btn_back': 'Volver a Pagos',
+            'nav_logout': 'Cerrar Sesión',
+            'title_history': 'Historial de Años Anteriores',
+            'services_label': 'Servicios',
+            'btn_view_details': 'Ver detalles',
+            'empty_archive': 'No tienes registros de años anteriores todavía.',
+            'footer_archive': 'Historial de Servicios'
+        },
+        'en': {
+            'nav_archive': 'ARCHIVE',
+            'btn_back': 'Back to Payments',
+            'nav_logout': 'Logout',
+            'title_history': 'Previous Years History',
+            'services_label': 'Services',
+            'btn_view_details': 'View details',
+            'empty_archive': 'You have no records from previous years yet.',
+            'footer_archive': 'Service History'
+        }
+    };
 
-    // 1. Al cargar la página: Comprobar si ya había una preferencia guardada
-    const currentTheme = localStorage.getItem('theme');
-    if (currentTheme === 'dark') {
-        document.body.classList.add('dark-mode');
-        if(icon) icon.innerText = '☀️';
-        if(text) text.innerText = 'Modo Claro';
+    // Función que solo aplica lo que ya está guardado
+    function loadPreferences() {
+        const lang = sessionStorage.getItem('lang') || 'es';
+        const theme = sessionStorage.getItem('theme') || 'light';
+
+        // Aplicar Idioma
+        document.querySelectorAll('[data-key]').forEach(el => {
+            const key = el.getAttribute('data-key');
+            if (translations[lang][key]) el.innerText = translations[lang][key];
+        });
+
+        // Aplicar Tema
+        if (theme === 'dark') {
+            document.body.classList.add('dark-mode');
+        } else {
+            document.body.classList.remove('dark-mode');
+        }
     }
 
-    // 2. Al hacer clic: Cambiar el tema y guardar la elección
-    btn.addEventListener('click', () => {
-        document.body.classList.toggle('dark-mode');
-        
-        let theme = 'light';
-        if (document.body.classList.contains('dark-mode')) {
-            theme = 'dark';
-            if(icon) icon.innerText = '☀️';
-            if(text) text.innerText = 'Modo Claro';
-        } else {
-            if(icon) icon.innerText = '🌙';
-            if(text) text.innerText = 'Modo Oscuro';
-        }
-        
-        // Guardamos la elección para la próxima vez
-        localStorage.setItem('theme', theme);
-    });
-</script>
-
-
-
-
-
-
-
-
+    // Ejecutar al cargar la página
+    loadPreferences();
+    </script>
 </body>
 </html>

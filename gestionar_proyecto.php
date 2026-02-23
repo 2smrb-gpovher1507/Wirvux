@@ -9,14 +9,13 @@ if (!isset($_SESSION['usuario_id']) || $_SESSION['tipo'] !== 'autonomo') {
 
 $id_usuario = $_SESSION['usuario_id'];
 
-// Verificamos que llegue el ID por la URL
 if (!isset($_GET['id'])) {
     die("Error: No se ha especificado el ID del proyecto en la URL.");
 }
 
 $id_trabajo = mysqli_real_escape_string($conexion, $_GET['id']);
 
-// 1. Lógica para finalizar (se mantiene igual)
+// 1. Lógica para finalizar
 if (isset($_POST['finalizar'])) {
     $update = "UPDATE trabajos SET estado = 'completado' 
                WHERE id = $id_trabajo AND id_autonomo = $id_usuario";
@@ -25,7 +24,7 @@ if (isset($_POST['finalizar'])) {
     exit();
 }
 
-// 2. Consulta mejorada: Usamos LEFT JOIN por si el cliente no existe, que no rompa la página
+// 2. Consulta del proyecto
 $query = "SELECT t.*, u.nombre as cliente_nombre, u.email as cliente_email 
           FROM trabajos t 
           LEFT JOIN usuarios u ON t.id_cliente = u.id 
@@ -35,8 +34,7 @@ $res = mysqli_query($conexion, $query);
 $proyecto = mysqli_fetch_assoc($res);
 
 if (!$proyecto) {
-    // Esto te dirá la verdad de por qué falla
-    die("Error: El proyecto con ID $id_trabajo no existe o no te pertenece (Tu ID es $id_usuario).");
+    die("Error: El proyecto con ID $id_trabajo no existe o no te pertenece.");
 }
 ?>
 
@@ -44,155 +42,139 @@ if (!$proyecto) {
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <link rel="stylesheet" href="estilos.css">
+    <link rel="stylesheet" href="estilos.css?v=<?php echo time(); ?>">
     <title>Gestionar Proyecto | Wirvux</title>
     <style>
-    .gestion-container { 
-        max-width: 700px; 
-        margin: 40px auto; 
-        padding: 30px; 
-        background: var(--white); /* Usa blanco en claro, azul oscuro en dark */
-        border-radius: 12px; 
-        box-shadow: 0 5px 15px rgba(0,0,0,0.1); 
-        border: 1px solid transparent;
-    }
+        .gestion-container { 
+            max-width: 700px; 
+            margin: 40px auto; 
+            padding: 30px; 
+            background: var(--white); 
+            border-radius: 12px; 
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1); 
+            border: 1px solid transparent;
+        }
+        .header-proyecto { 
+            border-bottom: 2px solid #f0f0f0; 
+            margin-bottom: 20px; 
+            padding-bottom: 10px; 
+            color: var(--text-dark);
+        }
+        .info-cliente { 
+            background: #f9f9f9; 
+            padding: 15px; 
+            border-radius: 8px; 
+            margin: 20px 0; 
+            border: 1px solid #eee;
+        }
+        .btn-finalizar { 
+            background: #28a745; 
+            color: white; 
+            border: none; 
+            padding: 12px 25px; 
+            border-radius: 5px; 
+            cursor: pointer; 
+            font-weight: bold; 
+            width: 100%; 
+            font-size: 1.1em; 
+            transition: background 0.3s;
+            margin-top: 20px;
+        }
 
-    .header-proyecto { 
-        border-bottom: 2px solid #f0f0f0; 
-        margin-bottom: 20px; 
-        padding-bottom: 10px; 
-        color: var(--text-dark);
-    }
-
-    .info-cliente { 
-        background: #f9f9f9; 
-        padding: 15px; 
-        border-radius: 8px; 
-        margin: 20px 0; 
-        border: 1px solid #eee;
-    }
-
-    .btn-finalizar { 
-        background: #28a745; 
-        color: white; 
-        border: none; 
-        padding: 12px 25px; 
-        border-radius: 5px; 
-        cursor: pointer; 
-        font-weight: bold; 
-        width: 100%; 
-        font-size: 1.1em; 
-        transition: background 0.3s;
-    }
-
-    .btn-finalizar:hover { 
-        background: #218838; 
-    }
-
-    /* --- AJUSTES ESPECÍFICOS MODO OSCURO --- */
-    body.dark-mode .gestion-container {
-        background: #1e293b !important;
-        box-shadow: 0 10px 25px rgba(0,0,0,0.3);
-        border-color: #334155 !important;
-    }
-
-    body.dark-mode .header-proyecto {
-        border-bottom-color: #334155 !important;
-        color: #ffffff !important;
-    }
-
-    body.dark-mode .info-cliente {
-        background: #0f172a !important; /* Fondo más profundo para destacar la info */
-        border-color: #334155 !important;
-        color: #cbd5e1 !important;
-    }
-
-    body.dark-mode .info-cliente strong {
-        color: #ffffff !important;
-    }
-
-    body.dark-mode .btn-finalizar {
-        background: #15803d; /* Verde un poco más oscuro para que no desentone */
-    }
-
-    body.dark-mode .btn-finalizar:hover {
-        background: #166534;
-    }
-</style>
+        /* Ajustes Modo Oscuro específicos */
+        body.dark-mode .gestion-container { background: #1e293b !important; border-color: #334155 !important; }
+        body.dark-mode .header-proyecto { border-bottom-color: #334155 !important; color: #ffffff !important; }
+        body.dark-mode .info-cliente { background: #0f172a !important; border-color: #334155 !important; color: #cbd5e1 !important; }
+        body.dark-mode .info-cliente strong { color: #ffffff !important; }
+        body.dark-mode .btn-finalizar { background: #15803d; }
+    </style>
 </head>
 <body>
     <div class="gestion-container">
-        <a href="area_autonomo.php" style="text-decoration: none; color: #666;">← Volver al panel</a>
+        <a href="area_autonomo.php" style="text-decoration: none; color: var(--primary-color);" data-key="btn_back">← Volver al panel</a>
         
         <div class="header-proyecto">
             <h1><?php echo htmlspecialchars($proyecto['titulo']); ?></h1>
-            <span class="status-badge status-active">Estado: <?php echo ucfirst($proyecto['estado']); ?></span>
+            <span class="status-badge status-active">
+                <span data-key="label_status">Estado</span>: 
+                <?php echo ($proyecto['estado'] == 'en_progreso') ? '<span data-key="pill_progress">En curso</span>' : '<span data-key="pill_done">Finalizado</span>'; ?>
+            </span>
         </div>
 
-        <p><strong>Descripción:</strong><br> <?php echo nl2br(htmlspecialchars($proyecto['descripcion'])); ?></p>
+        <p><strong data-key="label_desc">Descripción:</strong><br> <?php echo nl2br(htmlspecialchars($proyecto['descripcion'])); ?></p>
         
         <div class="info-cliente">
-            <h3>Datos del Cliente</h3>
-            <p><strong>Nombre:</strong> <?php echo htmlspecialchars($proyecto['cliente_nombre']); ?></p>
-            <p><strong>Contacto:</strong> <?php echo htmlspecialchars($proyecto['cliente_email']); ?></p>
+            <h3 data-key="title_client_data">Datos del Cliente</h3>
+            <p><strong data-key="label_name">Nombre:</strong> <?php echo htmlspecialchars($proyecto['cliente_nombre']); ?></p>
+            <p><strong data-key="label_contact">Contacto:</strong> <?php echo htmlspecialchars($proyecto['cliente_email']); ?></p>
         </div>
 
-        <p style="font-size: 1.2em; color: #333;"><strong>Presupuesto acordado:</strong> <?php echo number_format($proyecto['presupuesto'], 2); ?> €</p>
+        <p style="font-size: 1.2em; color: var(--text-dark);">
+            <strong data-key="label_budget">Presupuesto acordado:</strong> <?php echo number_format($proyecto['presupuesto'], 2); ?> €
+        </p>
 
         <?php if ($proyecto['estado'] == 'en_progreso'): ?>
-            
+            <form method="POST">
+                <button type="submit" name="finalizar" class="btn-finalizar" data-key="btn_finish" onclick="return confirm('¿Seguro que quieres finalizar este proyecto?')">
+                    Finalizar Proyecto y Cobrar
+                </button>
+            </form>
         <?php else: ?>
-            <div style="padding: 15px; background: #e9ecef; border-radius: 8px; text-align: center; color: #495057;">
+            <div style="padding: 15px; background: #e9ecef; border-radius: 8px; text-align: center; color: #495057; margin-top: 20px;" data-key="msg_finished">
                 Este proyecto ya ha sido finalizado.
             </div>
         <?php endif; ?>
     </div>
 
-
-
-
-
-
     <script>
-    const btn = document.getElementById('theme-toggle');
-    const icon = document.getElementById('theme-icon');
-    const text = document.getElementById('theme-text');
+    const translations = {
+        'es': {
+            'btn_back': '← Volver al panel',
+            'label_status': 'Estado',
+            'pill_progress': 'En curso',
+            'pill_done': 'Finalizado',
+            'label_desc': 'Descripción',
+            'title_client_data': 'Datos del Cliente',
+            'label_name': 'Nombre',
+            'label_contact': 'Contacto',
+            'label_budget': 'Presupuesto acordado',
+            'btn_finish': 'Finalizar Proyecto y Cobrar',
+            'msg_finished': 'Este proyecto ya ha sido finalizado.'
+        },
+        'en': {
+            'btn_back': '← Back to dashboard',
+            'label_status': 'Status',
+            'pill_progress': 'In progress',
+            'pill_done': 'Completed',
+            'label_desc': 'Description',
+            'title_client_data': 'Client Information',
+            'label_name': 'Name',
+            'label_contact': 'Contact',
+            'label_budget': 'Agreed Budget',
+            'btn_finish': 'Finish Project and Collect',
+            'msg_finished': 'This project has already been completed.'
+        }
+    };
 
-    // 1. Al cargar la página: Comprobar si ya había una preferencia guardada
-    const currentTheme = localStorage.getItem('theme');
-    if (currentTheme === 'dark') {
-        document.body.classList.add('dark-mode');
-        if(icon) icon.innerText = '☀️';
-        if(text) text.innerText = 'Modo Claro';
+    function loadPreferences() {
+        const lang = sessionStorage.getItem('lang') || 'es';
+        const theme = sessionStorage.getItem('theme') || 'light';
+
+        // Aplicar Idioma
+        document.querySelectorAll('[data-key]').forEach(el => {
+            const key = el.getAttribute('data-key');
+            if (translations[lang][key]) el.innerText = translations[lang][key];
+        });
+
+        // Aplicar Tema
+        if (theme === 'dark') {
+            document.body.classList.add('dark-mode');
+        } else {
+            document.body.classList.remove('dark-mode');
+        }
     }
 
-    // 2. Al hacer clic: Cambiar el tema y guardar la elección
-    btn.addEventListener('click', () => {
-        document.body.classList.toggle('dark-mode');
-        
-        let theme = 'light';
-        if (document.body.classList.contains('dark-mode')) {
-            theme = 'dark';
-            if(icon) icon.innerText = '☀️';
-            if(text) text.innerText = 'Modo Claro';
-        } else {
-            if(icon) icon.innerText = '🌙';
-            if(text) text.innerText = 'Modo Oscuro';
-        }
-        
-        // Guardamos la elección para la próxima vez
-        localStorage.setItem('theme', theme);
-    });
-</script>
-
-
-
-
-
-
-
-
-
-
+    window.onload = loadPreferences;
+    </script>
 </body>
 </html>

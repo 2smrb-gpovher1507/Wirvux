@@ -12,7 +12,7 @@ $nombre_usuario = isset($_SESSION['nombre_completo']) ? explode(' ', $_SESSION['
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="estilos.css?v=<?php echo time(); ?>">
-    <title>Wirvux | <?php echo ucfirst($tipo); ?></title>
+    <title>Wirvux</title>
 </head>
 <body>
 
@@ -21,15 +21,15 @@ $nombre_usuario = isset($_SESSION['nombre_completo']) ? explode(' ', $_SESSION['
             <h1>Wirvux</h1>
             <div class="nav-links">
                 <?php if($tipo == 'invitado'): ?>
-                    <a href="#servicios">Servicios</a>
-                    <a href="login.php">Iniciar sesion</a>
-                    <a href="registro.php" class="btn-registro">Únete ahora</a>
+                    <a href="#servicios" data-key="nav_services">Servicios</a>
+                    <a href="login.php" data-key="nav_login">Iniciar sesión</a>
+                    <a href="registro.php" class="btn-registro" data-key="nav_join">Únete ahora</a>
                 <?php else: ?>
                     <a href="<?php echo ($tipo == 'cliente') ? 'area_cliente.php' : 'area_autonomo.php'; ?>" class="btn-area">
-                        Panel <?php echo ucfirst($tipo); ?>
+                        <span data-key="nav_panel">Panel</span> <?php echo ucfirst($tipo); ?>
                     </a>
-                    <span class="user-name">Hola, <?php echo $nombre_usuario; ?></span>
-                    <a href="logout.php" class="btn-logout">Salir</a>
+                    <span class="user-name"><span data-key="hello">Hola</span>, <?php echo $nombre_usuario; ?></span>
+                    <a href="logout.php" class="btn-logout" data-key="nav_logout" onclick="resetConfig()">Cerrar Sesión</a>
                 <?php endif; ?>
             </div>
         </div>
@@ -39,15 +39,8 @@ $nombre_usuario = isset($_SESSION['nombre_completo']) ? explode(' ', $_SESSION['
         <header class="hero-v2 hero-cliente">
             <div class="hero-overlay">
                 <div class="hero-text">
-                    <h1 style = "margin-left: 100px;">¿Qué problema resolvemos hoy?</h1>
-                    <p style = "margin-left: 90px;">Encuentra técnicos expertos o publica lo que necesitas para recibir ofertas.</p>
-                    <!--<div style="margin-left: 160px;">
-                    <form action="explorar.php" method="GET" class="search-bar">
-                        <input type="text" name="q" placeholder="Ej: Reparar laptop, programar web...">
-                        <button type="submit" class="btn-primary">Buscar Experto</button>
-                    </form>
-                    </div>-->
-
+                    <h1 data-key="hero_cli_title">¿Qué problema resolvemos hoy?</h1>
+                    <p data-key="hero_cli_sub">Encuentra técnicos expertos o publica lo que necesitas para recibir ofertas.</p>
                 </div>
             </div>
         </header>
@@ -56,12 +49,8 @@ $nombre_usuario = isset($_SESSION['nombre_completo']) ? explode(' ', $_SESSION['
         <header class="hero-v2 hero-autonomo">
             <div class="hero-overlay">
                 <div class="hero-text">
-                    <h1>Panel de Oportunidades</h1>
-                    <p>Revisa los nuevos trabajos disponibles en tu rama profesional.</p>
-                    <div class="hero-btns">
-                        <!--<a href="solicitudes.php" class="btn-primary">Ver Ventana de Solicitudes</a>
-                        <a href="perfil.php" class="btn-secondary">Mi Perfil Público</a>-->
-                    </div>
+                    <h1 data-key="hero_auto_title">Panel de Oportunidades</h1>
+                    <p data-key="hero_auto_sub">Revisa los nuevos trabajos disponibles en tu rama profesional.</p>
                 </div>
             </div>
         </header>
@@ -70,89 +59,120 @@ $nombre_usuario = isset($_SESSION['nombre_completo']) ? explode(' ', $_SESSION['
         <header class="hero-v2">
             <div class="hero-overlay">
                 <div class="hero-text">
-                    <h1 style = "margin-left: 160px;">Tu proyecto merece un experto.</h1>
-                    <p style = "margin-left: 160px;">Wirvux conecta profesionales autónomos con clientes que buscan calidad.</p>
-                    
+                    <h1 data-key="hero_inv_title">Tu proyecto merece un experto.</h1>
+                    <p data-key="hero_inv_sub">Wirvux conecta profesionales autónomos con clientes que buscan calidad.</p>
                 </div>
             </div>
         </header>
     <?php endif; ?>
 
     <section id="servicios" class="section">
-        <h2 class="text-center">Categorías Populares</h2>
+        <h2 class="text-center" data-key="cat_title">Categorías Populares</h2>
         <div class="grid-categorias">
-            <!--<a href="explorar.php?q=Reparacion" style="text-decoration: none; color: inherit;">-->
-                <div class="cat-card">
-                    <div class="icon">🛠️</div>
-                    <h3>Reparaciones</h3>
-                    <p>Hardware y equipos informáticos.</p>
-                </div>
-            <!--</a>-->
-            <!--<a href="explorar.php?q=Configuracion" style="text-decoration: none; color: inherit;">-->
-                <div class="cat-card">
-                    <div class="icon">🖥️</div>
-                    <h3>Configuración</h3>
-                    <p>Sistemas, Redes y Seguridad.</p>
-                </div>
-            <!--</a>-->
-            <!--<a href="explorar.php?q=Programacion" style="text-decoration: none; color: inherit;">-->
-                <div class="cat-card">
-                    <div class="icon">💻</div>
-                    <h3>Programación</h3>
-                    <p>Software, Web y Apps a medida.</p>
-                </div>
-            <!--</a>-->
+            <div class="cat-card">
+                <div class="icon">🛠️</div>
+                <h3 data-key="cat_repair_t">Reparaciones</h3>
+                <p data-key="cat_repair_d">Hardware y equipos informáticos.</p>
+            </div>
+            <div class="cat-card">
+                <div class="icon">🖥️</div>
+                <h3 data-key="cat_config_t">Configuración</h3>
+                <p data-key="cat_config_d">Sistemas, Redes y Seguridad.</p>
+            </div>
+            <div class="cat-card">
+                <div class="icon">💻</div>
+                <h3 data-key="cat_dev_t">Programación</h3>
+                <p data-key="cat_dev_d">Software, Web y Apps a medida.</p>
+            </div>
         </div>
     </section>
 
     <footer class="text-center">
-        <p>&copy; 2026 Wirvux - Conectando Talento Profesional</p>
+        <p>&copy; 2026 Wirvux - <span data-key="footer_index">Conectando Talento Profesional</span></p>
     </footer>
 
-
-
-
-
     <script>
-    const btn = document.getElementById('theme-toggle');
-    const icon = document.getElementById('theme-icon');
-    const text = document.getElementById('theme-text');
+    const translations = {
+        'es': {
+            'nav_services': 'Servicios',
+            'nav_login': 'Iniciar sesión',
+            'nav_join': 'Únete ahora',
+            'nav_panel': 'Panel',
+            'hello': 'Hola',
+            'nav_logout': 'Salir',
+            'hero_cli_title': '¿Qué problema resolvemos hoy?',
+            'hero_cli_sub': 'Encuentra técnicos expertos o publica lo que necesitas para recibir ofertas.',
+            'hero_auto_title': 'Panel de Oportunidades',
+            'hero_auto_sub': 'Revisa los nuevos trabajos disponibles en tu rama profesional.',
+            'hero_inv_title': 'Tu proyecto merece un experto.',
+            'hero_inv_sub': 'Wirvux conecta profesionales autónomos con clientes que buscan calidad.',
+            'cat_title': 'Categorías Populares',
+            'cat_repair_t': 'Reparaciones',
+            'cat_repair_d': 'Hardware y equipos informáticos.',
+            'cat_config_t': 'Configuración',
+            'cat_config_d': 'Sistemas, Redes y Seguridad.',
+            'cat_dev_t': 'Programación',
+            'cat_dev_d': 'Software, Web y Apps a medida.',
+            'footer_index': 'Conectando Talento Profesional'
+        },
+        'en': {
+            'nav_services': 'Services',
+            'nav_login': 'Login',
+            'nav_join': 'Join now',
+            'nav_panel': 'Dashboard',
+            'hello': 'Hello',
+            'nav_logout': 'Logout',
+            'hero_cli_title': 'What problem are we solving today?',
+            'hero_cli_sub': 'Find expert technicians or post what you need to receive offers.',
+            'hero_auto_title': 'Opportunities Dashboard',
+            'hero_auto_sub': 'Check out new available jobs in your professional field.',
+            'hero_inv_title': 'Your project deserves an expert.',
+            'hero_inv_sub': 'Wirvux connects freelance professionals with clients seeking quality.',
+            'cat_title': 'Popular Categories',
+            'cat_repair_t': 'Repairs',
+            'cat_repair_d': 'Hardware and IT equipment.',
+            'cat_config_t': 'Configuration',
+            'cat_config_d': 'Systems, Networks and Security.',
+            'cat_dev_t': 'Programming',
+            'cat_dev_d': 'Custom Software, Web and Apps.',
+            'footer_index': 'Connecting Professional Talent'
+        }
+    };
 
-    // 1. Al cargar la página: Comprobar si ya había una preferencia guardada
-    const currentTheme = localStorage.getItem('theme');
-    if (currentTheme === 'dark') {
-        document.body.classList.add('dark-mode');
-        if(icon) icon.innerText = '☀️';
-        if(text) text.innerText = 'Modo Claro';
+    // Pasamos el tipo de usuario desde PHP a JS
+    const userType = "<?php echo $tipo; ?>";
+
+    function loadPreferences() {
+        // LÓGICA DE FORZADO: Si es invitado, lang siempre es 'es'
+        let lang = 'es';
+        let theme = 'light';
+
+        if (userType !== 'invitado') {
+            lang = sessionStorage.getItem('lang') || 'es';
+            theme = sessionStorage.getItem('theme') || 'light';
+        }
+
+        // Aplicar Idioma
+        document.querySelectorAll('[data-key]').forEach(el => {
+            const key = el.getAttribute('data-key');
+            if (translations[lang][key]) el.innerText = translations[lang][key];
+        });
+
+        // Aplicar Tema
+        if (theme === 'dark') {
+            document.body.classList.add('dark-mode');
+        } else {
+            document.body.classList.remove('dark-mode');
+        }
     }
 
-    // 2. Al hacer clic: Cambiar el tema y guardar la elección
-    btn.addEventListener('click', () => {
-        document.body.classList.toggle('dark-mode');
-        
-        let theme = 'light';
-        if (document.body.classList.contains('dark-mode')) {
-            theme = 'dark';
-            if(icon) icon.innerText = '☀️';
-            if(text) text.innerText = 'Modo Claro';
-        } else {
-            if(icon) icon.innerText = '🌙';
-            if(text) text.innerText = 'Modo Oscuro';
-        }
-        
-        // Guardamos la elección para la próxima vez
-        localStorage.setItem('theme', theme);
-    });
-</script>
+    // Función que se llama al cerrar sesión
+    function resetConfig() {
+        sessionStorage.clear();
+        localStorage.clear();
+    }
 
-
-
-
-
-
-
-
-
-
+    window.onload = loadPreferences;
+    </script>
 </body>
 </html>

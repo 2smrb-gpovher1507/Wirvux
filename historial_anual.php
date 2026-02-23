@@ -10,7 +10,7 @@ if (!isset($_SESSION['usuario_id']) || !isset($_GET['anio'])) {
 $id_cliente = $_SESSION['usuario_id'];
 $anio_seleccionado = intval($_GET['anio']);
 
-// Consulta detallada: traemos descripción y datos del técnico
+// Consulta detallada
 $query_gastos = "SELECT t.*, u.nombre as tecnico_nombre, u.apellidos as tecnico_apellidos, u.email as tecnico_email
                  FROM trabajos t 
                  LEFT JOIN usuarios u ON t.id_autonomo = u.id 
@@ -20,9 +20,10 @@ $query_gastos = "SELECT t.*, u.nombre as tecnico_nombre, u.apellidos as tecnico_
                  ORDER BY t.fecha_creacion DESC";
 $res_gastos = mysqli_query($conexion, $query_gastos);
 
-// Suma total solo de este año para el encabezado
+// Suma total
 $res_suma = mysqli_query($conexion, "SELECT SUM(presupuesto) as total_anio FROM trabajos WHERE id_cliente = $id_cliente AND estado = 'completado' AND YEAR(fecha_creacion) = $anio_seleccionado");
 $suma_data = mysqli_fetch_assoc($res_suma);
+$total_final = $suma_data['total_anio'] ?? 0;
 ?>
 
 <!DOCTYPE html>
@@ -30,7 +31,7 @@ $suma_data = mysqli_fetch_assoc($res_suma);
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Historial <?php echo $anio_seleccionado; ?> | Wirvux</title>
+    <title data-key="title_page">Historial <?php echo $anio_seleccionado; ?> | Wirvux</title>
     <link rel="stylesheet" href="estilos.css?v=<?php echo time(); ?>">
 </head>
 <body>
@@ -39,7 +40,7 @@ $suma_data = mysqli_fetch_assoc($res_suma);
         <div class="nav-container">
             <h1>WIRVUX <span><?php echo $anio_seleccionado; ?></span></h1>
             <div class="nav-links">
-                <a href="archivo_gastos.php" class="btn-back">Volver al Archivo</a>
+                <a href="archivo_gastos.php" class="btn-back" data-key="btn_back">Volver al Archivo</a>
             </div>
         </div>
     </nav>
@@ -47,10 +48,10 @@ $suma_data = mysqli_fetch_assoc($res_suma);
     <div class="container-anual">
         
         <header class="header-resumen">
-            <h2>Resumen de Gastos <?php echo $anio_seleccionado; ?></h2>
+            <h2><span data-key="summary_title">Resumen de Gastos</span> <?php echo $anio_seleccionado; ?></h2>
             <div class="caja-total">
-                <p>Inversión total del periodo:</p>
-                <span class="monto-total"><?php echo number_format($suma_data['total_anio'], 2); ?> €</span>
+                <p data-key="total_label">Inversión total del periodo:</p>
+                <span class="monto-total"><?php echo number_format($total_final, 2); ?> €</span>
             </div>
         </header>
 
@@ -64,7 +65,7 @@ $suma_data = mysqli_fetch_assoc($res_suma);
                             <p class="desc-corta"><?php echo nl2br(htmlspecialchars($gasto['descripcion'])); ?></p>
                             
                             <div class="info-tecnico">
-                                <span>Profesional: <strong><?php echo htmlspecialchars($gasto['tecnico_nombre'] . " " . $gasto['tecnico_apellidos']); ?></strong></span>
+                                <span><span data-key="pro_label">Profesional</span>: <strong><?php echo htmlspecialchars($gasto['tecnico_nombre'] . " " . $gasto['tecnico_apellidos']); ?></strong></span>
                             </div>
                         </div>
 
@@ -74,59 +75,57 @@ $suma_data = mysqli_fetch_assoc($res_suma);
                     </article>
                 <?php endwhile; ?>
             <?php else: ?>
-                <p class="vacio-texto">No se encontraron registros para el año seleccionado.</p>
+                <p class="vacio-texto" data-key="empty_msg">No se encontraron registros para el año seleccionado.</p>
             <?php endif; ?>
         </section>
 
     </div>
 
     <footer class="text-center">
-        <p>&copy; 2026 Wirvux - Resumen de gastos</p>
+        <p>&copy; 2026 Wirvux - <span data-key="footer_resumen">Resumen de gastos</span></p>
     </footer>
 
+    <script>
+    const translations = {
+        'es': {
+            'btn_back': 'Volver al Archivo',
+            'summary_title': 'Resumen de Gastos',
+            'total_label': 'Inversión total del periodo:',
+            'pro_label': 'Profesional',
+            'empty_msg': 'No se encontraron registros para el año seleccionado.',
+            'footer_resumen': 'Resumen de gastos'
+        },
+        'en': {
+            'btn_back': 'Back to Archive',
+            'summary_title': 'Expense Summary',
+            'total_label': 'Total investment for the period:',
+            'pro_label': 'Professional',
+            'empty_msg': 'No records found for the selected year.',
+            'footer_resumen': 'Expense summary'
+        }
+    };
 
+    function loadPreferences() {
+        const lang = sessionStorage.getItem('lang') || 'es';
+        const theme = sessionStorage.getItem('theme') || 'light';
 
+        // Aplicar Idioma
+        document.querySelectorAll('[data-key]').forEach(el => {
+            const key = el.getAttribute('data-key');
+            if (translations[lang][key]) {
+                el.innerText = translations[lang][key];
+            }
+        });
 
-
-
-
-<script>
-    const btn = document.getElementById('theme-toggle');
-    const icon = document.getElementById('theme-icon');
-    const text = document.getElementById('theme-text');
-
-    // 1. Al cargar la página: Comprobar si ya había una preferencia guardada
-    const currentTheme = localStorage.getItem('theme');
-    if (currentTheme === 'dark') {
-        document.body.classList.add('dark-mode');
-        if(icon) icon.innerText = '☀️';
-        if(text) text.innerText = 'Modo Claro';
+        // Aplicar Modo Oscuro
+        if (theme === 'dark') {
+            document.body.classList.add('dark-mode');
+        } else {
+            document.body.classList.remove('dark-mode');
+        }
     }
 
-    // 2. Al hacer clic: Cambiar el tema y guardar la elección
-    btn.addEventListener('click', () => {
-        document.body.classList.toggle('dark-mode');
-        
-        let theme = 'light';
-        if (document.body.classList.contains('dark-mode')) {
-            theme = 'dark';
-            if(icon) icon.innerText = '☀️';
-            if(text) text.innerText = 'Modo Claro';
-        } else {
-            if(icon) icon.innerText = '🌙';
-            if(text) text.innerText = 'Modo Oscuro';
-        }
-        
-        // Guardamos la elección para la próxima vez
-        localStorage.setItem('theme', theme);
-    });
-</script>
-
-
-
-
-
-
-
+    window.onload = loadPreferences;
+    </script>
 </body>
 </html>

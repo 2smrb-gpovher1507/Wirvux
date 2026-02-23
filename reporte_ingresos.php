@@ -17,10 +17,11 @@ $query_mensual = "SELECT MONTH(fecha_creacion) as mes, SUM(presupuesto) as total
                   GROUP BY MONTH(fecha_creacion) ORDER BY mes DESC";
 $res_mensual = mysqli_query($conexion, $query_mensual);
 
-// Guardamos en un array para facilitar la visualización
-$meses_nombres = ["", "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"];
+// Array de meses con llaves para traducción fácil
+$meses_claves = ["", "jan", "feb", "mar", "apr", "may", "jun", "jul", "aug", "sep", "oct", "nov", "dec"];
+$meses_nombres_es = ["", "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"];
 
-// 2. Consulta para desglose ANUAL (máximo 7 años)
+// 2. Consulta para desglose ANUAL
 $query_anual = "SELECT YEAR(fecha_creacion) as anio, SUM(presupuesto) as total 
                 FROM trabajos 
                 WHERE id_autonomo = $id_usuario AND estado = 'completado'
@@ -39,18 +40,18 @@ $res_anual = mysqli_query($conexion, $query_anual);
 </head>
 <body>
     <div class="report-container">
-        <a href="area_autonomo.php" class="back-link">← Volver al Panel</a>
+        <a href="area_autonomo.php" class="back-link" data-key="btn_back">← Volver al Panel</a>
         
         <header class="report-header">
-            <h2>Ingresos Mensuales (<?php echo $anio_actual; ?>)</h2>
+            <h2><span data-key="title_monthly">Ingresos Mensuales</span> (<?php echo $anio_actual; ?>)</h2>
         </header>
 
         <div class="table-responsive">
             <table class="report-table">
                 <thead>
                     <tr>
-                        <th>Mes</th>
-                        <th>Total Generado</th>
+                        <th data-key="th_month">Mes</th>
+                        <th data-key="th_total">Total Generado</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -61,16 +62,16 @@ $res_anual = mysqli_query($conexion, $query_anual);
                             $total_del_anio += $row['total'];
                     ?>
                         <tr>
-                            <td><?php echo $meses_nombres[$row['mes']]; ?></td>
+                            <td data-month="<?php echo $meses_claves[$row['mes']]; ?>"><?php echo $meses_nombres_es[$row['mes']]; ?></td>
                             <td><?php echo number_format($row['total'], 2); ?> €</td>
                         </tr>
                     <?php endwhile; ?>
                         <tr class="total-row">
-                            <td><strong>Total Anual</strong></td>
+                            <td><strong data-key="label_annual_total">Total Anual</strong></td>
                             <td><strong><?php echo number_format($total_del_anio, 2); ?> €</strong></td>
                         </tr>
                     <?php else: ?>
-                        <tr><td colspan="2" class="text-center">No hay registros este año.</td></tr>
+                        <tr><td colspan="2" class="text-center" data-key="empty_year">No hay registros este año.</td></tr>
                     <?php endif; ?>
                 </tbody>
             </table>
@@ -79,15 +80,15 @@ $res_anual = mysqli_query($conexion, $query_anual);
         <hr class="divider">
 
         <header class="report-header">
-            <h2>Histórico de Ingresos (Últimos 7 años)</h2>
+            <h2 data-key="title_history">Histórico de Ingresos (Últimos 7 años)</h2>
         </header>
 
         <div class="table-responsive">
             <table class="report-table">
                 <thead>
                     <tr>
-                        <th>Año</th>
-                        <th>Total Anual</th>
+                        <th data-key="th_year">Año</th>
+                        <th data-key="th_total_annual">Total Anual</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -101,56 +102,71 @@ $res_anual = mysqli_query($conexion, $query_anual);
             </table>
         </div>
     </div>
+    
     <footer class="text-center">
-        <p>&copy; 2026 Wirvux - Historial de Servicios</p>
+        <p>&copy; 2026 Wirvux - <span data-key="footer_archive">Historial de Servicios</span></p>
     </footer>
 
-
-
-
-
-
-
-
     <script>
-    const btn = document.getElementById('theme-toggle');
-    const icon = document.getElementById('theme-icon');
-    const text = document.getElementById('theme-text');
+    const translations = {
+        'es': {
+            'btn_back': '← Volver al Panel',
+            'title_monthly': 'Ingresos Mensuales',
+            'th_month': 'Mes',
+            'th_total': 'Total Generado',
+            'label_annual_total': 'Total Anual',
+            'empty_year': 'No hay registros este año.',
+            'title_history': 'Histórico de Ingresos (Últimos 7 años)',
+            'th_year': 'Año',
+            'th_total_annual': 'Total Anual',
+            'footer_archive': 'Historial de Servicios',
+            'jan': 'Enero', 'feb': 'Febrero', 'mar': 'Marzo', 'apr': 'Abril', 
+            'may': 'Mayo', 'jun': 'Junio', 'jul': 'Julio', 'aug': 'Agosto', 
+            'sep': 'Septiembre', 'oct': 'Octubre', 'nov': 'Noviembre', 'dec': 'Diciembre'
+        },
+        'en': {
+            'btn_back': '← Back to Dashboard',
+            'title_monthly': 'Monthly Income',
+            'th_month': 'Month',
+            'th_total': 'Total Generated',
+            'label_annual_total': 'Annual Total',
+            'empty_year': 'No records this year.',
+            'title_history': 'Income History (Last 7 years)',
+            'th_year': 'Year',
+            'th_total_annual': 'Annual Total',
+            'footer_archive': 'Service History',
+            'jan': 'January', 'feb': 'February', 'mar': 'March', 'apr': 'April', 
+            'may': 'May', 'jun': 'June', 'jul': 'July', 'aug': 'August', 
+            'sep': 'September', 'oct': 'October', 'nov': 'November', 'dec': 'December'
+        }
+    };
 
-    // 1. Al cargar la página: Comprobar si ya había una preferencia guardada
-    const currentTheme = localStorage.getItem('theme');
-    if (currentTheme === 'dark') {
-        document.body.classList.add('dark-mode');
-        if(icon) icon.innerText = '☀️';
-        if(text) text.innerText = 'Modo Claro';
+    function loadPreferences() {
+        const lang = sessionStorage.getItem('lang') || 'es';
+        const theme = sessionStorage.getItem('theme') || 'light';
+
+        // 1. Aplicar traducciones generales (data-key)
+        document.querySelectorAll('[data-key]').forEach(el => {
+            const key = el.getAttribute('data-key');
+            if (translations[lang][key]) el.innerText = translations[lang][key];
+        });
+
+        // 2. Aplicar traducción de los meses (data-month)
+        document.querySelectorAll('[data-month]').forEach(el => {
+            const monthKey = el.getAttribute('data-month');
+            if (translations[lang][monthKey]) el.innerText = translations[lang][monthKey];
+        });
+
+        // 3. Aplicar Tema
+        if (theme === 'dark') {
+            document.body.classList.add('dark-mode');
+        } else {
+            document.body.classList.remove('dark-mode');
+        }
     }
 
-    // 2. Al hacer clic: Cambiar el tema y guardar la elección
-    btn.addEventListener('click', () => {
-        document.body.classList.toggle('dark-mode');
-        
-        let theme = 'light';
-        if (document.body.classList.contains('dark-mode')) {
-            theme = 'dark';
-            if(icon) icon.innerText = '☀️';
-            if(text) text.innerText = 'Modo Claro';
-        } else {
-            if(icon) icon.innerText = '🌙';
-            if(text) text.innerText = 'Modo Oscuro';
-        }
-        
-        // Guardamos la elección para la próxima vez
-        localStorage.setItem('theme', theme);
-    });
+    window.onload = loadPreferences;
 </script>
-
-
-
-
-
-
-
-
 
 </body>
 </html>

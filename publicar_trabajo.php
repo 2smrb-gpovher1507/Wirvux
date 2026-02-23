@@ -2,14 +2,13 @@
 session_start();
 include 'db.php';
 
-// Seguridad: Solo los clientes pueden publicar trabajos
 if (!isset($_SESSION['usuario_id']) || $_SESSION['tipo'] !== 'cliente') {
     header("Location: login.php");
     exit();
 }
 
 $id_cliente = $_SESSION['usuario_id'];
-$mensaje = "";
+$mensaje_tipo = ""; // Para identificar si es éxito o error en JS
 
 if (isset($_POST['publicar'])) {
     $titulo = mysqli_real_escape_string($conexion, $_POST['titulo']);
@@ -17,15 +16,13 @@ if (isset($_POST['publicar'])) {
     $categoria = mysqli_real_escape_string($conexion, $_POST['categoria']);
     $presupuesto = floatval($_POST['presupuesto']);
 
-    // Insertamos en la tabla trabajos
-    // El estado inicial es 'abierto' y el id_autonomo queda NULL por defecto
     $query = "INSERT INTO trabajos (id_cliente, titulo, descripcion, categoria, presupuesto, estado, fecha_creacion) 
               VALUES ($id_cliente, '$titulo', '$descripcion', '$categoria', $presupuesto, 'abierto', NOW())";
 
     if (mysqli_query($conexion, $query)) {
-        $mensaje = "<div class='alert alert-success'>¡Trabajo publicado con éxito!</div>";
+        $mensaje_tipo = "success";
     } else {
-        $mensaje = "<div class='alert alert-danger'>Error al publicar: " . mysqli_error($conexion) . "</div>";
+        $mensaje_tipo = "error";
     }
 }
 ?>
@@ -35,103 +32,142 @@ if (isset($_POST['publicar'])) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Publicar Trabajo | Wirvux</title>
+    <title data-key="title_page">Publicar Trabajo | Wirvux</title>
     <link rel="stylesheet" href="estilos.css?v=<?php echo time(); ?>">
 </head>
 <body>
 
     <nav>
         <div class="nav-container">
-            <h1>Wirvux <span>Publicar</span></h1>
+            <h1>Wirvux <span data-key="nav_publish">Publicar</span></h1>
             <div class="nav-links">
-                <a href="area_cliente.php">Volver al Panel</a>
+                <a href="area_cliente.php" data-key="btn_back">Volver al Panel</a>
             </div>
         </div>
     </nav>
 
     <div class="container-form">
         <section class="card-publicar">
-            <h2>¿Qué necesitas que hagamos?</h2>
-            <p>Describe tu proyecto y los expertos se postularán pronto.</p>
+            <h2 data-key="form_title">¿Qué necesitas que hagamos?</h2>
+            <p data-key="form_subtitle">Describe tu proyecto y los expertos se postularán pronto.</p>
             
-            <?php echo $mensaje; ?>
+            <div id="alert-container">
+                <?php if ($mensaje_tipo == "success"): ?>
+                    <div class='alert alert-success' data-key="msg_success">¡Trabajo publicado con éxito!</div>
+                <?php elseif ($mensaje_tipo == "error"): ?>
+                    <div class='alert alert-danger' data-key="msg_error">Error al publicar el proyecto.</div>
+                <?php endif; ?>
+            </div>
 
             <form action="publicar_trabajo.php" method="POST" class="form-wirvux">
                 <div class="campo-grupo">
-                    <label>Título del proyecto</label>
-                    <input type="text" name="titulo" placeholder="Ej: Reparar ordenador gaming" required>
+                    <label data-key="label_title">Título del proyecto</label>
+                    <input type="text" name="titulo" id="input_titulo" placeholder="Ej: Reparar ordenador gaming" required>
                 </div>
 
                 <div class="campo-grupo">
-                    <label>Categoría</label>
-                    <select name="categoria" required>
-                        <option value="">-- Selecciona una categoría --</option>
-                        <option value="Reparacion">Reparación</option>
-                        <option value="Configuracion">Configuración</option>
-                        <option value="Programacion">Programación</option>
-                        <option value="Administracion">Administración</option>
+                    <label data-key="label_cat">Categoría</label>
+                    <select name="categoria" id="select_cat" required>
+                        <option value="" data-key="opt_default">-- Selecciona una categoría --</option>
+                        <option value="Reparacion" data-key="opt_repair">Reparación</option>
+                        <option value="Configuracion" data-key="opt_config">Configuración</option>
+                        <option value="Programacion" data-key="opt_dev">Programación</option>
+                        <option value="Administracion" data-key="opt_admin">Administración</option>
                     </select>
                 </div>
 
                 <div class="campo-grupo">
-                    <label>Presupuesto máximo (€)</label>
+                    <label data-key="label_budget">Presupuesto máximo (€)</label>
                     <input type="number" step="0.01" name="presupuesto" placeholder="0.00" required>
                 </div>
 
                 <div class="campo-grupo">
-                    <label>Descripción detallada</label>
-                    <textarea name="descripcion" rows="5" placeholder="Explica qué necesitas con detalle..." required></textarea>
+                    <label data-key="label_desc">Descripción detallada</label>
+                    <textarea name="descripcion" id="input_desc" rows="5" placeholder="Explica qué necesitas con detalle..." required></textarea>
                 </div>
 
-                <button type="submit" name="publicar" class="btn-publicar">Publicar Proyecto</button>
+                <button type="submit" name="publicar" class="btn-publicar" data-key="btn_submit">Publicar Proyecto</button>
             </form>
         </section>
     </div>
 
     <footer class="text-center">
-        <p>&copy; 2026 Wirvux - Tu plataforma de confianza</p>
+        <p>&copy; 2026 Wirvux - <span data-key="footer_text">Tu plataforma de confianza</span></p>
     </footer>
 
-
-
-
-
     <script>
-    const btn = document.getElementById('theme-toggle');
-    const icon = document.getElementById('theme-icon');
-    const text = document.getElementById('theme-text');
+    const translations = {
+        'es': {
+            'title_page': 'Publicar Trabajo | Wirvux',
+            'nav_publish': 'Publicar',
+            'btn_back': 'Volver al Panel',
+            'form_title': '¿Qué necesitas que hagamos?',
+            'form_subtitle': 'Describe tu proyecto y los expertos se postularán pronto.',
+            'label_title': 'Título del proyecto',
+            'placeholder_title': 'Ej: Reparar ordenador gaming',
+            'label_cat': 'Categoría',
+            'opt_default': '-- Selecciona una categoría --',
+            'opt_repair': 'Reparación',
+            'opt_config': 'Configuración',
+            'opt_dev': 'Programación',
+            'opt_admin': 'Administración',
+            'label_budget': 'Presupuesto máximo (€)',
+            'label_desc': 'Descripción detallada',
+            'placeholder_desc': 'Explica qué necesitas con detalle...',
+            'btn_submit': 'Publicar Proyecto',
+            'msg_success': '¡Trabajo publicado con éxito!',
+            'msg_error': 'Error al publicar el proyecto.',
+            'footer_text': 'Tu plataforma de confianza'
+        },
+        'en': {
+            'title_page': 'Post a Job | Wirvux',
+            'nav_publish': 'Publish',
+            'btn_back': 'Back to Dashboard',
+            'form_title': 'What do you need us to do?',
+            'form_subtitle': 'Describe your project and experts will apply soon.',
+            'label_title': 'Project Title',
+            'placeholder_title': 'E.g.: Repair gaming PC',
+            'label_cat': 'Category',
+            'opt_default': '-- Select a category --',
+            'opt_repair': 'Repair',
+            'opt_config': 'Configuration',
+            'opt_dev': 'Programming',
+            'opt_admin': 'Administration',
+            'label_budget': 'Maximum budget (€)',
+            'label_desc': 'Detailed description',
+            'placeholder_desc': 'Explain what you need in detail...',
+            'btn_submit': 'Post Project',
+            'msg_success': 'Job published successfully!',
+            'msg_error': 'Error publishing the project.',
+            'footer_text': 'Your trusted platform'
+        }
+    };
 
-    // 1. Al cargar la página: Comprobar si ya había una preferencia guardada
-    const currentTheme = localStorage.getItem('theme');
-    if (currentTheme === 'dark') {
-        document.body.classList.add('dark-mode');
-        if(icon) icon.innerText = '☀️';
-        if(text) text.innerText = 'Modo Claro';
+    function loadPreferences() {
+        const lang = sessionStorage.getItem('lang') || 'es';
+        const theme = sessionStorage.getItem('theme') || 'light';
+
+        // 1. Traducir textos normales
+        document.querySelectorAll('[data-key]').forEach(el => {
+            const key = el.getAttribute('data-key');
+            if (translations[lang][key]) el.innerText = translations[lang][key];
+        });
+
+        // 2. Traducir Placeholders específicos
+        const titleInput = document.getElementById('input_titulo');
+        const descInput = document.getElementById('input_desc');
+        if (titleInput) titleInput.placeholder = translations[lang]['placeholder_title'];
+        if (descInput) descInput.placeholder = translations[lang]['placeholder_desc'];
+
+        // 3. Aplicar Tema
+        if (theme === 'dark') {
+            document.body.classList.add('dark-mode');
+        } else {
+            document.body.classList.remove('dark-mode');
+        }
     }
 
-    // 2. Al hacer clic: Cambiar el tema y guardar la elección
-    btn.addEventListener('click', () => {
-        document.body.classList.toggle('dark-mode');
-        
-        let theme = 'light';
-        if (document.body.classList.contains('dark-mode')) {
-            theme = 'dark';
-            if(icon) icon.innerText = '☀️';
-            if(text) text.innerText = 'Modo Claro';
-        } else {
-            if(icon) icon.innerText = '🌙';
-            if(text) text.innerText = 'Modo Oscuro';
-        }
-        
-        // Guardamos la elección para la próxima vez
-        localStorage.setItem('theme', theme);
-    });
-</script>
-
-
-
-
-
-
+    window.onload = loadPreferences;
+    </script>
 </body>
 </html>
