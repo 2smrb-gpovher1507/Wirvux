@@ -63,7 +63,7 @@ $mail->Body = "
             <p>A partir de ahora, podrás disfrutar de todas nuestras herramientas diseñadas para conectar profesionales y clientes de forma eficiente.</p>
             
             <div style='text-align: center; margin: 30px 0;'>
-                <a href='http://tudominio.com/login.php' 
+                <a href='https://wirvux.ddns.net/login.php' 
                    style='background-color: #28a745; color: white; padding: 15px 25px; text-decoration: none; border-radius: 5px; font-weight: bold; display: inline-block;'>
                    Acceder a mi cuenta
                 </a>
@@ -95,7 +95,7 @@ $mail->Body = "
             <p>A partir de ahora, podrás disfrutar de todas nuestras herramientas diseñadas para conectar profesionales y clientes de forma eficiente.</p>
             
             <div style='text-align: center; margin: 30px 0;'>
-                <a href='http://tudominio.com/login.php' 
+                <a href='https://wirvux.ddns.net/login.php' 
                    style='background-color: #28a745; color: white; padding: 15px 25px; text-decoration: none; border-radius: 5px; font-weight: bold; display: inline-block;'>
                    Acceder a mi cuenta
                 </a>
