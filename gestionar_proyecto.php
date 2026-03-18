@@ -115,9 +115,7 @@ if (!$proyecto) {
 
         <?php if ($proyecto['estado'] == 'en_progreso'): ?>
             <form method="POST">
-                <button type="submit" name="finalizar" class="btn-finalizar" data-key="btn_finish" onclick="return confirm('¿Seguro que quieres finalizar este proyecto?')">
-                    Finalizar Proyecto y Cobrar
-                </button>
+                
             </form>
         <?php else: ?>
             <div style="padding: 15px; background: #e9ecef; border-radius: 8px; text-align: center; color: #495057; margin-top: 20px;" data-key="msg_finished">

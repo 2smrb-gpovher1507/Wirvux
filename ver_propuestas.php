@@ -55,6 +55,47 @@ if (empty($trabajo['id_autonomo'])) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Detalles del Proyecto | Wirvux</title>
     <link rel="stylesheet" href="estilos.css?v=<?php echo time(); ?>">
+    <style>
+        .acciones-proyecto {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+        }
+        .btn-editar {
+            background-color: #ffc107;
+            color: #000;
+            text-decoration: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            font-weight: bold;
+            flex: 1;
+            text-align: center;
+        }
+        .btn-eliminar {
+            background-color: #dc3545;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            font-weight: bold;
+            flex: 1;
+            cursor: pointer;
+        }
+        .btn-completar-full {
+            background-color: #28a745;
+            color: white;
+            border: none;
+            padding: 15px;
+            border-radius: 5px;
+            font-weight: bold;
+            width: 100%;
+            cursor: pointer;
+            font-size: 1.1em;
+            margin-top: 20px;
+        }
+    </style>
 </head>
 <body>
 
@@ -103,6 +144,36 @@ if (empty($trabajo['id_autonomo'])) {
                     ?></p>
                 </div>
             </div>
+
+            <?php if ($trabajo['estado'] === 'abierto'): ?>
+                <div class="acciones-proyecto">
+                    <a href="editar_proyecto.php?id=<?php echo $id_trabajo; ?>" class="btn-editar" data-key="btn_edit">Editar Proyecto</a>
+                    
+                    <form action="eliminar_proyecto.php" method="POST" style="flex: 1;" onsubmit="return confirm('¿Estás seguro de que deseas eliminar este proyecto de forma permanente?');">
+                        <input type="hidden" name="id_trabajo" value="<?php echo $id_trabajo; ?>">
+                        <button type="submit" class="btn-eliminar" data-key="btn_delete">Eliminar</button>
+                    </form>
+                </div>
+            <?php endif; ?>
+            <?php if ($trabajo['estado'] === 'en_progreso'): ?>
+                <div class="acciones-proyecto">
+                    <a href="editar_proyecto.php?id=<?php echo $id_trabajo; ?>" class="btn-editar" data-key="btn_edit">Editar Proyecto</a>
+                    
+                    <form action="eliminar_proyecto.php" method="POST" style="flex: 1;" onsubmit="return confirm('¿Estás seguro de que deseas eliminar este proyecto de forma permanente?');">
+                        <input type="hidden" name="id_trabajo" value="<?php echo $id_trabajo; ?>">
+                        <button type="submit" class="btn-eliminar" data-key="btn_delete">Eliminar</button>
+                    </form>
+                </div>
+            <?php endif; ?>
+
+            <?php if ($trabajo['estado'] === 'en_progreso' || $trabajo['estado'] === 'en_curso'): ?>
+                <form action="completar_proyecto.php" method="POST" onsubmit="return confirm('¿Estás seguro de que quieres marcar este proyecto como finalizado?');">
+                    <input type="hidden" name="id_trabajo" value="<?php echo $id_trabajo; ?>">
+                    <button type="submit" class="btn-completar-full" data-key="btn_complete">
+                        Completar Proyecto
+                    </button>
+                </form>
+            <?php endif; ?>
         </div>
 
         <section class="seccion-listado">
@@ -174,6 +245,9 @@ if (empty($trabajo['id_autonomo'])) {
             'msg_project_was': 'El proyecto fue',
             'btn_chat': 'Chatear',
             'btn_accept': 'Aceptar',
+            'btn_complete': 'Completar Proyecto',
+            'btn_edit': 'Editar Proyecto',
+            'btn_delete': 'Eliminar',
             'empty_proposals': 'No hay propuestas para este proyecto todavía.',
             'title_suggested': 'Expertos sugeridos en',
             'label_specialist': 'Especialista en',
@@ -197,6 +271,9 @@ if (empty($trabajo['id_autonomo'])) {
             'msg_project_was': 'The project was',
             'btn_chat': 'Chat',
             'btn_accept': 'Accept',
+            'btn_complete': 'Complete Project',
+            'btn_edit': 'Edit Project',
+            'btn_delete': 'Delete',
             'empty_proposals': 'There are no proposals for this project yet.',
             'title_suggested': 'Suggested experts in',
             'label_specialist': 'Specialist in',
