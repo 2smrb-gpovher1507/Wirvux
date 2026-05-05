@@ -51,8 +51,9 @@ $res_recientes = mysqli_query($conexion, $query_recientes);
                 <a href="index.php" data-key="nav_start">Inicio</a>
                 <a href="mis_pagos.php" data-key="nav_payments">Mis Gastos</a>
                 <a href="mensajes.php" data-key="nav_chats">Mis Chats</a>
+                <!-- AJUSTE AQUÍ: Añadido data-key y span para el texto -->
                 <a href="profesionales.php" class="btn-primary">
-                <i class="fas fa-search"></i> Buscar Profesionales
+                    <i class="fas fa-search"></i> <span data-key="nav_search">Buscar Profesionales</span>
                 </a>
                 
                 <div class="lang-dropdown">
@@ -158,6 +159,7 @@ $res_recientes = mysqli_query($conexion, $query_recientes);
         'es': {
             'nav_role': 'CLIENTE', 'nav_start': 'Inicio', 'nav_payments': 'Mis Gastos',
             'nav_chats': 'Mis Chats', 'nav_logout': 'Cerrar Sesión',
+            'nav_search': 'Buscar Profesionales', // LLAVE AÑADIDA
             'welcome': 'Hola', 'subtitle': 'Esta es la actividad y proyectos de este año.',
             'btn_new': 'Nueva Necesidad', 'stat_waiting': 'En espera',
             'stat_progress': 'En curso', 'stat_invest': 'Inversión',
@@ -170,6 +172,7 @@ $res_recientes = mysqli_query($conexion, $query_recientes);
         'en': {
             'nav_role': 'CLIENT', 'nav_start': 'Home', 'nav_payments': 'My Expenses',
             'nav_chats': 'My Chats', 'nav_logout': 'Logout',
+            'nav_search': 'Find Professionals', // LLAVE AÑADIDA
             'welcome': 'Hello', 'subtitle': 'This is the activity and projects for this year.',
             'btn_new': 'New Request', 'stat_waiting': 'Waiting',
             'stat_progress': 'In progress', 'stat_invest': 'Investment',
@@ -204,7 +207,6 @@ $res_recientes = mysqli_query($conexion, $query_recientes);
         if(langIcon) langIcon.innerText = lang === 'es' ? '🇪🇸' : '🇺🇸';
         if(langTextValue) langTextValue.innerText = lang.toUpperCase();
         
-        // GUARDAR EN SESSIONSTORAGE (Para persistencia entre páginas)
         sessionStorage.setItem('lang', lang);
         updateThemeButtonText();
     }
@@ -218,7 +220,7 @@ $res_recientes = mysqli_query($conexion, $query_recientes);
 
     function updateThemeButtonText() {
         const isDark = document.body.classList.contains('dark-mode');
-        const lang = sessionStorage.getItem('lang') || 'es'; // Leer de session
+        const lang = sessionStorage.getItem('lang') || 'es';
         themeIcon.innerText = isDark ? '☀️' : '🌙';
         themeText.innerText = isDark ? translations[lang]['mode_light'] : translations[lang]['mode_dark'];
     }
@@ -226,29 +228,24 @@ $res_recientes = mysqli_query($conexion, $query_recientes);
     themeBtn.addEventListener('click', () => {
         document.body.classList.toggle('dark-mode');
         const isDark = document.body.classList.contains('dark-mode');
-        sessionStorage.setItem('theme', isDark ? 'dark' : 'light'); // Guardar en session
+        sessionStorage.setItem('theme', isDark ? 'dark' : 'light');
         updateThemeButtonText();
     });
 
-    // Limpieza al cerrar sesión
     function resetConfig() {
         sessionStorage.clear();
         localStorage.clear();
     }
 
-    /* --- INICIALIZACIÓN (LA CLAVE) --- */
-    // 1. Recuperar de sessionStorage
     const savedLang = sessionStorage.getItem('lang') || 'es';
     const savedTheme = sessionStorage.getItem('theme') || 'light';
 
-    // 2. Aplicar Tema
     if (savedTheme === 'dark') {
         document.body.classList.add('dark-mode');
     } else {
         document.body.classList.remove('dark-mode');
     }
 
-    // 3. Aplicar Idioma
     applyLanguage(savedLang);
 </script>
 </body>

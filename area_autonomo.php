@@ -69,7 +69,7 @@ $res_lista = mysqli_query($conexion, $query_lista);
 </head>
 <body>
 
-    <nav>
+   <nav>
         <div class="nav-container">
             <h1>WIRVUX <span data-key="nav_role">PANEL</span></h1>
             <div class="nav-links">
@@ -90,12 +90,19 @@ $res_lista = mysqli_query($conexion, $query_lista);
                     <span id="theme-icon">🌙</span> <span id="theme-text">Modo Oscuro</span>
                 </button>
 
-                <a href="mensajes.php" class="btn-chats">
-                <i class="fas fa-envelope"></i> Mis Mensajes
+                <!-- Botón Buscar Trabajos -->
+                <a href="solicitudes.php" class="btn-chats">
+                    <i class="fas fa-search"></i> <span data-key="nav_search">Buscar Trabajos</span>
                 </a>
 
+                <!-- Botón Mis Mensajes -->
+                <a href="mensajes.php" class="btn-chats">
+                    <i class="fas fa-envelope"></i> <span data-key="nav_messages">Mis Mensajes</span>
+                </a>
+
+                <!-- Botón Mi Perfil -->
                 <a href="perfil_autonomo.php?id=<?php echo $_SESSION['usuario_id']; ?>" class="btn-chats">
-                Mi perfil
+                    <i class="fas fa-user"></i> <span data-key="nav_profile">Mi perfil</span>
                 </a>
                 
                 <a href="logout.php" class="btn-logout" data-key="nav_logout" onclick="resetConfig()">Cerrar Sesión</a>
@@ -116,11 +123,11 @@ $res_lista = mysqli_query($conexion, $query_lista);
                 <p data-key="stat_proposals">Propuestas Enviadas</p>
                 <h3><?php echo $total_propuestas; ?></h3> 
             </div>-->
-            <div class="stat-card">
+            <!--<div class="stat-card">
                 <p data-key="stat_rating">Valoración</p>
                 <h3><?php echo ($valoracion_display == 'Nuevo') ? '<span data-key="rating_new">Nuevo</span>' : $valoracion_display; ?></h3>
                 <p style="font-size: 0.7em; color: var(--primary-color);"><?php echo $subtexto_voto; ?></p>
-            </div>
+            </div>-->
             <div class="stat-card">
                 <p data-key="stat_income">Ingresos Mes</p>
                 <h3><?php echo number_format($ingresos_mes, 2); ?> €</h3>
@@ -179,33 +186,35 @@ $res_lista = mysqli_query($conexion, $query_lista);
 
     /* --- CONFIGURACIÓN DE TRADUCCIONES --- */
     const translations = {
-        'es': {
-            'nav_role': 'PANEL', 'nav_start': 'Inicio', 'nav_logout': 'Cerrar Sesión',
-            'welcome': 'Hola', 'subtitle': 'Esta es tu actividad y proyectos de este mes.',
-            'specialist': 'Especialista en', 'stat_active': 'Proyectos Activos',
-            'stat_proposals': 'Propuestas Enviadas', 'stat_rating': 'Valoración',
-            'rating_new': 'Nuevo', 'stat_income': 'Ingresos Mes',
-            'view_history': 'Ver historial anual →', 'title_current': 'Trabajos en curso',
-            'th_project': 'Proyecto', 'th_client': 'Cliente', 'th_date': 'Fecha Inicio',
-            'th_status': 'Estado', 'th_action': 'Acción', 'pill_progress': 'En curso',
-            'btn_manage': 'Detalles', 'empty_projects': 'No tienes proyectos activos actualmente.',
-            'search_link': '¡Busca proyectos aquí!', 'footer_role': 'Area autónomo',
-            'mode_dark': 'Modo Oscuro', 'mode_light': 'Modo Claro'
-        },
-        'en': {
-            'nav_role': 'DASHBOARD', 'nav_start': 'Home', 'nav_logout': 'Logout',
-            'welcome': 'Hello', 'subtitle': 'This is your activity and projects for this month.',
-            'specialist': 'Specialist in', 'stat_active': 'Active Projects',
-            'stat_proposals': 'Sent Proposals', 'stat_rating': 'Rating',
-            'rating_new': 'New', 'stat_income': 'Monthly Income',
-            'view_history': 'View annual history →', 'title_current': 'Current Projects',
-            'th_project': 'Project', 'th_client': 'Client', 'th_date': 'Start Date',
-            'th_status': 'Status', 'th_action': 'Action', 'pill_progress': 'In progress',
-            'btn_manage': 'Manage', 'empty_projects': 'You have no active projects currently.',
-            'search_link': 'Search for projects here!', 'footer_role': 'Freelancer Area',
-            'mode_dark': 'Dark Mode', 'mode_light': 'Light Mode'
-        }
-    };
+    'es': {
+        'nav_role': 'PANEL', 'nav_start': 'Inicio', 'nav_logout': 'Cerrar Sesión','nav_search': 'Buscar Trabajos',
+        'nav_messages': 'Mis Mensajes', 'nav_profile': 'Mi perfil', // <-- Añadidos
+        'welcome': 'Hola', 'subtitle': 'Esta es tu actividad y proyectos de este mes.',
+        'specialist': 'Especialista en', 'stat_active': 'Proyectos Activos',
+        'stat_proposals': 'Propuestas Enviadas', 'stat_rating': 'Valoración',
+        'rating_new': 'Nuevo', 'stat_income': 'Ingresos Mes',
+        'view_history': 'Ver historial anual →', 'title_current': 'Trabajos en curso',
+        'th_project': 'Proyecto', 'th_client': 'Cliente', 'th_date': 'Fecha Inicio',
+        'th_status': 'Estado', 'th_action': 'Acción', 'pill_progress': 'En curso',
+        'btn_manage': 'Detalles', 'empty_projects': 'No tienes proyectos activos actualmente.',
+        'search_link': '¡Busca proyectos aquí!', 'footer_role': 'Area autónomo',
+        'mode_dark': 'Modo Oscuro', 'mode_light': 'Modo Claro'
+    },
+    'en': {
+        'nav_role': 'DASHBOARD', 'nav_start': 'Home', 'nav_logout': 'Logout','nav_search': 'Find Jobs',
+        'nav_messages': 'My Messages', 'nav_profile': 'My Profile', // <-- Añadidos
+        'welcome': 'Hello', 'subtitle': 'This is your activity and projects for this month.',
+        'specialist': 'Specialist in', 'stat_active': 'Active Projects',
+        'stat_proposals': 'Sent Proposals', 'stat_rating': 'Rating',
+        'rating_new': 'New', 'stat_income': 'Monthly Income',
+        'view_history': 'View annual history →', 'title_current': 'Current Projects',
+        'th_project': 'Project', 'th_client': 'Client', 'th_date': 'Start Date',
+        'th_status': 'Status', 'th_action': 'Action', 'pill_progress': 'In progress',
+        'btn_manage': 'Manage', 'empty_projects': 'You have no active projects currently.',
+        'search_link': 'Search for projects here!', 'footer_role': 'Freelancer Area',
+        'mode_dark': 'Dark Mode', 'mode_light': 'Light Mode'
+    }
+};
 
     const langToggle = document.getElementById('lang-toggle');
     const langMenu = document.getElementById('lang-menu');

@@ -40,17 +40,40 @@ if (isset($_POST['actualizar'])) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Editar Proyecto | Wirvux</title>
+    <title data-key="title_page">Editar Proyecto | Wirvux</title>
     <link rel="stylesheet" href="estilos.css?v=<?php echo time(); ?>">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
         :root {
             --primary-color: #ffc107;
             --dark-bg: #1a1a1a;
-            --card-shadow: 0 15px 35px rgba(0,0,0,0.1);
+            --bg-page: #f4f7f6;
+            --bg-card: #ffffff;
+            --text-main: #2d3436;
+            --text-muted: #636e72;
             --border-color: #e1e1e1;
+            --input-bg: #f9fbff;
+            --card-shadow: 0 15px 35px rgba(0,0,0,0.1);
         }
 
-        body { background-color: #f4f7f6; font-family: 'Segoe UI', sans-serif; }
+        /* Estilos Modo Oscuro */
+        body.dark-mode {
+            --bg-page: #121212;
+            --bg-card: #1e1e1e;
+            --text-main: #f5f5f5;
+            --text-muted: #b0b0b0;
+            --border-color: #333;
+            --input-bg: #2a2a2a;
+            --card-shadow: 0 10px 25px rgba(0,0,0,0.4);
+        }
+
+        body { 
+            background-color: var(--bg-page); 
+            color: var(--text-main);
+            font-family: 'Segoe UI', sans-serif; 
+            transition: 0.3s ease;
+            margin: 0;
+        }
 
         .wrapper-edit {
             max-width: 800px;
@@ -59,7 +82,7 @@ if (isset($_POST['actualizar'])) {
         }
 
         .edit-card {
-            background: #fff;
+            background: var(--bg-card);
             border-radius: 16px;
             box-shadow: var(--card-shadow);
             overflow: hidden;
@@ -90,32 +113,37 @@ if (isset($_POST['actualizar'])) {
         .input-group label {
             font-weight: 600;
             margin-bottom: 8px;
-            color: #444;
+            color: var(--text-main);
             font-size: 0.9em;
         }
 
         .input-group input, .input-group textarea, .input-group select {
             padding: 12px 15px;
-            border: 2px solid #edf2f7;
+            border: 2px solid var(--border-color);
             border-radius: 8px;
             font-size: 1em;
             transition: all 0.3s ease;
-            background: #f9fbff;
+            background: var(--input-bg);
+            color: var(--text-main);
         }
 
         .input-group input:focus, .input-group textarea:focus {
             border-color: var(--primary-color);
-            background: #fff;
+            background: var(--bg-card);
             outline: none;
             box-shadow: 0 0 0 4px rgba(255, 193, 7, 0.1);
         }
 
-        /* Estilo para campos bloqueados */
         .locked {
             background: #ebebeb !important;
-            color: #888;
+            color: #888 !important;
             cursor: not-allowed;
             border-style: dashed !important;
+        }
+        
+        body.dark-mode .locked {
+            background: #252525 !important;
+            color: #666 !important;
         }
 
         .status-alert {
@@ -130,6 +158,11 @@ if (isset($_POST['actualizar'])) {
             font-size: 0.9em;
             color: #856404;
         }
+        
+        body.dark-mode .status-alert {
+            background: #2c2510;
+            color: #ffc107;
+        }
 
         .btn-save {
             background: var(--primary-color);
@@ -142,7 +175,7 @@ if (isset($_POST['actualizar'])) {
             cursor: pointer;
             width: 100%;
             margin-top: 20px;
-            transition: transform 0.2s, background 0.2s;
+            transition: 0.3s;
         }
 
         .btn-save:hover { background: #eab000; transform: translateY(-2px); }
@@ -151,13 +184,13 @@ if (isset($_POST['actualizar'])) {
             display: block;
             text-align: center;
             margin-top: 20px;
-            color: #999;
+            color: var(--text-muted);
             text-decoration: none;
             font-size: 0.9em;
             transition: color 0.2s;
         }
 
-        .btn-cancel:hover { color: #555; }
+        .btn-cancel:hover { color: var(--text-main); }
 
         @media (max-width: 600px) {
             .form-grid { grid-template-columns: 1fr; }
@@ -170,39 +203,39 @@ if (isset($_POST['actualizar'])) {
 <div class="wrapper-edit">
     <div class="edit-card">
         <header class="edit-header">
-            <h2>Gestión de Proyecto</h2>
-            <p>Actualiza la información de tu anuncio en Wirvux</p>
+            <h2 data-key="header_title">Gestión de Proyecto</h2>
+            <p data-key="header_sub">Actualiza la información de tu anuncio en Wirvux</p>
         </header>
 
         <div class="edit-body">
             <?php if($esta_en_progreso): ?>
                 <div class="status-alert">
                     <span>⚠️</span>
-                    <div><strong>Proyecto en curso:</strong> Por seguridad del técnico, el presupuesto y la categoría no pueden modificarse ahora.</div>
+                    <div data-key="alert_locked"><strong>Proyecto en curso:</strong> Por seguridad del técnico, el presupuesto y la categoría no pueden modificarse ahora.</div>
                 </div>
             <?php endif; ?>
 
             <form method="POST">
                 <div class="form-grid">
                     <div class="input-group full-width">
-                        <label>Título Profesional</label>
+                        <label data-key="label_title">Título Profesional</label>
                         <input type="text" name="titulo" value="<?php echo htmlspecialchars($proyecto['titulo']); ?>" placeholder="Ej: Necesito electricista urgente" required>
                     </div>
 
                     <div class="input-group full-width">
-                        <label>Descripción del Trabajo</label>
+                        <label data-key="label_desc">Descripción del Trabajo</label>
                         <textarea name="descripcion" rows="6" required><?php echo htmlspecialchars($proyecto['descripcion']); ?></textarea>
                     </div>
 
                     <div class="input-group">
-                        <label>Presupuesto Oficial (€)</label>
+                        <label data-key="label_budget">Presupuesto Oficial (€)</label>
                         <input type="number" name="presupuesto" step="0.01" 
                                value="<?php echo $proyecto['presupuesto']; ?>" 
                                <?php echo $esta_en_progreso ? 'class="locked" readonly' : 'required'; ?>>
                     </div>
 
                     <div class="input-group">
-                        <label>Categoría del Sector</label>
+                        <label data-key="label_category">Categoría del Sector</label>
                         <?php if($esta_en_progreso): ?>
                             <input type="text" class="locked" value="<?php echo $proyecto['categoria']; ?>" readonly>
                             <input type="hidden" name="categoria" value="<?php echo $proyecto['categoria']; ?>">
@@ -217,12 +250,62 @@ if (isset($_POST['actualizar'])) {
                     </div>
                 </div>
 
-                <button type="submit" name="actualizar" class="btn-save">Guardar Cambios</button>
-                <a href="ver_propuestas.php?id=<?php echo $id_trabajo; ?>" class="btn-cancel">Cancelar y volver atrás</a>
+                <button type="submit" name="actualizar" class="btn-save" data-key="btn_save">Guardar Cambios</button>
+                <a href="ver_propuestas.php?id=<?php echo $id_trabajo; ?>" class="btn-cancel" data-key="btn_cancel">Cancelar y volver atrás</a>
             </form>
         </div>
     </div>
 </div>
 
+<script>
+    const translations = {
+        'es': {
+            'title_page': 'Editar Proyecto | Wirvux',
+            'header_title': 'Gestión de Proyecto',
+            'header_sub': 'Actualiza la información de tu anuncio en Wirvux',
+            'alert_locked': '<strong>Proyecto en curso:</strong> Por seguridad del técnico, el presupuesto y la categoría no pueden modificarse ahora.',
+            'label_title': 'Título Profesional',
+            'label_desc': 'Descripción del Trabajo',
+            'label_budget': 'Presupuesto Oficial (€)',
+            'label_category': 'Categoría del Sector',
+            'btn_save': 'Guardar Cambios',
+            'btn_cancel': 'Cancelar y volver atrás'
+        },
+        'en': {
+            'title_page': 'Edit Project | Wirvux',
+            'header_title': 'Project Management',
+            'header_sub': 'Update your job post information on Wirvux',
+            'alert_locked': '<strong>Project in progress:</strong> For the technician\'s safety, budget and category cannot be changed now.',
+            'label_title': 'Professional Title',
+            'label_desc': 'Job Description',
+            'label_budget': 'Official Budget (€)',
+            'label_category': 'Sector Category',
+            'btn_save': 'Save Changes',
+            'btn_cancel': 'Cancel and go back'
+        }
+    };
+
+    function applyLanguage(lang) {
+        document.querySelectorAll('[data-key]').forEach(el => {
+            const key = el.getAttribute('data-key');
+            if (translations[lang] && translations[lang][key]) {
+                el.innerHTML = translations[lang][key];
+            }
+        });
+        sessionStorage.setItem('lang', lang);
+    }
+
+    (function() {
+        // Detectar y aplicar Idioma
+        const savedLang = sessionStorage.getItem('lang') || 'es';
+        applyLanguage(savedLang);
+
+        // Detectar y aplicar Modo Oscuro
+        const savedTheme = sessionStorage.getItem('theme') || 'light';
+        if (savedTheme === 'dark') {
+            document.body.classList.add('dark-mode');
+        }
+    })();
+</script>
 </body>
 </html>
