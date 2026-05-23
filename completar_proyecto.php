@@ -46,11 +46,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['id_trabajo'])) {
     // 4. --- CONEXIÓN REAL CON LA API DE STRIPE (A TRAVÉS DE CURL) ---
     
     // Configura aquí tus credenciales de Stripe (Usa tu clave secreta de pruebas 'sk_test_...')
-    $stripe_secret_key = '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'; 
+    $stripe_secret_key = 'sk_test_51SWOO7HfMv7SmwxMksOb0CPG7WRG9FzYEpOnLkK2khlmHPEOTVq5zgxG9qeVfBaC2OdaCbfBZsghOVJ0dnw5rOWq00TjsoDSQy'; 
     
     // Definimos las URLs de retorno a nuestra web local
-    $success_url = "http://localhost/cosas_github/Wirvux/pago_exitoso.php";
-    $cancel_url  = "http://localhost/cosas_github/Wirvux/ver_propuestas.php?id=" . $id_trabajo;
+    $success_url = "https://localhost/cosas_github/Wirvux/pago_exitoso.php";
+    $cancel_url  = "https://localhost/cosas_github/Wirvux/ver_propuestas.php?id=" . $id_trabajo;
 
     // Stripe procesa el dinero en céntimos (Ej: 10.00 € lo entiende como 1000 céntimos)
     $monto_centimos = round($monto_total * 100);
