@@ -49,8 +49,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['id_trabajo'])) {
     $stripe_secret_key = 'sk_test_51SWOO7HfMv7SmwxMksOb0CPG7WRG9FzYEpOnLkK2khlmHPEOTVq5zgxG9qeVfBaC2OdaCbfBZsghOVJ0dnw5rOWq00TjsoDSQy'; 
     
     // Definimos las URLs de retorno a nuestra web local
-    $success_url = "https://wirvux2.ddns.net/cosas_github/Wirvux/pago_exitoso.php";
-    $cancel_url  = "https://wirvux2.ddns.net/cosas_github/Wirvux/ver_propuestas.php?id=" . $id_trabajo;
+    $success_url = "https://wirvux.ddns.net/pago_exitoso.php";
+    $cancel_url  = "https://wirvux.ddns.net/ver_propuestas.php?id=" . $id_trabajo;
 
     // Stripe procesa el dinero en céntimos (Ej: 10.00 € lo entiende como 1000 céntimos)
     $monto_centimos = round($monto_total * 100);

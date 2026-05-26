@@ -12,8 +12,8 @@ $id_autonomo = $_SESSION['usuario_id'];
 
 // Obtener el protocolo y dominio dinámicamente para las redirecciones de Stripe
 $protocolo = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') ? "https://" : "http://";
-$dominio_base = "https://wirvux2.ddns.net"; // Asegúrate de que sea tu dominio real
-$dominio_actual = $dominio_base . "/cosas_github/Wirvux"; // Si tus archivos están en la raíz, deja esto solo como $dominio_base
+$dominio_base = "https://wirvux.ddns.net"; // Asegúrate de que sea tu dominio real
+$dominio_actual = $dominio_base; // Si tus archivos están en la raíz, deja esto solo como $dominio_base
 
 // Cargar el SDK de Stripe de forma global
 require_once __DIR__ . '/stripe-php/init.php';
@@ -103,7 +103,8 @@ if (isset($_POST['action_retiro']) && $_POST['action_retiro'] === 'ejecutar_payo
             exit();
         }
     } catch (\Stripe\Exception\ApiErrorException $e) {
-        header("Location: retirar_fondos.php?error=error_stripe_api");
+        // CAPTURA MODIFICADA: Enviamos el mensaje de error real de Stripe a la URL
+        header("Location: retirar_fondos.php?error=" . urlencode($e->getMessage()));
         exit();
     }
 }
@@ -119,7 +120,7 @@ if (isset($_POST['acc_action']) && $_POST['acc_action'] === 'vincular_stripe') {
     // Esto es lo que falta para que Stripe no te pregunte manualmente
     'business_profile' => [
         'name' => 'Wirvux Plataforma', // O el nombre de tu marca
-        'url'  => 'https://wirvux2.ddns.net',
+        'url'  => 'https://wirvux.ddns.net',
     ],
     'capabilities' => [
         'transfers' => ['requested' => true]
@@ -227,7 +228,8 @@ $saldo_neto_final = $saldo_actual - $comision_wirvux;
                         case 'sin_cuenta_stripe': echo 'No tienes ninguna cuenta vinculada.'; break;
                         case 'error_stripe_api': echo 'La transferencia no se pudo procesar por reglas de liquidación.'; break;
                         case 'onboarding_reiniciado': echo 'El proceso de registro en Stripe fue cancelado.'; break;
-                        default: echo 'Ocurrió un error inesperado.'; break;
+                        // MUESTRA EL ERROR DINÁMICO SI NO COINCIDE CON NINGUNO DE LOS ANTERIORES
+                        default: echo htmlspecialchars($_GET['error']); break;
                     }
                 ?>
                 </span>
@@ -287,13 +289,13 @@ $saldo_neto_final = $saldo_actual - $comision_wirvux;
         'es': {
             'title_page': 'Retirar Fondos | Wirvux', 'back_link': '← Volver al Panel', 'header_title': 'Retirar Fondos de la Plataforma', 'header_desc': 'El dinero se enviará de forma instantánea a tu cuenta de Stripe Connect.',
             'status_linked': '¡Conexión Exitosa! Cuenta vinculada correctamente.', 'status_success': '<strong>¡Retiro Completado!</strong> Fondos transferidos con éxito.', 'err_label': 'Error:',
-            'minimo_no_alcanzado': 'El importe mínimo es de 1,00 €.', 'saldo_insuficiente': 'No dispones de suficiente saldo.', 'sin_cuenta_stripe': 'No tienes ninguna cuenta vinculada.', 'error_stripe_api': 'Error en el procesamiento de la pasarela.', 'onboarding_reiniciado': 'El proceso de registro fue cancelado.', 'unexpected': 'Ocurrió un error.',
+            'minimo_no_alcanzado': 'El importe mínimo es de 1,00 €.', 'saldo_insuficiente': 'No dispones de suficiente saldo.', 'sin_cuenta_stripe': 'No tienes ninguna cuenta vinculada.', 'onboarding_reiniciado': 'El proceso de registro fue cancelado.', 'unexpected': 'Ocurrió un error.',
             'box_title': 'Presupuesto Bruto', 'fee_stripe': 'Tasa Stripe:', 'fee_wirvux': 'Comisión Wirvux (20%):', 'total_net': 'Total Neto:', 'dest_title': 'Destino', 'dest_linked': 'Cuenta Vinculada', 'dest_unlinked': 'Sin configurar', 'btn_link': '🔗 Enlazar con Stripe Connect', 'input_label': 'Cantidad bruta (€):', 'btn_submit': 'Confirmar Cobro Instantáneo'
         },
         'en': {
             'title_page': 'Withdraw Funds | Wirvux', 'back_link': '← Back to Dashboard', 'header_title': 'Withdraw Funds', 'header_desc': 'Money will be sent instantly to your Stripe Connect account.',
             'status_linked': 'Connection Successful! Account linked successfully.', 'status_success': '<strong>Withdrawal Completed!</strong> Funds transferred successfully.', 'err_label': 'Error:',
-            'minimo_no_alcanzado': 'Minimum amount is €1.00.', 'saldo_insuficiente': 'Insufficient balance.', 'sin_cuenta_stripe': 'No linked account.', 'error_stripe_api': 'Gateway processing error.', 'onboarding_reiniciado': 'Registration canceled.', 'unexpected': 'An error occurred.',
+            'minimo_no_alcanzado': 'Minimum amount is €1.00.', 'saldo_insuficiente': 'Insufficient balance.', 'sin_cuenta_stripe': 'No linked account.', 'onboarding_reiniciado': 'Registration canceled.', 'unexpected': 'An error occurred.',
             'box_title': 'Gross Budget', 'fee_stripe': 'Stripe Fee:', 'fee_wirvux': 'Wirvux Fee (20%):', 'total_net': 'Total Net:', 'dest_title': 'Destination', 'dest_linked': 'Linked Account', 'dest_unlinked': 'Unconfigured', 'btn_link': '🔗 Link Stripe Connect', 'input_label': 'Gross amount (€):', 'btn_submit': 'Confirm Instant Payout'
         }
     };
@@ -306,7 +308,8 @@ $saldo_neto_final = $saldo_actual - $comision_wirvux;
         });
         document.querySelectorAll('[data-error-key]').forEach(el => {
             const errorKey = el.getAttribute('data-error-key');
-            el.innerText = texts[errorKey] || texts['unexpected'];
+            // MODIFICACIÓN DE JS: Si el error de la URL no es una clave del diccionario de traducción, dejamos el error real intacto en lugar de forzar "Ocurrió un error."
+            el.innerText = texts[errorKey] || decodeURIComponent(errorKey) || texts['unexpected'];
         });
         document.title = texts['title_page'];
     }
